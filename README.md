@@ -65,7 +65,9 @@ How it fits together:
   headline number, chart rows, sources and link. The homepage renders from that file through
   `src/lib/demo.ts`. Never edit the generated file by hand.
 - `siteContent.singleCellDemo` holds only presentation choices (which cards are featured,
-  badges, the stats strip, section copy). New cards in the artifact show up automatically.
+  badges, the stats strip, section copy). New cards in the artifact show up automatically:
+  the featured cards sit on top and every other study goes into the horizontal "More studies"
+  strip, so the section stays the same height however many studies the artifact has.
 
 ### Updating the demo when the artifact changes
 

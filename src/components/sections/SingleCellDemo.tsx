@@ -1,7 +1,8 @@
 "use client";
 
 import { Section } from "@/components/ui/Section";
-import { ArrowUpRight, Microscope } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight, Microscope } from "lucide-react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { siteContent } from "@/data/siteContent";
 import generated from "@/data/singleCellDemo.generated.json";
 import { buildDemoView, type ChartView, type GeneratedDemo, type PanelView } from "@/lib/demo";
@@ -10,6 +11,9 @@ import { cn } from "@/lib/utils";
 // Cards, numbers, charts and sources come from the p2single artifact export
 // (src/data/singleCellDemo.generated.json, rebuilt on every dev/build by scripts/extract-demo.mjs).
 // siteContent.singleCellDemo only holds presentation choices. See README "Single Cell Demo".
+//
+// Layout: the featured cards sit on top; every other study goes into a horizontal,
+// scroll-snapping strip, so any number of studies fits without growing the page.
 const view = buildDemoView(generated as unknown as GeneratedDemo, siteContent.singleCellDemo);
 
 function ArrowCircle({ className }: { className?: string }) {
@@ -36,7 +40,7 @@ function Badge({ badge }: { badge: string }) {
 function Chart({ chart, badge, large }: { chart: ChartView; badge: string; large: boolean }) {
   const span = chart.max - chart.min || 1;
   return (
-    <div className={cn("flex grow flex-col justify-center gap-2 rounded-xl bg-navy-darkest", large ? "p-6 md:p-7" : "p-5")}>
+    <div className={cn("flex grow flex-col justify-center gap-2 rounded-xl bg-navy-darkest", large ? "p-6 md:p-7" : "p-[18px]")}>
       <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
         <span className="text-xs text-slate-lighter">{chart.title}</span>
         <Badge badge={badge} />
@@ -49,8 +53,8 @@ function Chart({ chart, badge, large }: { chart: ChartView; badge: string; large
           <div
             key={bar.label}
             className={cn(
-              "grid items-center gap-3 text-xs md:text-[13px]",
-              large ? "grid-cols-[120px_minmax(0,1fr)_52px]" : "grid-cols-[minmax(0,5fr)_minmax(0,6fr)_48px]"
+              "grid items-center text-xs",
+              large ? "grid-cols-[120px_minmax(0,1fr)_52px] gap-3 md:text-[13px]" : "grid-cols-[minmax(0,5fr)_minmax(0,6fr)_48px] gap-2.5"
             )}
           >
             <span
@@ -79,14 +83,14 @@ function Chart({ chart, badge, large }: { chart: ChartView; badge: string; large
 // the headline number and the artifact's own explanatory line.
 function Summary({ panel, large }: { panel: PanelView; large: boolean }) {
   return (
-    <div className={cn("flex grow flex-col justify-center gap-3 rounded-xl bg-navy-darkest", large ? "p-6 md:p-7" : "p-5")}>
+    <div className={cn("flex grow flex-col justify-center gap-3 rounded-xl bg-navy-darkest", large ? "p-6 md:p-7" : "p-[18px]")}>
       <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
         <span className="text-xs text-slate-lighter">{panel.fallback.title}</span>
         <Badge badge={panel.badge} />
       </div>
-      <span className={cn("tracking-tight text-white", large ? "text-5xl" : "text-4xl")}>{panel.metric}</span>
+      <span className={cn("tracking-tight text-white", large ? "text-5xl" : "text-[34px]")}>{panel.metric}</span>
       {panel.fallback.lines.map((line) => (
-        <p key={line} className="text-sm leading-relaxed text-slate-lighter">
+        <p key={line} className="text-[13px] leading-relaxed text-slate-lighter">
           {line}
         </p>
       ))}
@@ -94,7 +98,7 @@ function Summary({ panel, large }: { panel: PanelView; large: boolean }) {
   );
 }
 
-function DemoCard({ panel }: { panel: PanelView }) {
+function DemoCard({ panel, className }: { panel: PanelView; className?: string }) {
   const large = panel.featured;
   return (
     <a
@@ -104,40 +108,138 @@ function DemoCard({ panel }: { panel: PanelView }) {
       className={cn(
         "group flex flex-col rounded-2xl border border-slate-dark/50 bg-navy-medium/40 transition-all duration-200",
         "hover:-translate-y-1 hover:border-electric-blue/40 hover:bg-navy-medium/70 hover:shadow-lg hover:shadow-electric-blue/10",
-        large ? "gap-6 p-5 md:p-6" : "gap-5 p-4 md:p-5"
+        large ? "gap-6 p-5 md:p-6" : "gap-5 p-4 md:p-5",
+        className
       )}
     >
-      <div className="flex grow flex-col">
+      <div className={cn("flex grow flex-col", !large && "min-h-[150px]")}>
         {panel.chart ? <Chart chart={panel.chart} badge={panel.badge} large={large} /> : <Summary panel={panel} large={large} />}
       </div>
-      <div className={cn("flex flex-col", large ? "gap-3 px-2 pb-2" : "grow gap-2.5 px-1.5 pb-1.5")}>
+      <div className={cn("flex flex-col", large ? "gap-3 px-2 pb-2" : "grow gap-2.5 px-1 pb-1")}>
         <span className="self-start rounded-full bg-electric-blue/15 px-2.5 py-1 text-xs text-electric-blue-light">
           {panel.tag}
         </span>
         <h3
           className={cn(
             "font-normal tracking-tight text-white",
-            large ? "text-2xl leading-snug md:text-[28px]" : "text-xl leading-snug"
+            large ? "text-2xl leading-snug md:text-[28px]" : "text-[19px] leading-snug"
           )}
         >
           {panel.title}
         </h3>
         <div className="mt-auto flex items-end justify-between gap-4 pt-2">
           <div className="flex min-w-0 flex-col gap-1">
-            <span className={cn("tracking-tight text-electric-blue", large ? "text-4xl md:text-[40px]" : "text-3xl")}>
+            <span className={cn("tracking-tight text-electric-blue", large ? "text-4xl md:text-[40px]" : "text-[28px]")}>
               {panel.metric}
             </span>
-            <span className={cn("line-clamp-2 text-slate-lighter", large ? "text-[15px]" : "text-sm")} title={panel.metricLabel}>
-              {panel.metricLabel}
-            </span>
-            <span className="truncate text-xs text-slate-light" title={panel.source}>
+            {large && (
+              <span className="line-clamp-2 text-[15px] text-slate-lighter" title={panel.metricLabel}>
+                {panel.metricLabel}
+              </span>
+            )}
+            <span className="truncate text-xs text-slate-light" title={large ? panel.source : `${panel.metricLabel} · ${panel.source}`}>
               {panel.source}
             </span>
           </div>
-          <ArrowCircle />
+          <ArrowCircle className={cn(!large && "h-10 w-10")} />
         </div>
       </div>
     </a>
+  );
+}
+
+function ArrowButton({ onClick, disabled, label, children }: { onClick: () => void; disabled: boolean; label: string; children: ReactNode }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={label}
+      className={cn(
+        "flex h-11 w-11 items-center justify-center rounded-full border border-slate-medium text-slate-300 transition-colors duration-200",
+        "hover:border-electric-blue hover:bg-electric-blue hover:text-white",
+        "disabled:cursor-default disabled:opacity-35 disabled:hover:border-slate-medium disabled:hover:bg-transparent disabled:hover:text-slate-300"
+      )}
+    >
+      {children}
+    </button>
+  );
+}
+
+// Horizontal, scroll-snapping row of the non-featured studies. Native scrolling (drag,
+// trackpad, swipe) plus arrow buttons; the dots show which "page" of cards is in view.
+function StudyStrip({ panels }: { panels: PanelView[] }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [pos, setPos] = useState({ page: 0, pages: 1, atStart: true, atEnd: false });
+
+  const measure = useCallback(() => {
+    const el = ref.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    const pages = Math.max(1, Math.ceil(el.scrollWidth / el.clientWidth));
+    const page = max > 0 ? Math.min(pages - 1, Math.round((el.scrollLeft / max) * (pages - 1))) : 0;
+    setPos({ page, pages, atStart: el.scrollLeft <= 2, atEnd: el.scrollLeft >= max - 2 });
+  }, []);
+
+  useEffect(() => {
+    measure();
+    const el = ref.current;
+    if (!el) return;
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [measure]);
+
+  const scrollBy = (dir: 1 | -1) => {
+    const el = ref.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * el.clientWidth * 0.9, behavior: "smooth" });
+  };
+
+  if (!panels.length) return null;
+
+  return (
+    <div className="mt-11">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-baseline gap-3">
+          <span className="text-[22px] tracking-tight text-white">More studies</span>
+          <span className="text-sm text-slate-lighter">
+            {panels.length} further results · <span className="hidden sm:inline">drag or use the arrows</span>
+            <span className="sm:hidden">swipe</span>
+          </span>
+        </div>
+        <div className="flex items-center gap-4">
+          <span className="flex gap-1.5" aria-hidden="true">
+            {Array.from({ length: pos.pages }, (_, i) => (
+              <span
+                key={i}
+                className={cn("block h-1.5 rounded-full transition-all duration-300", i === pos.page ? "w-7 bg-electric-blue" : "w-2 bg-slate-dark")}
+              />
+            ))}
+          </span>
+          <ArrowButton onClick={() => scrollBy(-1)} disabled={pos.atStart} label="Previous studies">
+            <ChevronLeft className="h-4 w-4" />
+          </ArrowButton>
+          <ArrowButton onClick={() => scrollBy(1)} disabled={pos.atEnd} label="Next studies">
+            <ChevronRight className="h-4 w-4" />
+          </ArrowButton>
+        </div>
+      </div>
+
+      <div
+        ref={ref}
+        onScroll={measure}
+        className={cn(
+          "-mx-6 mt-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-2 scroll-pl-6 md:-mx-8 md:px-8 md:scroll-pl-8 lg:-mx-12 lg:px-12 lg:scroll-pl-12",
+          "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+          !pos.atEnd && "md:[mask-image:linear-gradient(90deg,#000_0,#000_calc(100%-96px),transparent)]"
+        )}
+      >
+        {panels.map((panel) => (
+          <DemoCard key={panel.id} panel={panel} className="w-[300px] shrink-0 snap-start sm:w-[340px]" />
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -195,11 +297,8 @@ export function SingleCellDemo() {
           ))}
         </div>
       )}
-      <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {rest.map((panel) => (
-          <DemoCard key={panel.id} panel={panel} />
-        ))}
-      </div>
+
+      <StudyStrip panels={rest} />
     </Section>
   );
 }
