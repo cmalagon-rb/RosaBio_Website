@@ -42,6 +42,10 @@ Everything after the download is deterministic scripts. The artifact URL is
 ## Notes
 - The same steps run daily as a cloud routine on the Rosa Bio account; it opens a PR that a
   person merges. See `docs/demo-sync-routine.md`.
-- `prepare-highlights.mjs` rewrites links to the private claude.ai study pages; if the export
-  gains a new study page, add its artifact id to `STUDY_PAGES` there.
-- Presentation choices (featured cards, badges, section copy) are in `siteContent.singleCellDemo`.
+- `prepare-highlights.mjs` rewrites links to the private claude.ai study pages. If the export
+  gains a new study page it is matched by its `<title>` token and the build prints
+  `prepare-highlights: card cN link ... mapped to s/sN/index.html`; a link it cannot match prints
+  `... no local study page, link dropped`. Either way, add the artifact id to `STUDY_PAGES`
+  there when a person next touches the repo. Mention these lines in the commit or PR summary.
+- Featured cards, stats and badges are rules over the artifact data (see README "Single Cell
+  Demo"); `siteContent.singleCellDemo` holds copy and optional overrides only.

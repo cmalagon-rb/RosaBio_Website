@@ -64,10 +64,22 @@ How it fits together:
   `src/data/singleCellDemo.generated.json`: page header, every card's tag, title, scope,
   headline number, chart rows, sources and link. The homepage renders from that file through
   `src/lib/demo.ts`. Never edit the generated file by hand.
-- `siteContent.singleCellDemo` holds only presentation choices (which cards are featured,
-  badges, the stats strip, section copy). New cards in the artifact show up automatically:
-  the featured cards sit on top and every other study goes into the horizontal "More studies"
-  strip, so the section stays the same height however many studies the artifact has.
+- `siteContent.singleCellDemo` holds only presentation choices, and none of them name a card
+  id, so the section follows the artifact on its own:
+  - the featured (large) cards are the first `featuredCount` cards in the artifact's own order;
+    every other study goes into the horizontal "More studies" strip, so the section stays the
+    same height however many studies the artifact has
+  - the stats strip is computed over all cards (study count, best AUC, most published methods
+    beaten in one comparison chart, artifact last-updated date)
+  - badges are derived from each card ("Top of N methods" for a comparison chart, "Unseen
+    patients", "Across species", ...)
+  - per-card overrides (`cards`, `featured`) exist for editorial exceptions and are empty
+- Links from a card to its full study page: `prepare-highlights.mjs` maps claude.ai study
+  links to the local pages under `public/highlights/s/` through its `STUDY_PAGES` table. A link
+  whose id is not in the table is matched to an unclaimed study page whose `<title>` starts
+  with a token (accession or dataset name) found in the card's text; otherwise the link is
+  dropped and the text kept. Both cases print a `prepare-highlights:` line during the build,
+  so a sync PR's build output shows when the table needs a new entry.
 
 ### Updating the demo when the artifact changes
 
