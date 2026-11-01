@@ -27,6 +27,10 @@
       "bullets": [],
       "keyLines": [],
       "headline": "AUC 0.978",
+      "metric": {
+        "kind": "AUC",
+        "num": 0.978
+      },
       "sources": [
         "GSE123813",
         "Yost et al. 2019"
@@ -34,6 +38,8 @@
       "updated": "2026-10-28 23:37 PST",
       "chart": {
         "label": "ROC curve on held-out patients",
+        "rowCount": 0,
+        "competitors": 0,
         "bars": []
       },
       "links": [
@@ -55,6 +61,10 @@
         "The published methods were tested on random cells from the same patients, an easier test. Published values: Fisher et al. 2026, Genome Biology ."
       ],
       "headline": "r = 0.64",
+      "metric": {
+        "kind": "r",
+        "num": 0.64
+      },
       "sources": [
         "SRP251372",
         "Leader et al. 2021"
@@ -62,6 +72,8 @@
       "updated": "2026-10-28 23:37 PST",
       "chart": {
         "label": "PD-L1 prediction on a new patient",
+        "rowCount": 2,
+        "competitors": 1,
         "bars": [
           {
             "label": "p2single",
@@ -96,6 +108,10 @@
       "bullets": [],
       "keyLines": [],
       "headline": "AUC 0.968",
+      "metric": {
+        "kind": "AUC",
+        "num": 0.968
+      },
       "sources": [
         "GSE128639",
         "Stuart et al. 2019"
@@ -103,6 +119,8 @@
       "updated": "2026-10-28 23:37 PST",
       "chart": {
         "label": "AUC per protein-defined group",
+        "rowCount": 11,
+        "competitors": 0,
         "bars": [
           {
             "label": "CD14 monocyte",
@@ -181,6 +199,10 @@
         "PD-L1's own RNA alone: 0.38 · high vs low PD-L1 cells: AUC 0.93"
       ],
       "headline": "r = 0.74",
+      "metric": {
+        "kind": "r",
+        "num": 0.74
+      },
       "sources": [
         "SRP268462",
         "Papalexi et al. 2021"
@@ -188,6 +210,8 @@
       "updated": "2026-10-28 23:37 PST",
       "chart": {
         "label": "Predicted vs measured PD-L1 protein",
+        "rowCount": 0,
+        "competitors": 0,
         "bars": []
       },
       "links": [
@@ -207,6 +231,10 @@
       "bullets": [],
       "keyLines": [],
       "headline": "AUC 0.88",
+      "metric": {
+        "kind": "AUC",
+        "num": 0.88
+      },
       "sources": [
         "HCA arterial vasculature (Zhao 2025 · CELLxGENE 8f17ac63-aaba-44b5-9b78-60f121da4c2f)",
         "HCA uterus (Ulrich 2024 · GSE260658)"
@@ -214,6 +242,8 @@
       "updated": "2026-10-28 23:37 PST",
       "chart": {
         "label": "AUC per shared cell type in both directions",
+        "rowCount": 2,
+        "competitors": 0,
         "bars": [
           {
             "label": "artery model → uterus",
@@ -247,6 +277,10 @@
         "p2single · deep learning other published methods · 1 = perfect. Same result on the other 3 metrics: all 9 weighted F1 and all 12 accuracies lower; 7 of 8 median F1 lower, 1 tie (XGBoost, 1.000)."
       ],
       "headline": "45 of 46",
+      "metric": {
+        "kind": "",
+        "num": 0.9782608695652174
+      },
       "sources": [
         "Xin 2016",
         "GSE81608"
@@ -254,6 +288,8 @@
       "updated": "2026-10-28 23:37 PST",
       "chart": {
         "label": "Macro F1 on Xin: p2single and 17 published methods",
+        "rowCount": 18,
+        "competitors": 17,
         "bars": [
           {
             "label": "p2single",
@@ -327,6 +363,10 @@
         "p2single · each small dot is one donor pair, the large dot is the middle value · AUC (0.5 = chance, 1 = perfect)"
       ],
       "headline": "AUC 0.932",
+      "metric": {
+        "kind": "AUC",
+        "num": 0.932
+      },
       "sources": [
         "Allen Brain Cell Atlas HMBA-10xMultiome-BG (release 20250630)",
         "human, macaque, mouse"
@@ -334,6 +374,8 @@
       "updated": "2026-10-28 23:37 PST",
       "chart": {
         "label": "Transfer AUC by species pair",
+        "rowCount": 4,
+        "competitors": 0,
         "bars": [
           {
             "label": "human → mouse (4 tests)",
@@ -379,6 +421,10 @@
         "p2single · published methods ( PerturBench, Wu et al. 2025 ) · cosine similarity, 1 = perfect"
       ],
       "headline": "0.890",
+      "metric": {
+        "kind": "",
+        "num": 0.89
+      },
       "sources": [
         "GSE133344",
         "Norman 2019",
@@ -387,6 +433,8 @@
       "updated": "2026-10-28 23:37 PST",
       "chart": {
         "label": "Cosine similarity, Norman screen",
+        "rowCount": 5,
+        "competitors": 4,
         "bars": [
           {
             "label": "p2single",
@@ -439,6 +487,10 @@
         "p2single, each of 7 stages against the other 6 · 1 = every test cell sorted correctly, 0.5 = coin flip"
       ],
       "headline": "AUC 0.996",
+      "metric": {
+        "kind": "AUC",
+        "num": 0.996
+      },
       "sources": [
         "GSE191137",
         "Liu et al. 2022"
@@ -446,6 +498,8 @@
       "updated": "2026-10-28 23:37 PST",
       "chart": {
         "label": "AUC per egg-development stage",
+        "rowCount": 7,
+        "competitors": 0,
         "bars": [
           {
             "label": "stem cells, progenitors",
@@ -515,6 +569,10 @@
       ],
       "keyLines": [],
       "headline": "NRAS G12D",
+      "metric": {
+        "kind": "",
+        "num": null
+      },
       "sources": [
         "SRP268462",
         "Papalexi et al. 2021",
@@ -524,6 +582,8 @@
       "updated": "2026-10-29 13:29 PST",
       "chart": {
         "label": "Share of cells with KRAS G12V",
+        "rowCount": 3,
+        "competitors": 0,
         "bars": [
           {
             "label": "Patient 6: tumour epithelial cells",

@@ -18,13 +18,33 @@ import { join } from "node:path";
 const root = join(process.cwd(), "public", "highlights");
 const CLAUDE = "https://claude.ai/artifact/";
 
-// claude.ai artifact id -> local study page (relative to public/highlights/)
+// claude.ai artifact id -> local study page (relative to public/highlights/).
+// The export does not say which study page belongs to which claude.ai link, so this table is
+// the source of truth. A link whose id is missing here falls back to an unclaimed study page
+// whose <title> starts with a token (accession or dataset name) found in the card's own text,
+// and the build log says so; add the id here to make that mapping permanent.
 const STUDY_PAGES = {
   LTthSXNJBcsB83xjSXQwKq: "s/s1/index.html", // GSE123813
   YaEUyKUKgtHxabkoee9ruW: "s/s2/index.html", // SRP251372
   "7QE9JMnaYL1WsyGCGhHGPE": "s/s3/index.html", // bmcite
   "3c4oNTA6kiam82xj6hqCm5": "s/s4/index.html", // SRP268462
 };
+
+// Every study page in the export (s/<name>/index.html) with the first token of its <title>,
+// e.g. { page: "s/s1/index.html", token: "GSE123813" }. Tokens shorter than 4 characters are
+// too generic to match on and are left empty.
+function studyPages() {
+  const dir = join(root, "s");
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir)
+    .filter((n) => existsSync(join(dir, n, "index.html")))
+    .sort()
+    .map((n) => {
+      const title = /<title>([^<]*)<\/title>/.exec(readFileSync(join(dir, n, "index.html"), "utf8"))?.[1] ?? "";
+      const token = (title.trim().split(/\s+/)[0] ?? "").replace(/[^\w.-]/g, "");
+      return { page: `s/${n}/index.html`, token: token.length >= 4 ? token : "" };
+    });
+}
 const INDEX_ID = "12Y1fJvzEgSdhQQR8q9Gkf"; // "All studies (index)"
 
 const DEEP_LINK = `<script id="card-deep-link">
@@ -73,14 +93,37 @@ if (!existsSync(join(root, "index.html"))) {
 
 // Main demo page
 update("index.html", (s) => {
-  // "full results" links: local study page if we have one, else remove
-  s = s.replace(
-    /<a class="go" href="https:\/\/claude\.ai\/artifact\/([A-Za-z0-9]+)(#[^"]*)?"[^>]*>(.*?)<\/a>/g,
-    (all, id, hash = "", text) => {
-      const page = STUDY_PAGES[id];
-      return page ? `<a class="go" href="${page}${hash}" target="_blank" rel="noopener">${text}</a>` : "";
-    }
+  // "full results" links: local study page if we have one (table, then title-token fallback
+  // within the card's own text), else remove the link. Each page is used by one card only.
+  const pages = studyPages();
+  const claimed = new Set(Object.values(STUDY_PAGES));
+  const dropped = []; // "cN (id)" for links to claude.ai pages the export has no local page for
+  s = s.replace(/<article class="sc" id="(c\d+)"[^>]*>[\s\S]*?<\/article>/g, (article, cardId) =>
+    article.replace(
+      /<a class="go" href="https:\/\/claude\.ai\/artifact\/([A-Za-z0-9]+)(#[^"]*)?"[^>]*>(.*?)<\/a>/g,
+      (all, id, hash = "", text) => {
+        let page = STUDY_PAGES[id];
+        if (!page) {
+          const hit = pages.find((p) => p.token && !claimed.has(p.page) && article.includes(p.token));
+          if (hit) {
+            page = hit.page;
+            claimed.add(page);
+            console.log(
+              `prepare-highlights: card ${cardId} link to ${CLAUDE}${id} mapped to ${page} by its title "${hit.token}"; add the id to STUDY_PAGES to make it permanent`
+            );
+          }
+        }
+        if (!page) {
+          dropped.push(`${cardId} (${id})`);
+          return "";
+        }
+        return `<a class="go" href="${page}${hash}" target="_blank" rel="noopener">${text}</a>`;
+      }
+    )
   );
+  if (dropped.length) {
+    console.log(`prepare-highlights: ${dropped.length} card link(s) to claude.ai pages with no local study page, link dropped: ${dropped.join(", ")}`);
+  }
   // any other claude.ai link: keep the text, drop the link
   s = s.replace(new RegExp(`<a [^>]*href="${esc(CLAUDE)}[^"]*"[^>]*>(.*?)</a>`, "g"), "$1");
   s = s.replace("<title>p2single Highlights</title>", "<title>Single Cell Demo</title>");
@@ -94,9 +137,9 @@ update("index.html", (s) => {
   return s;
 });
 
-// Study pages
-for (const n of ["s1", "s2", "s3", "s4"]) {
-  update(`s/${n}/index.html`, (s) => {
+// Study pages (every s/<name>/index.html in the export)
+for (const { page: studyPage } of studyPages()) {
+  update(studyPage, (s) => {
     for (const [id, page] of Object.entries(STUDY_PAGES)) {
       s = s.replaceAll(CLAUDE + id, "../" + page.slice(2));
     }

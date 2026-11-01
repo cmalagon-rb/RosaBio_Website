@@ -150,11 +150,19 @@ export const siteContent = {
   // the p2single artifact export in public/highlights/ (parsed at build time into
   // src/data/singleCellDemo.generated.json). To update them, run /sync-demo in
   // Claude Code (see README). Only presentation choices live here:
-  //   featured: card ids shown large on the top row, in this order
-  //   hidden:   card ids to leave off the homepage (they stay in the full demo)
-  //   stats:    the strip under the header. from = "cardCount", "updated", or a card id
-  //             (shows that card's headline number)
-  //   cards:    optional per-card overrides: badge, headline, metricLabel, chartMin
+  // Nothing below names a card id, so the section follows whatever the artifact holds:
+  //   featuredCount: how many cards show large on the top row. They are the FIRST cards in
+  //                  the artifact's own order, so the artifact author decides what is featured.
+  //   featured:      optional ids to pin on the top row instead (ids that no longer exist are
+  //                  ignored, empty slots are filled from artifact order). Keep it [] for
+  //                  artifact order.
+  //   hidden:        card ids to leave off the homepage (they stay in the full demo)
+  //   stats:         the strip under the header, every value computed from all cards:
+  //                  "cardCount" (studies shown), "bestAuc" (highest AUC headline),
+  //                  "mostMethodsBeaten" (largest number of published methods p2single tops in
+  //                  one comparison chart), "updated" (artifact's last-updated date)
+  //   cards:         optional per-card overrides: badge, headline, metricLabel, chartMin.
+  //                  Badges are otherwise derived ("Top of N methods", "Unseen patients", ...).
   //   label / title / description: "" = use the artifact's own text
   // ===========================================================================
   singleCellDemo: {
@@ -164,18 +172,16 @@ export const siteContent = {
     description: "Sequence-level models, tested on cells they never saw. Every score is on cells, patients or experiments kept out of training.",
     src: "/highlights/index.html",
     openLabel: "Open the full demo",
-    featured: ["c6", "c1"],
+    featuredCount: 2,
+    featured: [] as string[],
     hidden: [] as string[],
     stats: [
       { from: "cardCount", label: "public studies" },
-      { from: "c1", label: "on patients the model never saw" },
-      { from: "c6", label: "published pancreas results beaten" },
+      { from: "bestAuc", label: "best score on cells the model never saw" },
+      { from: "mostMethodsBeaten", label: "published methods beaten in one test" },
       { from: "updated", label: "artifact last updated" },
-    ],
-    cards: {
-      c6: { badge: "Top of 17 methods" },
-      c1: { badge: "Unseen patients" },
-    } as Record<string, { badge?: string; headline?: string; metricLabel?: string; chartMin?: number }>,
+    ] as { from: "cardCount" | "bestAuc" | "mostMethodsBeaten" | "updated"; label: string }[],
+    cards: {} as Record<string, { badge?: string; headline?: string; metricLabel?: string; chartMin?: number }>,
   },
 
   // ===========================================================================

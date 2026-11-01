@@ -38,6 +38,13 @@ private again).
    instead; the steps are identical.
 4. **Merging.** The routine emails cmalagon@rosabio.com and sends a Slack DM when it opens a PR
    or fails. A person reviews and merges the PR; Vercel deploys `main` automatically.
+   Before merging, look in the PR summary (and the build output if in doubt) for
+   `prepare-highlights:` lines: `mapped to s/sN/index.html by its title` means a new study page
+   was matched automatically and its artifact id should be added to `STUDY_PAGES` in
+   `scripts/prepare-highlights.mjs`; `no local study page, link dropped` means a card's
+   "full results" link was removed because the export has no page for it. Neither fails the
+   build. The featured cards, stats strip and badges follow the artifact by rule, so a new or
+   reordered card needs no config change.
 
 ## Routine prompt
 

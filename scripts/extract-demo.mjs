@@ -105,8 +105,31 @@ function parseChart(body) {
   if ((!rows.length || rows.some((r) => r.values.length > 1)) && pairs.length >= 2) {
     rows = pairs.map((p) => ({ label: p.label, sub: "", values: [p.value.replace(/^[A-Za-z =]+/, "")], us: true }));
   }
-  const bars = rows.slice(0, MAX_BARS).map((r) => ({ label: r.label, sub: r.sub, value: r.values[0], num: toNumber(r.values[0]), us: r.us }));
-  return { label, bars: bars.filter((b) => b.num !== null) };
+  const allBars = rows
+    .map((r) => ({ label: r.label, sub: r.sub, value: r.values[0], num: toNumber(r.values[0]), us: r.us }))
+    .filter((b) => b.num !== null);
+  // The homepage draws at most MAX_BARS rows; rowCount and competitors count every row, so a
+  // "p2single vs 17 methods" chart still says 17 when only 8 bars are drawn.
+  return {
+    label,
+    rowCount: allBars.length,
+    competitors: allBars.length && allBars[0].us ? allBars.filter((b) => !b.us).length : 0,
+    bars: allBars.slice(0, MAX_BARS),
+  };
+}
+
+// The headline as a comparable number: "AUC 0.978" -> { kind: "AUC", num: 0.978 },
+// "r = 0.64" -> { kind: "r", num: 0.64 }, a bare "0.890" takes its kind from the chart label,
+// "45 of 46" or "NRAS G12D" -> kind "" (not comparable across cards).
+function parseMetric(headline, chartLabel) {
+  const h = headline ?? "";
+  let m = /\bAUC\s*(?:=\s*)?(\d(?:\.\d+)?)/i.exec(h);
+  if (m) return { kind: "AUC", num: Number(m[1]) };
+  m = /\br\s*=\s*(-?\d(?:\.\d+)?)/.exec(h);
+  if (m) return { kind: "r", num: Number(m[1]) };
+  if (!/^-?\d+(?:\.\d+)?$/.test(h.trim())) return { kind: "", num: toNumber(h) };
+  const kind = /\bAUC\b/i.test(chartLabel) ? "AUC" : /\bF1\b/i.test(chartLabel) ? "F1" : /\bcorrelation\b|\br\b/i.test(chartLabel) ? "r" : "";
+  return { kind, num: Number(h) };
 }
 
 // "Xin 2016 · GSE81608 ·" -> ["Xin 2016", "GSE81608"]; a "·" inside parentheses does not split
@@ -176,6 +199,7 @@ function parseCard(id, body) {
     bullets,
     keyLines,
     headline: headline || null,
+    metric: parseMetric(headline, chart?.label ?? ""),
     sources,
     updated,
     chart,
