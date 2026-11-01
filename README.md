@@ -81,6 +81,9 @@ It downloads the artifact files, replaces `public/highlights/`, regenerates the 
 builds, and commits on a `demo-sync-<date>` branch. Merge to `main` to deploy.
 If `extract-demo` fails the artifact's markup changed; fix the parser before merging.
 
+A daily Claude Code cloud routine does the same and opens a pull request when the artifact
+changed: setup and the routine prompt are in `docs/demo-sync-routine.md`.
+
 ## Tech Stack
 
 - **Framework**: Next.js 16

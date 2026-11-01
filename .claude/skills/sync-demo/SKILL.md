@@ -40,6 +40,8 @@ Everything after the download is deterministic scripts. The artifact URL is
    Push only if asked. Production deploys from `main` through the existing Vercel flow.
 
 ## Notes
+- The same steps run daily as a cloud routine on the Rosa Bio account; it opens a PR that a
+  person merges. See `docs/demo-sync-routine.md`.
 - `prepare-highlights.mjs` rewrites links to the private claude.ai study pages; if the export
   gains a new study page, add its artifact id to `STUDY_PAGES` there.
 - Presentation choices (featured cards, badges, section copy) are in `siteContent.singleCellDemo`.
