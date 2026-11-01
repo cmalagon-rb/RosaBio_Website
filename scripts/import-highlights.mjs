@@ -8,7 +8,7 @@
 // Writes public/highlights/.artifact-version.json, which the build reads to show the
 // artifact version on the site. Run `npm run prepare:demo` afterwards (the build does too).
 
-import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 
 const DEFAULT_URL = "https://claude.ai/artifact/CcKXrB5KSXn2khh9pR5Y4X";
@@ -40,9 +40,14 @@ const walk = (dir, base = dir) =>
 const files = walk(from).sort();
 
 const dest = join(process.cwd(), "public", "highlights");
+// .study-pages.json holds the claude.ai link -> local study page mappings that
+// prepare-highlights.mjs learned on earlier syncs; it is ours, not the artifact's, so keep it.
+const mapFile = join(dest, ".study-pages.json");
+const learned = existsSync(mapFile) ? readFileSync(mapFile, "utf8") : null;
 if (existsSync(dest)) rmSync(dest, { recursive: true });
 mkdirSync(dest, { recursive: true });
 cpSync(from, dest, { recursive: true });
+if (learned !== null) writeFileSync(mapFile, learned);
 
 const meta = { artifactUrl: url, version, syncedAt: new Date().toISOString(), fileCount: files.length, files };
 writeFileSync(join(dest, ".artifact-version.json"), JSON.stringify(meta, null, 2) + "\n");

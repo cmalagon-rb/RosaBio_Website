@@ -19,16 +19,31 @@ const root = join(process.cwd(), "public", "highlights");
 const CLAUDE = "https://claude.ai/artifact/";
 
 // claude.ai artifact id -> local study page (relative to public/highlights/).
-// The export does not say which study page belongs to which claude.ai link, so this table is
-// the source of truth. A link whose id is missing here falls back to an unclaimed study page
-// whose <title> starts with a token (accession or dataset name) found in the card's own text,
-// and the build log says so; add the id here to make that mapping permanent.
-const STUDY_PAGES = {
+// The export does not say which study page belongs to which claude.ai link. The seed below
+// covers the first four; every mapping found later is learned automatically: a link whose id
+// is unknown is matched to an unclaimed study page whose <title> starts with a token (an
+// accession or dataset name) that appears in the card's text or in its detail panel
+// (panels/cardN.json), and the match is recorded in public/highlights/.study-pages.json.
+// import-highlights.mjs keeps that file across syncs and the sync commits it, so nobody has
+// to edit this table again.
+const SEED_STUDY_PAGES = {
   LTthSXNJBcsB83xjSXQwKq: "s/s1/index.html", // GSE123813
   YaEUyKUKgtHxabkoee9ruW: "s/s2/index.html", // SRP251372
   "7QE9JMnaYL1WsyGCGhHGPE": "s/s3/index.html", // bmcite
   "3c4oNTA6kiam82xj6hqCm5": "s/s4/index.html", // SRP268462
 };
+const MAP_FILE = join(root, ".study-pages.json");
+const readJson = (p) => {
+  try {
+    return existsSync(p) ? JSON.parse(readFileSync(p, "utf8")) : {};
+  } catch {
+    return {};
+  }
+};
+// learned mappings win over the seed; entries whose page is not in this export are ignored
+const STUDY_PAGES = Object.fromEntries(
+  Object.entries({ ...SEED_STUDY_PAGES, ...readJson(MAP_FILE) }).filter(([, page]) => existsSync(join(root, page)))
+);
 
 // Every study page in the export (s/<name>/index.html) with the first token of its <title>,
 // e.g. { page: "s/s1/index.html", token: "GSE123813" }. Tokens shorter than 4 characters are
@@ -97,20 +112,23 @@ update("index.html", (s) => {
   // within the card's own text), else remove the link. Each page is used by one card only.
   const pages = studyPages();
   const claimed = new Set(Object.values(STUDY_PAGES));
+  const learned = {}; // id -> page, matched in this run and recorded in MAP_FILE
   const dropped = []; // "cN (id)" for links to claude.ai pages the export has no local page for
-  s = s.replace(/<article class="sc" id="(c\d+)"[^>]*>[\s\S]*?<\/article>/g, (article, cardId) =>
-    article.replace(
+  s = s.replace(/<article class="sc" id="(c\d+)"[^>]*>[\s\S]*?<\/article>/g, (article, cardId) => {
+    const panelPath = join(root, "panels", `card${cardId.slice(1)}.json`);
+    const panel = existsSync(panelPath) ? readFileSync(panelPath, "utf8") : "";
+    return article.replace(
       /<a class="go" href="https:\/\/claude\.ai\/artifact\/([A-Za-z0-9]+)(#[^"]*)?"[^>]*>(.*?)<\/a>/g,
       (all, id, hash = "", text) => {
-        let page = STUDY_PAGES[id];
+        let page = STUDY_PAGES[id] ?? learned[id];
         if (!page) {
-          const hit = pages.find((p) => p.token && !claimed.has(p.page) && article.includes(p.token));
+          const free = pages.filter((p) => p.token && !claimed.has(p.page));
+          const hit = free.find((p) => article.includes(p.token)) ?? free.find((p) => panel.includes(p.token));
           if (hit) {
             page = hit.page;
             claimed.add(page);
-            console.log(
-              `prepare-highlights: card ${cardId} link to ${CLAUDE}${id} mapped to ${page} by its title "${hit.token}"; add the id to STUDY_PAGES to make it permanent`
-            );
+            learned[id] = page;
+            console.log(`prepare-highlights: card ${cardId} link to ${CLAUDE}${id} mapped to ${page} by its title "${hit.token}", recorded in .study-pages.json`);
           }
         }
         if (!page) {
@@ -119,8 +137,12 @@ update("index.html", (s) => {
         }
         return `<a class="go" href="${page}${hash}" target="_blank" rel="noopener">${text}</a>`;
       }
-    )
-  );
+    );
+  });
+  if (Object.keys(learned).length) {
+    const map = { ...readJson(MAP_FILE), ...learned };
+    writeFileSync(MAP_FILE, JSON.stringify(Object.fromEntries(Object.entries(map).sort()), null, 2) + "\n");
+  }
   if (dropped.length) {
     console.log(`prepare-highlights: ${dropped.length} card link(s) to claude.ai pages with no local study page, link dropped: ${dropped.join(", ")}`);
   }

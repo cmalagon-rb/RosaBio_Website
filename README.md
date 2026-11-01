@@ -75,11 +75,12 @@ How it fits together:
     patients", "Across species", ...)
   - per-card overrides (`cards`, `featured`) exist for editorial exceptions and are empty
 - Links from a card to its full study page: `prepare-highlights.mjs` maps claude.ai study
-  links to the local pages under `public/highlights/s/` through its `STUDY_PAGES` table. A link
-  whose id is not in the table is matched to an unclaimed study page whose `<title>` starts
-  with a token (accession or dataset name) found in the card's text; otherwise the link is
-  dropped and the text kept. Both cases print a `prepare-highlights:` line during the build,
-  so a sync PR's build output shows when the table needs a new entry.
+  links to the local pages under `public/highlights/s/`. A link it has not seen is matched to
+  an unclaimed study page whose `<title>` starts with a token (accession or dataset name) found
+  in the card's text or its detail panel, and the match is recorded in
+  `public/highlights/.study-pages.json`, which the sync keeps and commits, so the mapping is
+  permanent without a code change. A link with no matching page is dropped and its text kept.
+  Both cases print a `prepare-highlights:` line during the build.
 
 ### Updating the demo when the artifact changes
 
