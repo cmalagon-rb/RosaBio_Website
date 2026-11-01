@@ -37,7 +37,7 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-navy-darkest pb-16 pt-28"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-navy-darkest pb-12 pt-24 md:pb-16 md:pt-28"
     >
       {/* Particles Background */}
       <div className="absolute inset-0">
@@ -54,9 +54,11 @@ export function Hero() {
         animate="visible"
         className="relative z-10 mx-auto max-w-5xl px-6 text-center md:px-8"
       >
+        {/* Fluid type: grows with width but is capped by viewport height, so the whole hero
+            (headline, subtitle, button, notice) fits above the fold on 1280x720 / 1366x768 laptops */}
         <motion.h1
           variants={itemVariants}
-          className="text-4xl font-bold leading-tight tracking-tight md:text-5xl lg:text-6xl xl:text-7xl"
+          className="text-[clamp(2.25rem,min(5vw,7.2vh),4.5rem)] font-bold leading-tight tracking-tight"
         >
           {siteContent.hero.title.part1}{" "}
           <span className="text-electric-blue">{siteContent.hero.title.highlight}</span>{" "}
@@ -65,7 +67,7 @@ export function Hero() {
 
         <motion.p
           variants={itemVariants}
-          className="mx-auto mt-6 max-w-2xl text-lg text-slate-lighter md:mt-8 md:text-xl lg:text-2xl"
+          className="mx-auto mt-[clamp(1rem,3vh,2rem)] max-w-2xl text-[clamp(1.125rem,2.4vh,1.5rem)] text-slate-lighter"
         >
           {Array.isArray(siteContent.hero.subtitle)
             ? siteContent.hero.subtitle.map((line, i) => (
@@ -74,7 +76,7 @@ export function Hero() {
             : siteContent.hero.subtitle}
         </motion.p>
 
-        <motion.div variants={itemVariants} className="mt-10 md:mt-12">
+        <motion.div variants={itemVariants} className="mt-[clamp(1.5rem,4vh,3rem)]">
           <Button size="lg" onClick={scrollToBenefits}>
             {siteContent.hero.primaryButton}
             <ArrowDown className="h-5 w-5" />
@@ -84,7 +86,7 @@ export function Hero() {
         {/* Site update notice */}
         <motion.div
           variants={itemVariants}
-          className="mx-auto mt-10 flex max-w-xl items-start gap-3 rounded-xl border border-electric-blue/30 bg-navy-dark/70 px-5 py-4 text-left text-sm text-slate-lighter backdrop-blur-sm md:text-base"
+          className="mx-auto mt-[clamp(1.5rem,4vh,2.5rem)] flex max-w-xl items-start gap-3 rounded-xl border border-electric-blue/30 bg-navy-dark/70 px-5 py-4 text-left text-sm text-slate-lighter backdrop-blur-sm md:text-base"
         >
           <Info className="mt-0.5 h-5 w-5 shrink-0 text-electric-blue" />
           <p>
