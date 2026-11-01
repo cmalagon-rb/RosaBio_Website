@@ -29,13 +29,15 @@ private again).
    - schedule: daily, 07:00 America/New_York (`0 11 * * *` UTC in summer, `0 12 * * *` in
      winter; pick one, the hour does not matter)
    - model: the default (Sonnet) is fine
+   - connectors: Gmail and Slack (for the PR / failure notifications in step 8 of the prompt)
    - prompt: paste the block below, unchanged
 3. **Run it once by hand** ("run now" in `/schedule`, or https://claude.ai/code/routines).
    The run log must show the Artifact tool listing the artifact's files, then either
    "no change" or a pull request link. If the log shows the Artifact tool is unavailable in
    the cloud session, run `/sync-demo` from a local Claude Code session on the same account
    instead; the steps are identical.
-4. **Merging.** A person reviews and merges the routine's PR. Vercel deploys `main`.
+4. **Merging.** The routine emails cmalagon@rosabio.com and sends a Slack DM when it opens a PR
+   or fails. A person reviews and merges the PR; Vercel deploys `main` automatically.
 
 ## Routine prompt
 
@@ -53,7 +55,7 @@ p2single results. Do exactly this, in order, and stop at the first failure with 
 
 3. Compare that version with the "version" field in public/highlights/.artifact-version.json.
    If they are equal, finish with the message "Single Cell Demo already at artifact version
-   <version>, nothing to do." and make no changes.
+   <version>, nothing to do." and make no changes. Send no email and no Slack message in this case.
 
 4. Otherwise use the Artifact tool, action "read", the same url, with paths = every path from
    the listing (up to 256 per call). Do not set out_dir. The result says the folder the files
@@ -75,7 +77,17 @@ p2single results. Do exactly this, in order, and stop at the first failure with 
    <version>" --body "<the summary from step 6, plus the artifact url>".
    Never push to main, never force-push, never edit files other than the ones named above.
 
-8. Finish with the PR link and the summary.
+8. Notify Calvin, in both of these ways, whenever you opened a pull request OR whenever any
+   step failed (never when step 3 found nothing to do):
+   a. Email, using the Gmail tools: to cmalagon@rosabio.com, subject
+      "RosaBio demo sync: PR opened for artifact <version>" (or "RosaBio demo sync FAILED"),
+      body = the PR link (or the error), the summary from step 6, and the artifact url.
+   b. Slack direct message, using the Slack tools: find the user whose email is
+      cmalagon@rosabio.com and send the same content as a DM.
+   If one of the two notifications fails, still send the other and mention the failure in
+   your final report.
+
+9. Finish with the PR link and the summary.
 
 Further detail, if needed, is in .claude/skills/sync-demo/SKILL.md and README.md
 ("Single Cell Demo") inside the repo.
