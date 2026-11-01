@@ -82,8 +82,9 @@ p2single results. Do exactly this, in order, and stop at the first failure with 
    a. Email, using the Gmail tools: to cmalagon@rosabio.com, subject
       "RosaBio demo sync: PR opened for artifact <version>" (or "RosaBio demo sync FAILED"),
       body = the PR link (or the error), the summary from step 6, and the artifact url.
-   b. Slack direct message, using the Slack tools: find the user whose email is
-      cmalagon@rosabio.com and send the same content as a DM.
+   b. Slack direct message, using the Slack tools: send to Slack user id U09JE47UN3B
+      (Calvin, cmalagon@rosabio.com) with the same content. If that id is rejected, search
+      users for "cmalagon" (searching by the full email returns nothing) and DM the match.
    If one of the two notifications fails, still send the other and mention the failure in
    your final report.
 
