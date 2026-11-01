@@ -15,7 +15,7 @@ private again).
 
 1. **GitHub access for cloud sessions.** Signed in as cmalagon@rosabio.com, open
    https://claude.ai/code, connect GitHub, and grant the Claude GitHub app access to
-   `rosabiocom/RosaBio_Website`. The account needs push rights on the repo (it pushes a branch
+   `cmalagon-rb/RosaBio_Website`. The account needs push rights on the repo (it pushes a branch
    and opens a PR; it never pushes to `main`).
 2. **Create the routine** from a terminal:
    ```
@@ -25,7 +25,7 @@ private again).
    /schedule         # choose "create"
    ```
    When asked:
-   - repo: `https://github.com/rosabiocom/RosaBio_Website`
+   - repo: `https://github.com/cmalagon-rb/RosaBio_Website`
    - schedule: daily, 07:00 America/New_York (`0 11 * * *` UTC in summer, `0 12 * * *` in
      winter; pick one, the hour does not matter)
    - model: the default (Sonnet) is fine
@@ -40,7 +40,7 @@ private again).
 ## Routine prompt
 
 ```
-You are in a fresh clone of rosabiocom/RosaBio_Website (the Rosa Bio website, Next.js).
+You are in a fresh clone of cmalagon-rb/RosaBio_Website (the Rosa Bio website, Next.js).
 Your job: keep the Single Cell Demo in sync with the public Claude artifact that holds the
 p2single results. Do exactly this, in order, and stop at the first failure with a clear report.
 
