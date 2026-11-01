@@ -3,9 +3,14 @@
 import { Section } from "@/components/ui/Section";
 import { ArrowUpRight, Microscope } from "lucide-react";
 import { siteContent } from "@/data/siteContent";
+import generated from "@/data/singleCellDemo.generated.json";
+import { buildDemoView, type ChartView, type GeneratedDemo, type PanelView } from "@/lib/demo";
 import { cn } from "@/lib/utils";
 
-type Panel = (typeof siteContent.singleCellDemo.panels)[number];
+// Cards, numbers, charts and sources come from the p2single artifact export
+// (src/data/singleCellDemo.generated.json, rebuilt on every dev/build by scripts/extract-demo.mjs).
+// siteContent.singleCellDemo only holds presentation choices. See README "Single Cell Demo".
+const view = buildDemoView(generated as unknown as GeneratedDemo, siteContent.singleCellDemo);
 
 function ArrowCircle({ className }: { className?: string }) {
   return (
@@ -21,30 +26,37 @@ function ArrowCircle({ className }: { className?: string }) {
   );
 }
 
-function Chart({ chart, badge, large }: { chart: Panel["chart"]; badge: string; large: boolean }) {
+function Badge({ badge }: { badge: string }) {
+  if (!badge) return null;
+  return (
+    <span className="rounded-full bg-emerald-400/15 px-2.5 py-1 text-xs font-medium text-emerald-300">{badge}</span>
+  );
+}
+
+function Chart({ chart, badge, large }: { chart: ChartView; badge: string; large: boolean }) {
+  const span = chart.max - chart.min || 1;
   return (
     <div className={cn("flex grow flex-col justify-center gap-2 rounded-xl bg-navy-darkest", large ? "p-6 md:p-7" : "p-5")}>
       <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
         <span className="text-xs text-slate-lighter">{chart.title}</span>
-        {badge && (
-          <span className="rounded-full bg-emerald-400/15 px-2.5 py-1 text-xs font-medium text-emerald-300">
-            {badge}
-          </span>
-        )}
+        <Badge badge={badge} />
       </div>
       {chart.bars.map((bar, i) => {
         const hi = !chart.highlightFirst || i === 0;
         const strong = chart.highlightFirst && i === 0;
-        const width = Math.max(0, ((Number(bar.value) - chart.min) / (1 - chart.min)) * 100);
+        const width = Math.min(100, Math.max(0, ((bar.num - chart.min) / span) * 100));
         return (
           <div
             key={bar.label}
             className={cn(
               "grid items-center gap-3 text-xs md:text-[13px]",
-              large ? "grid-cols-[112px_minmax(0,1fr)_44px]" : "grid-cols-[124px_minmax(0,1fr)_40px]"
+              large ? "grid-cols-[120px_minmax(0,1fr)_52px]" : "grid-cols-[minmax(0,5fr)_minmax(0,6fr)_48px]"
             )}
           >
-            <span className={cn("truncate", strong ? "font-semibold text-white" : "text-slate-lighter")}>
+            <span
+              className={cn("line-clamp-2 leading-tight", strong ? "font-semibold text-white" : "text-slate-lighter")}
+              title={bar.sub ? `${bar.label} (${bar.sub})` : bar.label}
+            >
               {bar.label}
             </span>
             <span className={cn("overflow-hidden rounded-full bg-navy-medium", large && chart.bars.length < 4 ? "h-3" : "h-2")}>
@@ -53,23 +65,36 @@ function Chart({ chart, badge, large }: { chart: Panel["chart"]; badge: string; 
                 style={{ width: `${width}%` }}
               />
             </span>
-            <span
-              className={cn(
-                "text-right tabular-nums",
-                strong ? "font-semibold text-white" : "text-slate-lighter"
-              )}
-            >
+            <span className={cn("text-right tabular-nums", strong ? "font-semibold text-white" : "text-slate-lighter")}>
               {bar.value}
             </span>
           </div>
         );
       })}
-      {chart.note && <p className="mt-3 text-sm leading-relaxed text-slate-lighter">{chart.note}</p>}
     </div>
   );
 }
 
-function DemoCard({ panel }: { panel: Panel }) {
+// For cards whose artifact chart is not a row chart (ROC curve, scatter plot):
+// the headline number and the artifact's own explanatory line.
+function Summary({ panel, large }: { panel: PanelView; large: boolean }) {
+  return (
+    <div className={cn("flex grow flex-col justify-center gap-3 rounded-xl bg-navy-darkest", large ? "p-6 md:p-7" : "p-5")}>
+      <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
+        <span className="text-xs text-slate-lighter">{panel.fallback.title}</span>
+        <Badge badge={panel.badge} />
+      </div>
+      <span className={cn("tracking-tight text-white", large ? "text-5xl" : "text-4xl")}>{panel.metric}</span>
+      {panel.fallback.lines.map((line) => (
+        <p key={line} className="text-sm leading-relaxed text-slate-lighter">
+          {line}
+        </p>
+      ))}
+    </div>
+  );
+}
+
+function DemoCard({ panel }: { panel: PanelView }) {
   const large = panel.featured;
   return (
     <a
@@ -83,7 +108,7 @@ function DemoCard({ panel }: { panel: Panel }) {
       )}
     >
       <div className="flex grow flex-col">
-        <Chart chart={panel.chart} badge={panel.badge} large={large} />
+        {panel.chart ? <Chart chart={panel.chart} badge={panel.badge} large={large} /> : <Summary panel={panel} large={large} />}
       </div>
       <div className={cn("flex flex-col", large ? "gap-3 px-2 pb-2" : "grow gap-2.5 px-1.5 pb-1.5")}>
         <span className="self-start rounded-full bg-electric-blue/15 px-2.5 py-1 text-xs text-electric-blue-light">
@@ -98,17 +123,15 @@ function DemoCard({ panel }: { panel: Panel }) {
           {panel.title}
         </h3>
         <div className="mt-auto flex items-end justify-between gap-4 pt-2">
-          <div className="flex flex-col gap-1">
-            <span
-              className={cn(
-                "tracking-tight text-electric-blue",
-                large ? "text-4xl md:text-[40px]" : "text-3xl"
-              )}
-            >
+          <div className="flex min-w-0 flex-col gap-1">
+            <span className={cn("tracking-tight text-electric-blue", large ? "text-4xl md:text-[40px]" : "text-3xl")}>
               {panel.metric}
             </span>
-            <span className={cn("text-slate-lighter", large ? "text-[15px]" : "text-sm")}>
-              {panel.metricLabel} · {panel.source}
+            <span className={cn("line-clamp-2 text-slate-lighter", large ? "text-[15px]" : "text-sm")} title={panel.metricLabel}>
+              {panel.metricLabel}
+            </span>
+            <span className="truncate text-xs text-slate-light" title={panel.source}>
+              {panel.source}
             </span>
           </div>
           <ArrowCircle />
@@ -119,10 +142,7 @@ function DemoCard({ panel }: { panel: Panel }) {
 }
 
 export function SingleCellDemo() {
-  const { label, title, description, src, openLabel, stats, panels } =
-    siteContent.singleCellDemo;
-  const featured = panels.filter((p) => p.featured);
-  const rest = panels.filter((p) => !p.featured);
+  const { label, title, description, updated, src, openLabel, stats, featured, rest } = view;
 
   return (
     <Section id="demo" className="bg-navy-dark">
@@ -138,6 +158,7 @@ export function SingleCellDemo() {
           </div>
           <h2 className="text-5xl font-normal tracking-tight text-white md:text-6xl">{title}</h2>
           <p className="text-lg leading-relaxed text-slate-lighter md:text-xl">{description}</p>
+          {updated && <p className="text-sm text-slate-light">Results last updated {updated}</p>}
         </div>
         <a
           href={src}
@@ -156,23 +177,27 @@ export function SingleCellDemo() {
         </a>
       </div>
 
-      <div className="mt-12 grid grid-cols-2 border-y border-slate-dark/70 lg:grid-cols-4">
-        {stats.map((stat) => (
-          <div key={stat.label} className="flex items-baseline gap-2.5 py-6 pr-4">
-            <span className="whitespace-nowrap text-2xl tracking-tight text-white md:text-3xl">{stat.value}</span>
-            <span className="text-sm text-slate-lighter">{stat.label}</span>
-          </div>
-        ))}
-      </div>
+      {stats.length > 0 && (
+        <div className="mt-12 grid grid-cols-2 border-y border-slate-dark/70 lg:grid-cols-4">
+          {stats.map((stat) => (
+            <div key={stat.label} className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1 py-6 pr-4">
+              <span className="whitespace-nowrap text-2xl tracking-tight text-white md:text-3xl">{stat.value}</span>
+              <span className="text-sm text-slate-lighter">{stat.label}</span>
+            </div>
+          ))}
+        </div>
+      )}
 
-      <div className="mt-12 grid gap-5 md:grid-cols-2">
-        {featured.map((panel) => (
-          <DemoCard key={panel.href} panel={panel} />
-        ))}
-      </div>
+      {featured.length > 0 && (
+        <div className="mt-12 grid gap-5 md:grid-cols-2">
+          {featured.map((panel) => (
+            <DemoCard key={panel.id} panel={panel} />
+          ))}
+        </div>
+      )}
       <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {rest.map((panel) => (
-          <DemoCard key={panel.href} panel={panel} />
+          <DemoCard key={panel.id} panel={panel} />
         ))}
       </div>
     </Section>

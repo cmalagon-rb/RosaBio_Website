@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node scripts/prepare-highlights.mjs && next dev",
-    "build": "node scripts/prepare-highlights.mjs && next build",
+    "prepare:demo": "node scripts/prepare-highlights.mjs && node scripts/extract-demo.mjs",
+    "dev": "npm run prepare:demo && next dev",
+    "build": "npm run prepare:demo && next build",
     "start": "next start",
     "lint": "eslint"
   },

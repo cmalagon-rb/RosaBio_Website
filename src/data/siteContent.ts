@@ -8,6 +8,8 @@
 // 3. Save and commit - the site will auto-deploy
 //
 // IMPORTANT:
+// - The Single Cell Demo cards are generated from the artifact export, not typed here
+//   (see the singleCellDemo section below and README "Single Cell Demo")
 // - Don't delete quotes "" or commas ,
 // - Don't change iconKey values unless instructed
 // - Multi-line text uses backticks ` instead of quotes
@@ -143,113 +145,37 @@ export const siteContent = {
 
   // ===========================================================================
   // SINGLE CELL DEMO SECTION (shown right under the hero)
-  // Each panel opens a page of the static demo in public/highlights/.
-  // featured: true = large card on the top row. chart.min = where the bars start;
-  // chart.highlightFirst: true = first bar is p2single, the rest are comparisons.
-  // chart.note: optional line under the bars ("" = none).
+  //
+  // The cards, their numbers, charts and sources are NOT edited here. They come from
+  // the p2single artifact export in public/highlights/ (parsed at build time into
+  // src/data/singleCellDemo.generated.json). To update them, run /sync-demo in
+  // Claude Code (see README). Only presentation choices live here:
+  //   featured: card ids shown large on the top row, in this order
+  //   hidden:   card ids to leave off the homepage (they stay in the full demo)
+  //   stats:    the strip under the header. from = "cardCount", "updated", or a card id
+  //             (shows that card's headline number)
+  //   cards:    optional per-card overrides: badge, headline, metricLabel, chartMin
+  //   label / title / description: "" = use the artifact's own text
   // ===========================================================================
   singleCellDemo: {
+    artifactUrl: "https://claude.ai/artifact/CcKXrB5KSXn2khh9pR5Y4X",
     label: "p2single results",
     title: "Single Cell Demo",
     description: "Sequence-level models, tested on cells they never saw. Every score is on cells, patients or experiments kept out of training.",
     src: "/highlights/index.html",
     openLabel: "Open the full demo",
+    featured: ["c6", "c1"],
+    hidden: [] as string[],
     stats: [
-      { value: "10", label: "public studies" },
-      { value: "4", label: "species" },
-      { value: "0.978", label: "AUC on unseen patients" },
-      { value: "45 of 46", label: "published pancreas results beaten" },
+      { from: "cardCount", label: "public studies" },
+      { from: "c1", label: "on patients the model never saw" },
+      { from: "c6", label: "published pancreas results beaten" },
+      { from: "updated", label: "artifact last updated" },
     ],
-    panels: [
-      {
-        featured: true,
-        tag: "Human pancreas · cell types",
-        title: "Pancreas cell types: at or above every published method",
-        metric: "45 of 46",
-        metricLabel: "published results score lower, 1 ties",
-        source: "Xin 2016, Segerstolpe 2016",
-        badge: "Top of 17 methods",
-        href: "/highlights/index.html#c6",
-        chart: { title: "Macro F1 vs published methods", note: "p2single macro F1 1.000 (95% CI 0.989–1.000)", min: 0.5, highlightFirst: true, bars: [{ label: "p2single", value: "1.000" }, { label: "scGenoByte", value: "0.999" }, { label: "scRGCL", value: "0.994" }, { label: "CIForm", value: "0.991" }, { label: "scGPT", value: "0.980" }, { label: "SingleR", value: "0.952" }, { label: "scBERT", value: "0.793" }, { label: "Seurat", value: "0.594" }] },
-      },
-      {
-        featured: true,
-        tag: "Immunotherapy · skin cancer",
-        title: "Exhausted vs active killer T cells in patients on immunotherapy",
-        metric: "AUC 0.978",
-        metricLabel: "on patients the model never saw",
-        source: "Yost et al. 2019",
-        badge: "Unseen patients",
-        href: "/highlights/s/s1/index.html#summary",
-        chart: { title: "AUC on 2,326 held-out test cells", note: "2,279 exhausted and 47 active T cells, from patients kept out of training. 0.5 = chance, 1 = perfect.", min: 0, highlightFirst: true, bars: [{ label: "p2single", value: "0.978" }, { label: "chance", value: "0.500" }] },
-      },
-      {
-        featured: false,
-        tag: "Lung cancer · PD-L1",
-        title: "PD-L1 levels in lung tumour immune cells of a new patient",
-        metric: "r = 0.64",
-        metricLabel: "vs 0.59 median of 9 published methods",
-        source: "Leader et al. 2021",
-        badge: "",
-        href: "/highlights/index.html#c2",
-        chart: { title: "Pearson r, PD-L1 level", note: "", min: 0, highlightFirst: true, bars: [{ label: "p2single", value: "0.64" }, { label: "published median", value: "0.59" }] },
-      },
-      {
-        featured: false,
-        tag: "Bone marrow · surface protein",
-        title: "Protein-defined cell types predicted from RNA",
-        metric: "AUC 0.968",
-        metricLabel: "average across 11 cell types",
-        source: "Stuart et al. 2019",
-        badge: "",
-        href: "/highlights/s/s3/index.html#runs",
-        chart: { title: "AUC, top 3 of 11 cell types", note: "", min: 0.9, highlightFirst: false, bars: [{ label: "CD14 monocyte", value: "0.999" }, { label: "CD16 monocyte", value: "0.997" }, { label: "naive B", value: "0.992" }] },
-      },
-      {
-        featured: false,
-        tag: "CRISPR screen · PD-L1",
-        title: "PD-L1 protein predicted from RNA on a separate experiment",
-        metric: "r = 0.74",
-        metricLabel: "vs 0.38 from PD-L1's own RNA alone",
-        source: "Papalexi et al. 2021",
-        badge: "",
-        href: "/highlights/s/s4/index.html#regr",
-        chart: { title: "Pearson r, PD-L1 protein", note: "", min: 0, highlightFirst: true, bars: [{ label: "p2single", value: "0.74" }, { label: "PD-L1 RNA alone", value: "0.38" }] },
-      },
-      {
-        featured: false,
-        tag: "Human Cell Atlas",
-        title: "Cell types predicted across tissues and donors",
-        metric: "AUC 0.88",
-        metricLabel: "trained on artery, tested on uterus",
-        source: "Zhao 2025, Ulrich 2024",
-        badge: "",
-        href: "/highlights/index.html#c5",
-        chart: { title: "AUC across tissues", note: "", min: 0.5, highlightFirst: false, bars: [{ label: "artery → uterus", value: "0.88" }, { label: "uterus → artery", value: "0.86" }] },
-      },
-      {
-        featured: false,
-        tag: "Brain · across species",
-        title: "Brain cell types predicted across species",
-        metric: "AUC 0.932",
-        metricLabel: "trained on human, tested on mouse",
-        source: "Allen Brain Atlas",
-        badge: "",
-        href: "/highlights/index.html#c7",
-        chart: { title: "Median AUC per transfer", note: "", min: 0.5, highlightFirst: false, bars: [{ label: "human → humans", value: "0.973" }, { label: "between macaques", value: "0.950" }, { label: "human → mouse", value: "0.932" }] },
-      },
-      {
-        featured: false,
-        tag: "CRISPR · gene response",
-        title: "How cells respond when 2 genes are changed at once",
-        metric: "0.890",
-        metricLabel: "vs 0.790 best published method",
-        source: "Norman 2019",
-        badge: "",
-        href: "/highlights/index.html#c8",
-        chart: { title: "Cosine similarity, PerturBench", note: "", min: 0.3, highlightFirst: true, bars: [{ label: "p2single", value: "0.890" }, { label: "latent additive", value: "0.790" }, { label: "CPA", value: "0.760" }] },
-      },
-    ],
+    cards: {
+      c6: { badge: "Top of 17 methods" },
+      c1: { badge: "Unseen patients" },
+    } as Record<string, { badge?: string; headline?: string; metricLabel?: string; chartMin?: number }>,
   },
 
   // ===========================================================================
