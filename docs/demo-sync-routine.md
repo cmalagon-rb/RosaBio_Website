@@ -78,10 +78,14 @@ p2single results. Do exactly this, in order, and stop at the first failure with 
    new headline number.
 
 7. Create a branch named demo-sync-<YYYY-MM-DD>, commit with the message
-   "content: sync Single Cell Demo from artifact <version>", push it, and open a pull request
-   against main with: gh pr create --title "content: sync Single Cell Demo from artifact
-   <version>" --body "<the summary from step 6, plus the artifact url>".
-   Never push to main, never force-push, never edit files other than the ones named above.
+   "content: sync Single Cell Demo from artifact <version>", and push it with
+   git push -u origin <branch>. Then open a pull request against main through the GitHub REST
+   API (gh pr create does NOT work in these cloud sessions, because GitHub GraphQL is blocked):
+   write the summary from step 6 plus the artifact url to a file in your scratchpad, then run
+   gh api repos/cmalagon-rb/RosaBio_Website/pulls -X POST -f title="content: sync Single Cell Demo from artifact <version>" -f head="<branch>" -f base="main" -F body=@<that file> --jq .html_url
+   It prints the pull request link.
+   Never push to main, never force-push, never merge the pull request, never edit files other
+   than the ones named above.
 
 8. Notify Calvin, in both of these ways, whenever you opened a pull request OR whenever any
    step failed (never when step 3 found nothing to do):
