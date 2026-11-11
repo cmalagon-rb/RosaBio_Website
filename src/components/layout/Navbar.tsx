@@ -51,7 +51,7 @@ export function Navbar() {
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden items-center gap-8 md:flex">
+          <div className="hidden items-center gap-5 md:flex lg:gap-8">
             {siteContent.navbar.links.map((link) => (
               <a
                 key={link.href}
@@ -60,7 +60,7 @@ export function Navbar() {
                   e.preventDefault();
                   handleClick(link.href);
                 }}
-                className="text-sm font-medium text-slate-lighter transition-colors hover:text-white"
+                className="whitespace-nowrap text-sm font-medium text-slate-lighter transition-colors hover:text-white"
               >
                 {link.label}
               </a>
@@ -82,7 +82,7 @@ export function Navbar() {
       <div
         className={cn(
           "overflow-hidden transition-all duration-300 md:hidden",
-          isOpen ? "max-h-64" : "max-h-0"
+          isOpen ? "max-h-96" : "max-h-0"
         )}
       >
         <div className="border-t border-navy-medium bg-navy-darkest/95 px-6 py-4 backdrop-blur-md">

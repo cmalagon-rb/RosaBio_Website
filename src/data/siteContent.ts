@@ -8,8 +8,9 @@
 // 3. Save and commit - the site will auto-deploy
 //
 // IMPORTANT:
-// - The Single Cell Demo cards are generated from the artifact export, not typed here
-//   (see the singleCellDemo section below and README "Single Cell Demo")
+// - The Single Cell Demo and Liquid Biopsy Demo cards are generated from the artifact
+//   exports, not typed here (see the singleCellDemo / liquidBiopsyDemo sections below and
+//   README "Single Cell Demo" / "Liquid Biopsy Demo")
 // - Don't delete quotes "" or commas ,
 // - Don't change iconKey values unless instructed
 // - Multi-line text uses backticks ` instead of quotes
@@ -185,6 +186,44 @@ export const siteContent = {
   },
 
   // ===========================================================================
+  // LIQUID BIOPSY DEMO SECTION (shown right under the Single Cell Demo)
+  //
+  // Works exactly like the Single Cell Demo above, from the P2G liquid biopsy artifact.
+  // The cards, numbers, charts and sources are NOT edited here: they come from the artifact
+  // page in public/liquid-biopsy/ (parsed at build time into
+  // src/data/liquidBiopsyDemo.generated.json). To update them, run /sync-liquid-biopsy in
+  // Claude Code (see README "Liquid Biopsy Demo"); a daily cloud routine also opens a pull
+  // request whenever the artifact changes. Same options as singleCellDemo, plus:
+  //   moreLabel: heading of the horizontal strip of non-featured cards
+  //   stats:     besides the singleCellDemo rules, "paperComparisons" (comparisons where P2G
+  //              is within 0.02 of the paper's AUC or higher, as the artifact colours them,
+  //              e.g. "11 of 28") and "questionCount" (study questions scored on held-out
+  //              samples). A stat the artifact has no data for is left out.
+  // ===========================================================================
+  liquidBiopsyDemo: {
+    artifactUrl: "https://claude.ai/artifact/GdVZhFeKtZ9uyrx1xFWiE6",
+    label: "P2G results",
+    title: "Liquid Biopsy Demo",
+    description: "One model built straight from raw sequencing reads, for RNA and DNA alike, with no gene list. Every score is on samples kept out of training.",
+    src: "/liquid-biopsy/index.html",
+    openLabel: "Open the full demo",
+    moreLabel: "More results",
+    featuredCount: 2,
+    featured: [] as string[],
+    hidden: [] as string[],
+    stats: [
+      { from: "paperComparisons", label: "published results matched or beaten" },
+      { from: "bestAuc", label: "best score on samples the model never saw" },
+      { from: "questionCount", label: "study questions scored on held-out samples" },
+      { from: "updated", label: "artifact last updated" },
+    ] as {
+      from: "cardCount" | "bestAuc" | "mostMethodsBeaten" | "updated" | "paperComparisons" | "questionCount";
+      label: string;
+    }[],
+    cards: {} as Record<string, { badge?: string; headline?: string; metricLabel?: string; chartMin?: number }>,
+  },
+
+  // ===========================================================================
   // LEADERSHIP SECTION
   // ===========================================================================
   leadership: {
@@ -218,6 +257,7 @@ export const siteContent = {
       { href: "#home", label: "Home" },
       { href: "#technology", label: "Technology" },
       { href: "#demo", label: "Single Cell Demo" },
+      { href: "#liquid-biopsy", label: "Liquid Biopsy Demo" },
       { href: "#leadership", label: "About" },
       { href: "#contact", label: "Contact" },
     ],
