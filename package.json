@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "prepare:demo": "node scripts/prepare-highlights.mjs && node scripts/extract-demo.mjs",
+    "prepare:demo": "node scripts/prepare-highlights.mjs && node scripts/extract-demo.mjs && node scripts/prepare-liquid-biopsy.mjs && node scripts/extract-liquid-biopsy.mjs",
     "dev": "npm run prepare:demo && next dev",
     "build": "npm run prepare:demo && next build",
     "start": "next start",

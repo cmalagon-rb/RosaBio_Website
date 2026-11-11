@@ -20,6 +20,7 @@ All site text is centralized in a single file for easy editing:
 | `valueProps` | "Smarter. Better. Faster." section - title, subtitle, 3 value cards |
 | `technology` | Technology section title, paragraphs, external link                 |
 | `singleCellDemo` | Presentation only: featured cards, badges, stats strip, section copy (card data is generated, see below) |
+| `liquidBiopsyDemo` | Same as `singleCellDemo`, for the Liquid Biopsy Demo (see "Liquid Biopsy Demo" below) |
 | `leadership` | Section title, subtitle, team member cards (name, title, bio)       |
 | `navbar`     | Logo text, navigation links                                         |
 | `footer`     | Logo text, contact text, email, copyright                           |
@@ -96,6 +97,49 @@ If `extract-demo` fails the artifact's markup changed; fix the parser before mer
 
 A daily Claude Code cloud routine does the same and opens a pull request when the artifact
 changed: setup and the routine prompt are in `docs/demo-sync-routine.md`.
+
+## Liquid Biopsy Demo
+
+The "Liquid Biopsy Demo" section (nav tab of the same name, right under the Single Cell Demo)
+and the full page at `/liquid-biopsy/index.html` mirror the Claude artifact
+`https://claude.ai/artifact/GdVZhFeKtZ9uyrx1xFWiE6` (P2G liquid biopsy highlights). It works
+like the Single Cell Demo, and both sections are drawn by the same component
+(`src/components/sections/DemoSection.tsx`) from the same view rules (`src/lib/demo.ts`):
+
+- `public/liquid-biopsy/index.html` is the artifact's page (it is a single page).
+  `.artifact-version.json` records the artifact version; `.artifact-edits.json` holds the
+  page's in-place text edits, which the artifact keeps in its database rather than in the page.
+- `scripts/prepare-liquid-biopsy.mjs` (before every dev/build) writes those edits into the page,
+  retitles it "Liquid Biopsy Demo", drops links to private claude.ai pages, and outlines the
+  card a homepage link lands on (`index.html#<card id>`).
+- `scripts/extract-liquid-biopsy.mjs` (also before every dev/build) parses the page into
+  `src/data/liquidBiopsyDemo.generated.json`: header, every result card's tag, title, scope,
+  headline number (from the card's own title), sources, and chart rows. The page draws its
+  charts in the browser from embedded data, so the row charts (P2G vs the paper, sensitivity at
+  95% specificity, untested questions, cross-center models) are read from that data, and a
+  results table with an AUC column becomes a row chart. Scatter plots and heatmaps show the
+  headline number and the card's note instead. Never edit the generated file by hand.
+- `siteContent.liquidBiopsyDemo` holds only presentation choices, with the same rules as the
+  Single Cell Demo (first `featuredCount` cards in artifact order are featured, the rest go into
+  the "More results" strip). The stats strip uses two extra rules: `paperComparisons`
+  (comparisons where P2G is within 0.02 of the paper's AUC or higher, as the artifact colours
+  them) and `questionCount` (study questions scored on held-out samples). Badges are derived
+  from each card ("Beats the paper", "Matches the paper", "Known answer", "Another lab", ...).
+
+### Updating the demo when the artifact changes
+
+In this repo run:
+
+```
+/sync-liquid-biopsy
+```
+
+It reads the artifact version and its in-page edits, downloads the page if anything changed,
+replaces `public/liquid-biopsy/`, regenerates the card data, builds, and commits on a
+`liquid-biopsy-sync-<date>` branch. Merge to `main` to deploy.
+
+A daily Claude Code cloud routine does the same and opens a pull request when the artifact or
+its edits changed: the routine prompt is in `docs/liquid-biopsy-sync-routine.md`.
 
 ## Tech Stack
 

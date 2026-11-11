@@ -1,8 +1,10 @@
-// Builds what the "Single Cell Demo" section renders from
+// Builds what the "Single Cell Demo" and "Liquid Biopsy Demo" sections render from
 //   - src/data/singleCellDemo.generated.json  (parsed from the p2single artifact export by
 //     scripts/extract-demo.mjs; regenerated on every dev/build, never hand-edited)
-//   - siteContent.singleCellDemo               (presentation choices: how many cards are
-//     featured, which stats to compute, copy)
+//   - src/data/liquidBiopsyDemo.generated.json (parsed from the P2G liquid biopsy artifact by
+//     scripts/extract-liquid-biopsy.mjs; same shape, same rules)
+//   - siteContent.singleCellDemo / siteContent.liquidBiopsyDemo (presentation choices: how many
+//     cards are featured, which stats to compute, copy)
 // Everything the artifact states wins; the config only fills what the artifact does not have.
 // No rule here depends on a particular card id, so new, removed or reordered cards in the
 // artifact never need a config change.
@@ -25,15 +27,22 @@ export type GeneratedCard = {
   chart: GeneratedChart | null;
   links: { href: string; text: string }[];
   href: string;
+  // liquid biopsy only: the "Main point" section of the page the card sits in
+  section?: { id: string; tag: string; nav: string; title: string } | null;
 };
 export type GeneratedDemo = {
   source: { artifactUrl: string | null; version: string | null; syncedAt: string | null };
-  page: { eyebrow: string; title: string; updated: string; legend: string[] };
+  page: { eyebrow: string; title: string; updated: string; legend: string[]; lede?: string };
+  // liquid biopsy only: page-wide numbers read from the data the page's charts draw
+  summary?: {
+    paperComparisons?: { matched: number; total: number } | null;
+    questions?: number | null;
+  };
   cards: GeneratedCard[];
 };
 
 export type CardOverride = { badge?: string; headline?: string; metricLabel?: string; chartMin?: number };
-export type StatRule = "cardCount" | "bestAuc" | "mostMethodsBeaten" | "updated";
+export type StatRule = "cardCount" | "bestAuc" | "mostMethodsBeaten" | "updated" | "paperComparisons" | "questionCount";
 export type DemoConfig = {
   artifactUrl: string;
   label: string;
@@ -41,6 +50,8 @@ export type DemoConfig = {
   description: string;
   src: string;
   openLabel: string;
+  // heading of the horizontal strip under the featured cards (default "More studies")
+  moreLabel?: string;
   featuredCount: number;
   featured: string[];
   hidden: string[];
@@ -76,6 +87,7 @@ export type DemoView = {
   updated: string;
   src: string;
   openLabel: string;
+  moreLabel: string;
   stats: { value: string; label: string }[];
   featured: PanelView[];
   rest: PanelView[];
@@ -96,10 +108,25 @@ export function methodsBeaten(chart: GeneratedChart | null): number {
   return chart.competitors;
 }
 
+// A chart of the model's result (first row) against the one published result for the same
+// question (the only other row, labelled "Paper" or "Published ..."): "Beats the paper" when the
+// model is higher by more than 0.02, "Matches the paper" when within 0.02, else "".
+export function paperBadge(chart: GeneratedChart | null): string {
+  if (!chart || chart.competitors !== 1 || !chart.bars[0]?.us) return "";
+  const us = chart.bars[0].num;
+  const paper = chart.bars.find((b) => !b.us);
+  if (us === null || !paper || paper.num === null || !/^(?:paper|published)\b/i.test(paper.label)) return "";
+  if (us - paper.num > 0.02) return "Beats the paper";
+  return us - paper.num >= -0.02 ? "Matches the paper" : "";
+}
+
 // Badge derived from what the card states, in order of how specific it is.
 export function deriveBadge(card: GeneratedCard): string {
   const beaten = methodsBeaten(card.chart);
   if (beaten >= 2) return `Top of ${beaten} methods`;
+  const vsPaper = paperBadge(card.chart);
+  if (vsPaper) return vsPaper;
+  if (/^reference samples\b/i.test(card.tag)) return "Known answer";
   const held = /never saw|never seen|kept out|unseen|held[- ]out/i;
   const text = `${card.title} ${card.scope} ${card.keyLines.join(" ")}`;
   if (/species/i.test(`${card.title} ${card.scope}`)) return "Across species";
@@ -107,6 +134,8 @@ export function deriveBadge(card: GeneratedCard): string {
   if (held.test(card.scope) && /patient/i.test(card.scope)) return "Unseen patients";
   if (/(?:another|other|new|different|unseen) donors?\b|donors? (?:it|the model) never saw/i.test(text)) return "Unseen donors";
   if (/separate experiment|tested on run \d|separate run/i.test(text)) return "Separate experiment";
+  if (/another lab|different labs?|other (?:center|centre|cohort)\b/i.test(`${card.title} ${card.tag}`)) return "Another lab";
+  if (/not tested in the paper|papers? did not (?:test|score|report)/i.test(`${card.title} ${card.tag}`)) return "Not in the paper";
   return "";
 }
 
@@ -169,15 +198,27 @@ export function pickFeatured(visible: GeneratedCard[], config: DemoConfig): Gene
 const fmt = (n: number) => (Number.isInteger(n) ? String(n) : n.toFixed(3).replace(/0+$/, "").replace(/\.$/, ""));
 
 // One stat tile value computed over every visible card; "" when the artifact has no such data.
-export function statValue(rule: StatRule, visible: GeneratedCard[], page: GeneratedDemo["page"]): string {
+export function statValue(
+  rule: StatRule,
+  visible: GeneratedCard[],
+  page: GeneratedDemo["page"],
+  summary: GeneratedDemo["summary"] = {}
+): string {
   switch (rule) {
+    case "paperComparisons": {
+      const c = summary?.paperComparisons;
+      return c && c.total ? `${c.matched} of ${c.total}` : "";
+    }
+    case "questionCount":
+      return summary?.questions ? String(summary.questions) : "";
     case "cardCount":
       return visible.length ? String(visible.length) : "";
     case "updated":
       return page.updated ? dateOnly(page.updated) : "";
     case "bestAuc": {
       const aucs = visible.map((c) => c.metric).filter((m) => m.kind === "AUC" && m.num !== null).map((m) => m.num as number);
-      return aucs.length ? `AUC ${fmt(Math.max(...aucs))}` : "";
+      const best = aucs.length ? Math.max(...aucs) : null;
+      return best === null ? "" : `AUC ${best === 1 ? "1.000" : fmt(best)}`;
     }
     case "mostMethodsBeaten": {
       const counts = visible.map((c) => methodsBeaten(c.chart)).filter((n) => n >= 2);
@@ -191,7 +232,9 @@ export function buildDemoView(generated: GeneratedDemo, config: DemoConfig): Dem
   const featured = pickFeatured(visible, config);
   const rest = visible.filter((c) => !featured.includes(c));
 
-  const stats = config.stats.map(({ from, label }) => ({ value: statValue(from, visible, generated.page), label })).filter((s) => s.value);
+  const stats = config.stats
+    .map(({ from, label }) => ({ value: statValue(from, visible, generated.page, generated.summary), label }))
+    .filter((s) => s.value);
 
   return {
     label: config.label || generated.page.eyebrow,
@@ -200,6 +243,7 @@ export function buildDemoView(generated: GeneratedDemo, config: DemoConfig): Dem
     updated: generated.page.updated,
     src: config.src,
     openLabel: config.openLabel,
+    moreLabel: config.moreLabel || "More studies",
     stats,
     featured: featured.map((c) => panelView(c, true, config)),
     rest: rest.map((c) => panelView(c, false, config)),

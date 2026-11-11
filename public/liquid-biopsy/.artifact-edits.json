@@ -1,0 +1,11 @@
+{
+  "beyond-h2": "71% of pooled RNA model weight is on sequences that differ from the human reference genome",
+  "fig4-h3": "At 95% specificity, P2G achieves >=80% specificity ",
+  "fig5-h3": "Within their own study, 49 of 68 predictions reach a held-out AUC of 0.80 or more",
+  "fig6-h3": "10 models trained on one center score 0.60 to 0.73 when tested on the other (Stanford and UCSD)",
+  "fig7-div-ts": "Shown: every untested question at 0.80 or more, highest first. Hollow: fewer than 20 test samples. Every 1.000 shows its 95% CI;  Hover a dot for its tumour stage.",
+  "fig7-h3": "Untested predictions exceed 0.80  ",
+  "page-h1": "P2G provides robust liquid biopsy prediction across all analyte types.",
+  "page-p-lede": "P2G builds a predictive model directly from the raw sequencing reads of each sample: alignment performed after model predictions, no gene list. The analysis is performed with the same modeling, no difference between RNA or DNA, between or base-conversion or native nucleic acid sequences. No study-specific optimization. All predictions are reported on data never seen during training.",
+  "tab1-p-use": "\n"
+}
