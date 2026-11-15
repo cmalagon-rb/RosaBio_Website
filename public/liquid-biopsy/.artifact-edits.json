@@ -1,11 +1,19 @@
 {
   "beyond-h2": "71% of pooled RNA model weight is on sequences that differ from the human reference genome",
+  "fig4-div-ts": "Questions with a held-out AUC of 0.85 or more on 20 or more test samples (31 questions with per-sample scores; 2 more questions from the earlier run, SRP618157 and SRP566788 any cancer vs no cancer, have no per-sample scores and are left out); shown: the 25 where P2G finds half of the cases or more at 95% specificity. Bar: percent of cases found when 95% of controls are called negative; ticks: the same at 90% and 99% specificity. Hover a bar for the tumour stage.  Combined method, full list.",
   "fig4-h3": "At 95% specificity, P2G achieves >=80% specificity ",
-  "fig5-h3": "Within their own study, 49 of 68 predictions reach a held-out AUC of 0.80 or more",
+  "fig5-h3": "Within their own study, 41 of 68 predictions reach a held-out AUC of 0.80 or more",
   "fig6-h3": "10 models trained on one center score 0.60 to 0.73 when tested on the other (Stanford and UCSD)",
   "fig7-div-ts": "Shown: every untested question at 0.80 or more, highest first. Hollow: fewer than 20 test samples. Every 1.000 shows its 95% CI;  Hover a dot for its tumour stage.",
   "fig7-h3": "Untested predictions exceed 0.80  ",
+  "figs1a-h3": "All 16 fusions in the reference mix are found with no model training, 9 already at a 1% spike-in, and none in 277 control samples",
+  "figs1a-p-unbiased": "The method was not told which fusions are in the mix:  It was also not told which libraries were spiked, or at what level.",
+  "figs1b-div-ts": "",
+  "figs1b-h3": "Example output, automatic detection of KRAS G12A, BRAF V600E and TP53 R306* without directing P2G to these mutations",
+  "new-p-q": "",
   "page-h1": "P2G provides robust liquid biopsy prediction across all analyte types.",
   "page-p-lede": "P2G builds a predictive model directly from the raw sequencing reads of each sample: alignment performed after model predictions, no gene list. The analysis is performed with the same modeling, no difference between RNA or DNA, between or base-conversion or native nucleic acid sequences. No study-specific optimization. All predictions are reported on data never seen during training.",
+  "ref-p-note": "Reference samples, not patients: lab-made cell-line RNA or DNA with known fusions and mutations, mixed into normal RNA or DNA at set amounts. ",
+  "ref-p-q": "",
   "tab1-p-use": "\n"
 }
