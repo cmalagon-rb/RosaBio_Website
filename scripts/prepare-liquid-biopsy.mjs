@@ -84,7 +84,9 @@ const TARGET_STYLE = `<style id="card-target">article.card:target{outline:2px so
 const before = readFileSync(page, "utf8");
 let s = applyEdits(before);
 s = s.replace(/<a\b[^>]*href="https:\/\/claude\.ai\/[^"]*"[^>]*>([\s\S]*?)<\/a>/g, "$1");
-s = s.replace(/<title>[^<]*<\/title>/g, `<title>${TITLE}</title>`);
+// Only the page title: the first <title> of the document. The charts carry their hover
+// tooltips as SVG <title> elements, which must keep their own text.
+s = s.replace(/<title>[^<]*<\/title>/, `<title>${TITLE}</title>`);
 if (!s.includes('id="card-target"')) {
   const i = s.indexOf("</head>");
   s = i >= 0 ? s.slice(0, i) + TARGET_STYLE + s.slice(i) : TARGET_STYLE + s;
