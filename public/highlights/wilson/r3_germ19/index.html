@@ -1,0 +1,1004 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Study block: PRJNA1055160 · r3 germ19</title>
+<style id="rosa-wm-css">
+.wmctl{position:fixed;right:16px;top:12px;z-index:2147483000;font:12px/1.3 ui-monospace,SFMono-Regular,Menlo,monospace;--wm-bg:#fff;--wm-fg:#38424e;--wm-line:#d5dce4;--wm-acc:#1f6f8b}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .wmctl{--wm-bg:#18202a;--wm-fg:#c9d2dc;--wm-line:#2b3542;--wm-acc:#6cc0dc}}
+:root[data-theme="dark"] .wmctl{--wm-bg:#18202a;--wm-fg:#c9d2dc;--wm-line:#2b3542;--wm-acc:#6cc0dc}
+.wmctl .wmbtn{background:var(--wm-bg);color:var(--wm-fg);border:1px solid var(--wm-line);border-radius:8px;padding:6px 11px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.12);font:inherit}
+.wmctl .wmbtn:hover{border-color:var(--wm-acc)}
+.wmctl .wmpanel{position:absolute;right:0;top:38px;width:260px;background:var(--wm-bg);color:var(--wm-fg);border:1px solid var(--wm-line);border-radius:10px;padding:12px 14px;box-shadow:0 6px 24px rgba(0,0,0,.18)}
+.wmctl .wmpanel[hidden]{display:none}
+.wmctl label{display:block;font-size:11px;opacity:.8;margin-bottom:6px}
+.wmctl input[type=range]{width:180px;vertical-align:middle;accent-color:var(--wm-acc)}
+.wmctl output{display:inline-block;width:44px;text-align:right;font-weight:600}
+.wmctl .wmquick{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.wmctl .wmquick button{font:inherit;font-size:11px;background:transparent;color:var(--wm-fg);border:1px solid var(--wm-line);border-radius:6px;padding:3px 8px;cursor:pointer}
+.wmctl .wmquick button:hover{border-color:var(--wm-acc)}
+.rosa-wm-layer{position:absolute;inset:0;z-index:5;pointer-events:none;background-repeat:repeat}
+body{position:relative}
+@media print{.wmctl{display:none}}
+</style>
+<script>
+/* watermark darkness control: a fixed button (always on top, does not scroll) with a slider from 0 (hidden) to
+   100 (very dark). The watermark tile is regenerated with the chosen opacity, in the right ink for light or dark
+   mode. The choice is remembered in this browser only. */
+(function () {
+  const wm = document.querySelector('.watermark'); if (!wm) return;
+  const KEY = 'rosa-wm-level';
+  let lvl = 8;                                            // default ≈ the original faint watermark
+  try { const v = localStorage.getItem(KEY); if (v !== null && !isNaN(+v)) lvl = +v; } catch (e) {}
+  const dark = () => { const t = document.documentElement.getAttribute('data-theme');
+    return t === 'dark' || (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches); };
+  const tile = op => {
+    const ink = dark() ? '255,255,255' : '40,40,40';
+    const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='320' height='160'><text x='160' y='90' transform='rotate(-28 160 90)' text-anchor='middle' font-family='IBM Plex Mono, monospace' font-size='15' font-weight='700' letter-spacing='2' fill='rgb(${ink})' fill-opacity='${op}'>ROSA BIO · CONFIDENTIAL</text></svg>`;
+    return 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")';
+  };
+  const apply = () => {
+    const op = Math.min(0.85, lvl / 100 * 0.85);          // 0 → hidden, 100 → very dark (0.85)
+    wm.style.backgroundImage = lvl <= 0 ? 'none' : tile(op.toFixed(3));
+    out.textContent = lvl <= 0 ? 'off' : lvl + '%';
+  };
+  const box = document.createElement('div');
+  box.className = 'wmctl';
+  box.innerHTML = '<button type="button" class="wmbtn" aria-expanded="false" title="watermark darkness">Rosa Bio</button>' +
+    '<div class="wmpanel" hidden><label for="wmrange">ROSA BIO · CONFIDENTIAL darkness</label>' +
+    '<input id="wmrange" type="range" min="0" max="100" step="1"><output></output>' +
+    '<div class="wmquick"><button type="button" data-v="0">off</button><button type="button" data-v="8">faint</button><button type="button" data-v="35">medium</button><button type="button" data-v="100">very dark</button></div></div>';
+  document.body.appendChild(box);
+  const btn = box.querySelector('.wmbtn'), panel = box.querySelector('.wmpanel'), rng = box.querySelector('input'), out = box.querySelector('output');
+  rng.value = lvl;
+  const set = v => { lvl = +v; rng.value = lvl; apply(); try { localStorage.setItem(KEY, String(lvl)); } catch (e) {} };
+  btn.addEventListener('click', () => { panel.hidden = !panel.hidden; btn.setAttribute('aria-expanded', String(!panel.hidden)); });
+  rng.addEventListener('input', () => set(rng.value));
+  box.querySelectorAll('.wmquick button').forEach(b => b.addEventListener('click', () => set(b.dataset.v)));
+  if (window.matchMedia) { const mq = window.matchMedia('(prefers-color-scheme: dark)'); (mq.addEventListener ? mq.addEventListener('change', apply) : mq.addListener(apply)); }
+  new MutationObserver(apply).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  apply();
+})();
+</script>
+<style>
+:root{--bg:#f5f4f7;--surface:#fffffe;--surface-2:#ece9f1;--surface-3:#f7f5fa;--ink:#1d1b24;--ink-2:#5d5a6b;--ink-3:#8b879a;--hairline:#e3e1ea;
+ --case:#d43d5c;--ctrl:#2a78d6;--good:#0ca30c;--warn:#b6820a;--grey:#9a97a6;--exact:#c9c6d3;
+ --c-snp:#2a78d6;--c-mm2:#7b4fc9;--c-indel:#d9731a;--c-splice_a:#1f9d8a;--c-splice_n:#d43d5c;--c-blast:#b6820a;--c-blastx:#6d8f1e;--c-nohit:#6b6878;
+ --seq-400:#a06fa0;--seq-600:#6d2f66;--shadow:0 1px 2px rgba(29,27,36,.06),0 8px 24px -12px rgba(29,27,36,.18);
+ --serif:"Iowan Old Style",Charter,"Source Serif Pro",Georgia,serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+@media(prefers-color-scheme:dark){:root:where(:not([data-theme="light"])){--bg:#131218;--surface:#1b1a22;--surface-2:#242230;--surface-3:#1f1e27;--ink:#edebf3;--ink-2:#b3afc2;--ink-3:#807c90;--hairline:#2f2d3a;
+ --case:#f0687f;--ctrl:#5ea0ef;--good:#48c948;--warn:#e0a72c;--grey:#6f6c7d;--exact:#3a3846;
+ --c-snp:#5ea0ef;--c-mm2:#a98af0;--c-indel:#f2a15a;--c-splice_a:#4fc7b3;--c-splice_n:#f0687f;--c-blast:#e0a72c;--c-blastx:#a3c85a;--c-nohit:#9a97a6;
+ --seq-400:#a05fa0;--seq-600:#c988c2;--shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px -14px rgba(0,0,0,.6)}}
+:root[data-theme="dark"]{--bg:#131218;--surface:#1b1a22;--surface-2:#242230;--surface-3:#1f1e27;--ink:#edebf3;--ink-2:#b3afc2;--ink-3:#807c90;--hairline:#2f2d3a;
+ --case:#f0687f;--ctrl:#5ea0ef;--good:#48c948;--warn:#e0a72c;--grey:#6f6c7d;--exact:#3a3846;
+ --c-snp:#5ea0ef;--c-mm2:#a98af0;--c-indel:#f2a15a;--c-splice_a:#4fc7b3;--c-splice_n:#f0687f;--c-blast:#e0a72c;--c-blastx:#a3c85a;--c-nohit:#9a97a6;
+ --seq-400:#a05fa0;--seq-600:#c988c2;--shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px -14px rgba(0,0,0,.6)}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:16px;line-height:1.55;padding-left:226px;position:relative}
+.watermark{position:absolute;inset:0;z-index:5;pointer-events:none;background-repeat:repeat;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='160'%3E%3Ctext x='160' y='90' transform='rotate(-28 160 90)' text-anchor='middle' font-family='IBM Plex Mono, monospace' font-size='15' font-weight='700' letter-spacing='2' fill='rgb(40,40,40)' fill-opacity='0.055'%3EROSA BIO %C2%B7 CONFIDENTIAL%3C/text%3E%3C/svg%3E")}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .watermark{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='160'%3E%3Ctext x='160' y='90' transform='rotate(-28 160 90)' text-anchor='middle' font-family='IBM Plex Mono, monospace' font-size='15' font-weight='700' letter-spacing='2' fill='rgb(255,255,255)' fill-opacity='0.07'%3EROSA BIO %C2%B7 CONFIDENTIAL%3C/text%3E%3C/svg%3E")}}
+:root[data-theme="dark"] .watermark{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='160'%3E%3Ctext x='160' y='90' transform='rotate(-28 160 90)' text-anchor='middle' font-family='IBM Plex Mono, monospace' font-size='15' font-weight='700' letter-spacing='2' fill='rgb(255,255,255)' fill-opacity='0.07'%3EROSA BIO %C2%B7 CONFIDENTIAL%3C/text%3E%3C/svg%3E")}
+.struct-toc{position:fixed;top:24px;left:16px;width:196px;max-height:92vh;overflow-y:auto;z-index:20;font-family:var(--mono);font-size:11px}
+.struct-toc .tt{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;font-weight:700}
+.struct-toc .g{margin-bottom:4px}.struct-toc .top{display:block;font-size:12px;font-weight:700;color:var(--ink);padding:7px 10px;border-radius:8px;text-decoration:none}
+.struct-toc .sub a{display:block;color:var(--ink-3);text-decoration:none;padding:4px 10px 4px 20px;border-radius:7px;line-height:1.3;font-size:10.5px}
+.struct-toc a:hover,.struct-toc a.on{background:var(--surface-2);color:var(--ctrl)}
+@media(max-width:900px){body{padding-left:0}.struct-toc{position:static;width:auto;max-height:none;display:flex;gap:6px;overflow-x:auto;padding:8px 16px;background:var(--surface-3)}
+ .struct-toc .tt{display:none}.struct-toc .g{display:flex;gap:6px;margin:0}.struct-toc .sub{display:flex}.struct-toc .top,.struct-toc .sub a{white-space:nowrap;padding:5px 8px}}
+.wrap{max-width:1060px;margin:0 auto;padding:0 28px}
+@media(max-width:600px){.wrap{padding:0 16px}}
+h1,h2,h3,h4{margin:0;font-weight:600;letter-spacing:-.012em;text-wrap:balance}
+h1{font-size:clamp(26px,4.2vw,40px);line-height:1.1}
+section{padding:30px 0 10px;border-top:1px solid var(--hairline);scroll-margin-top:10px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
+section h2{font-size:clamp(19px,2.6vw,24px);line-height:1.25;max-width:46ch}
+.sub{color:var(--ink-2);max-width:78ch;margin:8px 0 14px;font-size:15px}
+.grey{font-family:var(--mono);font-size:11.5px;color:var(--ink-3)}
+a{color:var(--ctrl)}
+.mono{font-family:var(--mono)}.num{font-variant-numeric:tabular-nums}
+.top{padding-top:56px}
+.ctl{display:flex;gap:12px;flex-wrap:wrap;align-items:center;font-family:var(--mono);font-size:12.5px;margin:14px 0}
+.ctl label{color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;font-size:11px}
+select{max-width:calc(100vw - 32px)}
+select,button.tab{font-family:var(--mono);font-size:12.5px;color:var(--ink);background:var(--surface);border:1px solid var(--hairline);border-radius:6px;padding:5px 10px;cursor:pointer}
+button.tab[aria-pressed=true]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.chip{display:inline-block;font-family:var(--mono);font-size:10.5px;padding:1px 7px;border-radius:20px;border:1px solid currentColor;line-height:15px;white-space:nowrap}
+.card{background:var(--surface);border:1px solid var(--hairline);border-radius:10px;padding:14px 16px;box-shadow:var(--shadow)}
+.strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--hairline);border:1px solid var(--hairline);border-radius:8px;overflow:hidden;margin:10px 0 14px}
+.strip>div{background:var(--surface);padding:10px 12px}
+.strip .k{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.strip .v{font-family:var(--mono);font-size:20px;font-weight:600;margin-top:2px}
+.strip .s{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+table{border-collapse:collapse;width:100%;font-size:13px;font-family:var(--mono);font-variant-numeric:tabular-nums}
+th{text-align:left;font-weight:600;color:var(--ink-3);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;padding:7px 9px;border-bottom:1px solid var(--hairline);white-space:nowrap}
+td{padding:6px 9px;border-bottom:1px solid var(--hairline);vertical-align:top}
+tbody tr.sel{background:var(--surface-2)}tbody tr.pick{cursor:pointer}tbody tr.pick:hover{background:var(--surface-3)}
+.scroll{overflow-x:auto}
+.seq{font-family:var(--mono);font-size:11px;word-break:break-all;color:var(--ink-2)}
+.seq b{color:var(--ink);font-weight:700;background:var(--surface-2);border-radius:2px}
+svg{display:block;max-width:100%;height:auto}
+svg text{font-family:var(--mono)}
+.axl{font-size:10.5px;fill:var(--ink-3)}.axt{font-size:11.5px;fill:var(--ink-2)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:11.5px;color:var(--ink-3);margin:8px 0}
+.sw{display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:-1px;margin-right:5px}
+#tip{position:fixed;z-index:99;pointer-events:none;background:var(--surface);border:1px solid var(--hairline);border-radius:8px;padding:8px 10px;font-family:var(--mono);font-size:12px;box-shadow:var(--shadow);max-width:340px;opacity:0;transition:opacity .08s;color:var(--ink);line-height:1.45}
+#tip.on{opacity:1}
+.cls-head{display:flex;gap:10px;align-items:baseline;margin:16px 0 4px;font-family:var(--mono);font-size:12.5px}
+.cls-head b{font-size:13px}
+.closeup{display:grid;grid-template-columns:minmax(230px,300px) 1fr;gap:20px}
+@media(max-width:820px){.closeup{grid-template-columns:minmax(0,1fr)}}
+.closeup>*{min-width:0}
+.glist{max-height:420px;overflow-y:auto;border:1px solid var(--hairline);border-radius:9px;background:var(--surface)}
+.gi{display:flex;align-items:center;gap:8px;padding:4px 10px;border-bottom:1px solid var(--hairline);font-family:var(--mono);font-size:12px}
+.gi .gn{flex:1;overflow:hidden;text-overflow:ellipsis}.gi .gv{color:var(--ink-3)}
+.gtwrap{display:grid;grid-template-columns:minmax(220px,290px) minmax(0,1fr);gap:18px;margin-top:10px}
+@media(max-width:820px){.gtwrap{grid-template-columns:minmax(0,1fr)}.gtl{max-height:240px}}
+.gtl{max-height:430px;overflow-y:auto;border:1px solid var(--hairline);border-radius:9px;background:var(--surface);position:relative}
+.gtr{display:flex;align-items:center;gap:8px;padding:5px 10px;border-bottom:1px solid var(--hairline);font-family:var(--mono);font-size:12px;cursor:pointer}
+.gtr:hover{background:var(--surface-3)}.gtr.on{background:var(--surface-2);box-shadow:inset 3px 0 0 var(--ctrl)}.gtr:focus-visible{outline:2px solid var(--ctrl);outline-offset:-2px}
+.gtr .gn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.gtr .gv{color:var(--ink-3);font-variant-numeric:tabular-nums;min-width:34px;text-align:right}
+.gtr .gb{flex:0 0 48px;height:7px;background:var(--surface-2);border-radius:2px;overflow:hidden}.gtr .gb i{display:block;height:100%;background:var(--seq-400);border-radius:2px}
+.gtr .gtv{min-width:22px;color:var(--c-snp);font-size:11px}
+.gth{padding:6px 10px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);background:var(--surface-3);border-bottom:1px solid var(--hairline);position:sticky;top:0}
+.msg{padding:14px 16px;border:1px solid var(--hairline);border-radius:10px;background:var(--surface);color:var(--ink-2)}
+.hide{display:none!important}
+.tag-case{color:var(--case)}.tag-ctrl{color:var(--ctrl)}
+.lolli{cursor:pointer}
+.big{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start;margin:6px 0 14px}.big .k{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.bigv{font-family:var(--mono);font-size:54px;font-weight:700;line-height:1.05}.big .s{font-family:var(--mono);font-size:11.5px;color:var(--ink-3)}
+.two{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:20px}
+@media(max-width:900px){.two{grid-template-columns:minmax(0,1fr)}}
+table.vt{table-layout:auto}table.vt td{padding:5px 8px}.seqc{max-width:190px}.seqc .seq{white-space:normal;word-break:break-all}
+.pbar{display:inline-block;width:46px;height:5px;background:var(--surface-2);border-radius:3px;margin-right:4px;vertical-align:middle;overflow:hidden}.pbar i{display:block;height:100%}
+details>summary{cursor:pointer;margin:8px 0}
+@media(max-width:700px){table.vt thead{display:none}table.vt tr{display:block;border-bottom:1px solid var(--hairline);padding:6px 0}table.vt td{display:block;border:0;padding:2px 4px}table.vt td[data-l]::before{content:attr(data-l) ': ';color:var(--ink-3);font-size:10.5px}.seqc{max-width:none}.bigv{font-size:42px}}
+.flds{margin:6px 0 10px;padding-left:18px;font-size:13.5px;line-height:1.6;color:var(--ink-2)}.flds b{color:var(--ink)}
+#track,#map,#counts,#cchart,#scoreChart,#wsplit{overflow-x:auto}
+@media(max-width:600px){#track svg,#map svg,#counts svg,#cchart svg,#scoreChart svg,#wsplit svg{min-width:640px}}
+.seq{white-space:nowrap}
+footer{padding:30px 0 60px}
+.chip{white-space:normal;max-width:100%;overflow-wrap:anywhere}#cchart{overflow-x:auto;max-width:100%}#cchart svg{max-width:none}</style></head>
+<body>
+<div id="tip" role="tooltip"></div>
+<div class="watermark" aria-hidden="true"></div>
+<nav class="struct-toc" aria-label="contents">
+ <div class="tt">contents</div>
+ <div class="g"><a class="top" href="#s0">0 Study</a></div>
+ <div class="g"><a class="top" href="#s1">1 How well</a></div>
+ <div class="g"><a class="top" href="#s2">2 What it uses</a></div>
+ <div class="g"><a class="top" href="#s3">3 Variants</a></div>
+ <div class="g"><a class="top" href="#s4">4 Where and who</a></div>
+ <div class="g"><a class="top" href="#s5">5 Genes</a></div>
+</nav>
+<div class="wrap top">
+ <div class="eyebrow">Study block</div>
+ <h1 id="ttl">PRJNA1055160 · r3 germ19</h1>
+ <div class="grey" id="upd">Last updated 2026-11-25 12:00 PST</div>
+ <div class="ctl"><label for="selList">Sequence list</label><select id="selList"></select></div>
+ <div id="body"><div class="msg">Loading the data for this list.</div></div>
+ <section id="s11"><div class="eyebrow">Definitions</div><h2>Words used on this page</h2>
+  <dl class="grey" style="font-size:12.5px;line-height:1.6;max-width:80ch">
+  <dt><b>Held-out</b></dt><dd>samples kept out of training, used only to score</dd>
+  <dt><b>AUC</b></dt><dd>1.000 every case above every control, 0.500 chance</dd>
+  <dt><b>Combined method</b></dt><dd>one model on the sequences of four single methods</dd>
+  <dt><b>Coefficient</b></dt><dd>what a model multiplies a sequence's value by; weight is its size over the sum</dd>
+  <dt><b>k-mer list</b></dt><dd>every 39 base sequence in the reads; the SPLASH list has only those SPLASH calls</dd>
+  <dt><b>Variant</b></dt><dd>base change, insertion or deletion, or splice junction against the genome</dd>
+  <dt><b>People with it</b></dt><dd>at least one saved read count for the sequence</dd>
+  <dt><b>No id</b></dt><dd>in none of dbSNP, ClinVar, COSMIC v104 at that position and base</dd></dl></section>
+ <footer class="grey" id="foot"></footer>
+</div>
+<style id="rosa-theme-css">.rosa-theme{position:fixed;right:112px;top:12px;z-index:2147483000;font:12px/1.3 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--wm-bg,#fff);color:#38424e;border:1px solid #d5dce4;border-radius:8px;padding:6px 11px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .rosa-theme{background:#18202a;color:#c9d2dc;border-color:#2b3542}}
+:root[data-theme="dark"] .rosa-theme{background:#18202a;color:#c9d2dc;border-color:#2b3542}
+.rosa-theme:hover{border-color:#1f6f8b}@media print{.rosa-theme{display:none}}</style>
+<script>
+/* light / dark switch: sets data-theme on <html>; remembered in this browser only; the watermark redraws itself */
+(function(){
+  var KEY='rosa-theme', root=document.documentElement;
+  try{var v=localStorage.getItem(KEY); if(v==='light'||v==='dark') root.setAttribute('data-theme',v);}catch(e){}
+  var cur=function(){var t=root.getAttribute('data-theme'); if(t) return t; return (window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';};
+  var b=document.createElement('button'); b.type='button'; b.className='rosa-theme';
+  var label=function(){b.textContent=cur()==='dark'?'light mode':'dark mode'; b.title='switch to '+b.textContent;};
+  b.addEventListener('click',function(){var n=cur()==='dark'?'light':'dark'; root.setAttribute('data-theme',n); try{localStorage.setItem(KEY,n);}catch(e){} label();});
+  label(); document.body.appendChild(b);
+})();
+</script>
+
+<script>
+const MANIFEST={"stamp": "2026-11-25 12:00 PST", "study": "PRJNA1055160__r3_germ19", "lists": [{"key": "allkmer", "label": "All k-mer dictionary", "file": "data/PRJNA1055160__r3_germ19__allkmer.js"}]};
+/* study block app (restructured 2026-11-20): draws everything from window.SBD[list] */
+/* 2026-11-23 (Paired bulk): count rows stored as zero runs ('z12,5,3') in files over 14 MB (sbd_ncodec.py); expanded here once */
+function decodeF(s) { const o = []; s.split(',').forEach(t => { if (!t) return; if (t[0] === 'z') { for (let i = +t.slice(1); i > 0; i--) o.push(0); } else o.push(+t); }); return o; }
+function decodeN(D) { if (D.samples && D.samples.cols) { const S = D.samples, g = decodeF(S.g), te = decodeF(S.test), pe = decodeF(S.person); const lb = decodeF(S.lib); D.samples = S.id.map((id, i) => ({ id: S.libs[lb[i]] + '-' + id, g: g[i], test: te[i], person: S.persons[pe[i]] })); }
+  (D.models || []).forEach(m => { if (!m.test_ids && D.test_ids) m.test_ids = D.test_ids; });
+  (D.models || []).forEach(m => { m.rows.forEach(r => { if (typeof r[4] === 'string') r[4] = decodeF(r[4]); }); if (typeof m.hp_c === 'string') m.hp_c = decodeF(m.hp_c); });
+  (D.seqs || []).forEach(q => { if (typeof q.n === 'string') { const o = []; q.n.split(',').forEach(t => { if (!t) return; if (t[0] === 'z') { for (let i = +t.slice(1); i > 0; i--) o.push(0); } else o.push(+t); }); q.n = o; } }); }
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const NS = 'http://www.w3.org/2000/svg';
+function E(tag, a, text) { const e = document.createElementNS(NS, tag); for (const k in a || {}) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; return e; }
+function svgEl(w, h) { return E('svg', { viewBox: `0 0 ${w} ${h}`, width: '100%', role: 'img' }); }
+const tip = $('tip');
+const flds = arr => `<ul class="flds">${arr.filter(Boolean).map(x => `<li><b>${x[0]}:</b> ${x[1]}</li>`).join('')}</ul>`;
+function bindTip(n, html) {
+  n.addEventListener('pointermove', e => { tip.innerHTML = html; tip.classList.add('on'); const w = tip.offsetWidth, x = Math.min(e.clientX + 14, innerWidth - w - 8); tip.style.left = Math.max(6, x) + 'px'; tip.style.top = Math.min(e.clientY + 14, innerHeight - tip.offsetHeight - 6) + 'px'; });
+  n.addEventListener('pointerleave', () => tip.classList.remove('on'));
+}
+const pct = (x, d) => (x * 100).toFixed(d == null ? (x < 0.01 ? 2 : 1) : d) + '%';
+const int = n => Number(n).toLocaleString('en-US');
+const VAR = ['snp', 'mm2', 'indel', 'splice_a', 'splice_n'];
+const CL = {
+  exact: ['exact match to the reference genome', '--exact'], exact_o: ['exact match at another place (not a variant)', '--exact'],
+  snp: ['single-base difference', '--c-snp'], mm2: ['2 or more differences, or only part placed', '--c-mm2'], indel: ['insertion or deletion', '--c-indel'],
+  splice_a: ['annotated splice junction (in a reference transcript)', '--c-splice_a'], splice_n: ['new splice junction (in no reference transcript)', '--c-splice_n'],
+  blast: ['placed only by BLAST', '--c-blast'], blastx: ['placed only by blastx (protein)', '--c-blastx'], nohit: ['no match anywhere', '--c-nohit'],
+  adapter: ['sequencing adapter', '--c-nohit'], anchor: ['anchor only, no target saved', '--c-nohit']
+};
+const GROUPS = [['exact', 'exact reference', ['exact', 'exact_o'], '--exact'], ['var', 'variant (single base, 2 or more, indel)', ['snp', 'mm2', 'indel'], '--c-snp'],
+  ['spl', 'splice junction', ['splice_a', 'splice_n'], '--c-splice_a'], ['bl', 'placed only by BLAST', ['blast'], '--c-blast'], ['no', 'no match (no hit, blastx only, adapter, anchor only)', ['nohit', 'blastx', 'adapter', 'anchor'], '--c-nohit']];
+const col = v => `var(${v})`;
+const ST = { list: null, D: null, mk: 'combined', sel: null, rankBy: 'diff', ticks: null, open: {} };
+const CHR = ['chr1', 'chr2', 'chr3', 'chr4', 'chr5', 'chr6', 'chr7', 'chr8', 'chr9', 'chr10', 'chr11', 'chr12', 'chr13', 'chr14', 'chr15', 'chr16', 'chr17', 'chr18', 'chr19', 'chr20', 'chr21', 'chr22', 'chrX', 'chrY', 'chrM'];
+
+function auc(y, s) { let n = 0, t = 0; for (let i = 0; i < y.length; i++) if (y[i] === 1) for (let j = 0; j < y.length; j++) if (y[j] === 0) { n++; t += s[i] > s[j] ? 1 : s[i] === s[j] ? .5 : 0; } return n ? t / n : NaN; }
+
+/* 2026-11-25 (single cell): a data file over 14 MB keeps the count rows and the test contributions in part files (<name>.p1.js, .p2.js ...), loaded one after the other and put back in place */
+function loadParts(D, dir, done) {
+  const names = D.parts || []; delete D.parts;
+  const next = i => {
+    if (i >= names.length) return done();
+    const s = document.createElement('script'); s.src = dir + names[i];
+    s.onload = () => { const P = window.SBD_PART[names[i]] || {}; for (const k in (P.n || {})) D.seqs[+k].n = P.n[k]; for (const jk in (P.r || {})) { const [j, r] = jk.split(',').map(Number); D.models[j].rows[r][4] = P.r[jk]; } next(i + 1); };
+    s.onerror = () => { $('body').innerHTML = '<div class="msg">A data part of this list could not be loaded.</div>'; };
+    document.head.appendChild(s);
+  };
+  next(0);
+}
+function loadList(key) {
+  ST.list = key;
+  const L = MANIFEST.lists.find(x => x.key === key);
+  const dir = L.file.replace(/[^/]*$/, '');
+  const go = () => { ST.D = window.SBD[key]; loadParts(ST.D, dir, () => { decodeN(ST.D); prep(); renderAll(); }); };
+  if (window.SBD && window.SBD[key]) return go();
+  $('body').innerHTML = '<div class="msg">Loading the data for this list.</div>';
+  const s = document.createElement('script'); s.src = L.file; s.onload = go;
+  s.onerror = () => { $('body').innerHTML = '<div class="msg">The data file for this list could not be loaded.</div>'; };
+  document.head.appendChild(s);
+}
+function prep() {
+  const D = ST.D; if (D.status !== 'ok') return;
+  D.nC = D.study.n_case; D.nK = D.study.n_ctrl;
+  D.seqs.forEach(q => {
+    q.nc = q.nk = q.tc = q.tk = null;
+    if (q.n) { q.nc = q.nk = q.tc = q.tk = 0; q.n.forEach((v, i) => { if (v > 0) { const s = D.samples[i]; if (s.g === 1) { q.nc++; if (!s.test) q.tc++; } else { q.nk++; if (!s.test) q.tk++; } } }); }
+  });
+  D.models.forEach(m => {
+    m.R = m.rows.map(r => ({ i: r[0], q: D.seqs[r[0]], w: r[1], dir: r[2], coef: r[3], c: r[4] }));
+  });
+  D.model = k => D.models.find(m => m.key === k);
+  if (!D.model(ST.mk)) ST.mk = D.models[0].key;
+  ST.sel = null; ST.ticks = null;
+}
+const cur = () => ST.D.model(ST.mk);
+const chgTxt = q => {
+  if (q.c === 'snp') return q.v[0] ? q.v[0].t : 'single base';
+  if (q.c === 'mm2') return q.v.length ? q.v.slice(0, 3).map(c => c.t).join('; ') + (q.v.length > 3 ? ' and ' + (q.v.length - 3) + ' more' : '') : 'only part of the sequence placed';
+  if (q.c === 'indel') return q.v.length ? q.v.map(c => c.t).join('; ') : 'insertion or deletion';
+  if (q.c === 'splice_a' || q.c === 'splice_n') return 'junction ' + q.jn;
+  if (q.c === 'blast') return q.bl ? `BLAST hit ${q.bl.chr}:${int(q.bl.pos)}, ${q.bl.ident}% over ${q.bl.len} bases` : (q.how || 'BLAST hit');
+  if (q.c === 'blastx') return 'protein hit (blastx)';
+  if (q.c === 'nohit') return 'no match';
+  if (q.c === 'adapter') return 'sequencing adapter';
+  if (q.c === 'anchor') return 'anchor only';
+  return 'exact';
+};
+const rcTxt = q => q.rc ? 'rechecked by BLAST: ' + q.rc : '';
+const posTxt = q => { if (!q.ch) return 'no position'; const p = (q.v[0] && (q.c === 'snp' || q.c === 'indel')) ? q.v[0].p : q.p; return `${q.ch}:${int(p)}`; };
+const idTxt = q => {
+  if (!q.v.length) return q.c === 'snp' || q.c === 'mm2' || q.c === 'indel' ? 'no id' : '';
+  const ids = []; q.v.forEach(c => { [c.db, c.co].forEach(x => x && x.split(';').forEach(y => ids.push(y))); if (c.cv) ids.push('ClinVar ' + c.cv + (c.sg ? ' (' + c.sg + ')' : '')); });
+  return ids.length ? [...new Set(ids)].join(', ') : 'no id';
+};
+const geneTxt = q => q.g || (q.ch ? ((ST && ST.D && ST.D.species) ? 'placed, no gene annotation of this genome here' : (CHR.includes(q.ch) ? 'between genes' : 'alternate contig, no gene annotation')) : 'not placed');
+/* 2026-11-25: one wording rule. Single cell (unit cells, nuclei, spots): every count is of that unit; bulk: people (or the block's person_word, fish, dogs, plants) and samples */
+const SCU = () => ['cells', 'nuclei', 'spots'].includes((ST.D.study || {}).unit) ? ST.D.study.unit : null;
+const WHO = () => SCU() || (ST.D.study || {}).person_word || 'people';
+const ONE = () => ({ cells: 'cell', nuclei: 'nucleus', spots: 'spot' })[SCU()] || (((ST.D.study || {}).person_word || 'people') === 'people' ? 'person' : 'sample');
+function ppl(q) {
+  if (q.nc == null) return { txt: 'counts not saved', sh: 'counts not saved', a: null };
+  const D = ST.D, S = D.study, u = SCU();
+  if (u) return { a: q.nc, b: q.nk, txt: `<span class="tag-case">${q.nc} of ${D.nC} ${esc(S.case.short)} ${u}</span> and <span class="tag-ctrl">${q.nk} of ${D.nK} ${esc(S.control.short)} ${u}</span>`,
+    sh: `${q.nc} of ${D.nC} ${esc(S.case.short)} vs ${q.nk} of ${D.nK} ${esc(S.control.short)}`, diff: q.nc / D.nC - q.nk / D.nK };
+  return { a: q.nc, b: q.nk, txt: `<span class="tag-case">${q.nc} of ${D.nC} ${esc(S.case.short)} ${WHO()} (${q.nc} of ${D.nC} samples)</span> and <span class="tag-ctrl">${q.nk} of ${D.nK} ${esc(S.control.short)} ${WHO()} (${q.nk} of ${D.nK} samples)</span>`,
+    sh: `${q.nc} of ${D.nC} ${esc(S.case.short)} vs ${q.nk} of ${D.nK} ${esc(S.control.short)}`, diff: q.nc / D.nC - q.nk / D.nK };
+}
+const higher = d => d > 0 ? ST.D.study.case.short : ST.D.study.control.short;
+/* 2026-11-23 (IDILI bulk, Julia IDILI-4): with it in training and, separately, in test, from the saved per-sample counts q.n */
+function splitTT(q) {
+  const D = ST.D; if (!q.n) return null;
+  const o = { trC: 0, trK: 0, teC: 0, teK: 0, nTrC: 0, nTrK: 0, nTeC: 0, nTeK: 0 };
+  D.samples.forEach((sm, i) => { const h = q.n[i] > 0 ? 1 : 0, k = (sm.test ? 'Te' : 'Tr') + (sm.g === 1 ? 'C' : 'K'); o['n' + k]++; o[k[0].toLowerCase() + k.slice(1)] += h; });
+  return o;
+}
+function ttTxt(q) { const o = splitTT(q), S = ST.D.study; if (!o) return 'counts not saved';
+  return `training <span class="tag-case">${o.trC} of ${o.nTrC}</span> vs <span class="tag-ctrl">${o.trK} of ${o.nTrK}</span>; test <span class="tag-case">${o.teC} of ${o.nTeC}</span> vs <span class="tag-ctrl">${o.teK} of ${o.nTeK}</span>`; }
+function seqHtml(q) { const s = q.q; if (s.length !== 39) return `<span class="seq">${s}</span>`; return `<span class="seq">${s.slice(0, 8)}<b>${s.slice(8)}</b></span>`; }
+function seqShort(s) { return s.length === 39 ? s.slice(0, 8) + ' ' + s.slice(8) : s; }
+
+const LG = {
+  dot: '<svg width="14" height="12" style="display:inline;vertical-align:-2px;margin-right:5px"><circle cx="7" cy="6" r="5" fill="var(--ctrl)"/></svg>',
+  ci: '<svg width="26" height="12" style="display:inline;vertical-align:-2px;margin-right:5px"><line x1="1" x2="25" y1="6" y2="6" stroke="var(--ink-3)" stroke-width="2"/></svg>',
+  half: '<svg width="26" height="12" style="display:inline;vertical-align:-2px;margin-right:5px"><line x1="1" x2="25" y1="6" y2="6" stroke="var(--ink-3)" stroke-dasharray="4 3"/></svg>'
+};
+function drawMapSel() {
+  const g = $('mapsel'); if (!g) return; g.innerHTML = '';
+  const o = MAPPTS[ST.sel]; if (o) g.appendChild(E('circle', { cx: o.x, cy: o.y, r: o.rad + 4, fill: 'none', stroke: 'var(--ink)', 'stroke-width': 2 }));
+}
+
+function litCell(g) { const I = (ST.D.genes || {})[g]; if (!g) return 'no gene'; if (!I || I.lit_n == null) return g.startsWith('ENSG') ? 'no gene symbol to search' : 'not looked up';
+  /* 2026-11-23 (IDILI bulk, Julia IDILI-2): show the search, the count with the condition, the count for the gene alone and up to 3 papers; never a bare "none found" */
+  const a = (u, t) => `<a href="${esc(u)}" target="_blank" rel="noopener">${t}</a>`, qu = I.lit_qurl || I.lit_url;
+  let h = qu ? a(qu, `${I.lit_n} PubMed paper${I.lit_n === 1 ? '' : 's'} with ${esc(I.lit_label || 'the condition')}`) : `${I.lit_n} PubMed papers with ${esc(I.lit_label || 'the condition')}`;
+  if (I.lit_gene_n != null) h += `; ${a(I.lit_gene_url, int(I.lit_gene_n) + ' for the gene alone')}`;
+  if (I.lit_pmids && I.lit_pmids.length) h += `<br><span class="grey">papers: ${I.lit_pmids.map(p => a('https://pubmed.ncbi.nlm.nih.gov/' + p + '/', 'PMID ' + esc(p))).join(', ')}</span>`;
+  if (I.lit_q) h += `<br><span class="grey" style="overflow-wrap:anywhere">search: ${esc(I.lit_q)}</span>`;
+  return h; }
+function geneCell(q) { const I = (ST.D.genes || {})[q.g]; return q.g ? `<b>${esc(q.g)}</b>${q.rr && q.g_gencode ? '<br><span class="grey">GENCODE: ' + esc(q.g_gencode) + '</span>' : ''}${I && I.name ? '<br><span class="grey">' + esc(I.name) + '</span>' : ''}` : esc(geneTxt(q)); }
+function niceStep(span, target) { const raw = span / target, mag = Math.pow(10, Math.floor(Math.log10(raw))); for (const mm of [1, 2, 5, 10]) if (mm * mag >= raw) return mm * mag; return 10 * mag; }
+function fmtBp(p, step) { if (step >= 1e6) return Math.round(p / 1e6) + ' Mb'; if (p >= 1e6) return (p / 1e6).toFixed(Math.min(3, Math.max(0, Math.ceil(-Math.log10(step / 1e6))))) + ' Mb'; if (step >= 1e3) return (p / 1e3).toFixed(Math.min(3, Math.max(0, Math.ceil(-Math.log10(step / 1e3))))) + ' kb'; return Math.round(p).toLocaleString('en-US'); }
+function headsOf(q) { /* exact base of each difference; reference sequences use the middle of the sequence */
+  if (VAR.includes(q.c) && q.v.length && (q.c === 'snp' || q.c === 'mm2' || q.c === 'indel')) return q.v.map(c => ({ p: c.p, t: c.t, id: (c.db || c.co || (c.cv ? 'ClinVar ' + c.cv : '')) || 'no id' }));
+  return [{ p: Math.round((q.p + q.e) / 2), t: '', id: '' }];
+}
+function tipFor(q, r, h) {
+  const p = ppl(q);
+  return `<b>${esc(h.t || chgTxt(q))}</b> ${esc(h.id || '')}<br>${esc(CL[q.c][0])}<br>${p.sh}<br>${r ? pct(r.w) + ' of weight, higher in ' + esc(higher(r.dir)) : ''}<br><span class="mono">${esc(seqShort(q.q))}</span>`;
+}
+function drawLolli(s, items, X, AX, LMAX, lo, hi, maxW, selQ) {
+  items.forEach(it => {
+    const q = it.q, r = it.r;
+    q && headsOf(q).forEach(h => {
+      if (h.p < lo || h.p > hi) return;
+      const x = X(h.p), len = 16 + LMAX * Math.sqrt(r.w / maxW), y2 = AX - len;
+      const isV = VAR.includes(q.c) || q.c === 'blast';
+      const stem = r.dir > 0 ? 'var(--case)' : 'var(--ctrl)';
+      const g = E('g', { class: 'lolli' });
+      g.appendChild(E('line', { x1: x, x2: x, y1: AX - 12, y2, stroke: stem, 'stroke-width': 1.6, opacity: .9 }));
+      g.appendChild(E('circle', { cx: x, cy: y2, r: isV ? 5 : 4, fill: isV ? col((CL[q.c] || CL.nohit)[1]) : 'var(--grey)', stroke: it.sel ? 'var(--ink)' : 'var(--surface)', 'stroke-width': it.sel ? 2.4 : 1.6, 'paint-order': 'stroke fill' }));
+      g.appendChild(E('circle', { cx: x, cy: y2, r: 9, fill: 'transparent' }));
+      if (it.sel || (isV && it.label)) {
+        const lab = (h.t || chgTxt(q)) + (h.id && h.id !== 'no id' ? ' ' + h.id.split(',')[0] : h.t ? ' no id' : '');
+        s.appendChild(E('text', { x: Math.min(Math.max(x, 60), 700), y: y2 - 9, class: 'axl', 'text-anchor': 'middle', style: it.sel ? 'fill:var(--ink);font-weight:700' : '' }, lab));
+      }
+      g.addEventListener('click', () => select(it.i));
+      g.addEventListener('pointerenter', () => s.appendChild(g));
+      bindTip(g, tipFor(q, r, h));
+      s.appendChild(g);
+    });
+  });
+}
+function geneView(T, q, m) {
+  const D = ST.D, W = 760, ML = 16, MR = 16, AX = 168, LMAX = 88, ISO_Y0 = 236, ISO_HDR = 28;
+  const inM = new Map(m.R.map(r => [r.i, r])); const idxs = T.seqs.filter(i => inM.has(i));
+  if (T.seqs.includes(ST.sel) && !idxs.includes(ST.sel)) idxs.push(ST.sel);
+  const items = idxs.map(i => ({ i, q: D.seqs[i], r: inM.get(i) || { w: 0.0001, dir: 1 }, sel: i === ST.sel, label: false }));
+  items.sort((a, b) => b.r.w - a.r.w).slice(0, 6).forEach(o => o.label = true);
+  const gLo = T.gs, gHi = T.ge, gLen = gHi - gLo;
+  const ps = items.flatMap(o => headsOf(o.q).map(h => h.p));
+  const OUT = Math.max(100000, gLen), core = ps.filter(p => p >= gLo - OUT && p <= gHi + OUT);
+  let lo = Math.min(...core), hi = Math.max(...core);
+  if (!core.length) { lo = gLo; hi = gHi; }   /* 2026-11-24 (drug bulk, stool run): no placed head near the gene -> whole gene span, never NaN */
+  const pad = Math.max(2000, Math.round((hi - lo) * .18)); lo = Math.max(gLo, lo - pad); hi = Math.min(gHi, hi + pad);
+  if (hi - lo < 3000) { const mid = (hi + lo) / 2; lo = mid - 1500; hi = mid + 1500; }
+  const zoom = (hi - lo) / gLen;
+  const iso = T.iso.filter(t => t.chg.some(c => inM.has(c.s)));
+  const nIso = iso.length, ISO_LANE = 38;
+  const rY = nIso ? ISO_Y0 + ISO_HDR + nIso * ISO_LANE + 10 : 290, H = rY + 50;
+  const s = svgEl(W, H);
+  const X = p => ML + (W - ML - MR) * (Math.max(lo, Math.min(hi, p)) - lo) / Math.max(1, hi - lo);
+  s.appendChild(E('text', { x: ML, y: 18, class: 'axt', style: 'fill:var(--ink)' }, `${T.sym}  ${T.chr}:${int(gLo)}-${int(gHi)}  (${T.strand} strand)`));
+  s.appendChild(E('text', { x: ML, y: 35, class: 'axl' }, T.span_only ? `${T.main.name} · gene span from the ${esc(ST.D.assembly || '')} gene file (no exon model for this genome)` : `${T.main.exons.length} exons · ${T.main.name} ${T.main.tx} · ${T.main.mane === 'MANE_Select' ? 'MANE Select' : T.main.mane === 'Ensembl_canonical' ? 'Ensembl canonical' : 'longest transcript'}`));
+  s.appendChild(E('text', { x: ML, y: 50, class: 'axl' }, zoom < .98 ? `zoomed: ${((hi - lo) / 1000).toFixed((hi - lo) < 20000 ? 1 : 0)} kb of ${(gLen / 1000).toFixed(gLen < 10000 ? 1 : 0)} kb (${(zoom * 100).toFixed(0)}% of the gene), centred on the sequences` : `showing the full ${(gLen / 1000).toFixed(gLen < 10000 ? 1 : 0)} kb`));
+  s.appendChild(E('line', { x1: X(lo), x2: X(hi), y1: AX, y2: AX, stroke: 'var(--ink-3)', 'stroke-width': 1.6 }));
+  const nch = Math.max(2, Math.floor((X(hi) - X(lo)) / 50));
+  for (let i = 1; i < nch; i++) { const x = X(lo) + (X(hi) - X(lo)) * i / nch, dir = T.strand === '+' ? 1 : -1; s.appendChild(E('path', { d: `M ${x - 3.5 * dir} ${AX - 4.5} L ${x + 3.5 * dir} ${AX} L ${x - 3.5 * dir} ${AX + 4.5}`, fill: 'none', stroke: 'var(--ink-3)', 'stroke-width': 1.3 })); }
+  const cds = T.main.cds;
+  T.main.exons.forEach(([es, ee]) => {
+    if (ee < lo || es > hi) return; const isC = cds && ee >= cds[0] && es <= cds[1], h = isC ? 22 : 13, x0 = X(Math.max(es, lo)), x1 = X(Math.min(ee, hi));
+    const rc = E('rect', { x: x0, y: AX - h / 2, width: Math.max(3, x1 - x0), height: h, rx: 2, fill: 'var(--seq-400)', stroke: 'var(--seq-600)', 'stroke-width': .8 }); s.appendChild(rc);
+    bindTip(rc, `exon ${int(es)} to ${int(ee)}<br>${int(ee - es + 1)} bp · ${isC ? 'coding' : 'UTR or non-coding'}`);
+  });
+  const maxW = Math.max(...items.map(o => o.r.w), 1e-9);
+  drawLolli(s, items, X, AX, LMAX, lo, hi, maxW);
+  if (nIso) {
+    s.appendChild(E('line', { x1: ML, x2: W - MR, y1: ISO_Y0, y2: ISO_Y0, stroke: 'var(--hairline)' }));
+    s.appendChild(E('text', { x: ML, y: ISO_Y0 + 14, class: 'axt' }, `splice isoforms: ${nIso} of ${T.n_tx} transcripts read a sequence of this model differently`));
+    iso.forEach((t, i) => {
+      const yL = ISO_Y0 + ISO_HDR + i * ISO_LANE + 10, yR = yL + 17, nchg = t.chg.filter(c => inM.has(c.s)).length;
+      s.appendChild(E('text', { x: ML, y: yL, class: 'axl', style: 'paint-order:stroke;stroke:var(--bg);stroke-width:3px' }, `${t.name} · ${t.type.replace(/_/g, ' ')}${t.stands > 1 ? ' · stands for ' + t.stands : ''} · ${nchg} read differently`));
+      s.appendChild(E('line', { x1: X(Math.max(t.start, lo)), x2: X(Math.min(t.end, hi)), y1: yR, y2: yR, stroke: 'var(--ink-3)', 'stroke-width': 1.2 }));
+      t.exons.forEach(([es, ee]) => { if (ee < lo || es > hi) return; const isC = (t.cds || []).some(([cs, ce]) => ee >= cs && es <= ce), h = isC ? 13 : 8, x0 = X(Math.max(es, lo)), x1 = X(Math.min(ee, hi)); s.appendChild(E('rect', { x: x0, y: yR - h / 2, width: Math.max(2.5, x1 - x0), height: h, rx: 2, fill: 'var(--seq-400)', stroke: 'var(--seq-600)', 'stroke-width': .8 })); });
+      t.chg.forEach(c => { if (!inM.has(c.s) || c.p < lo || c.p > hi) return; const x = X(c.p), d = E('path', { d: `M ${x} ${yR - 5.5} L ${x + 4.5} ${yR} L ${x} ${yR + 5.5} L ${x - 4.5} ${yR} Z`, fill: 'var(--c-splice_n)', stroke: 'var(--surface)', 'stroke-width': 1 }); s.appendChild(d);
+        bindTip(d, `<b>${esc(t.name)}</b> reads this sequence differently<br>main transcript: <b>${esc(c.a)}</b><br>this isoform: <b>${esc(c.b)}</b>`); });
+    });
+  }
+  const step = niceStep(hi - lo, 6), start = Math.ceil(lo / step) * step;
+  s.appendChild(E('line', { x1: ML, x2: W - MR, y1: rY, y2: rY, stroke: 'var(--hairline)' }));
+  for (let t = start; t <= hi; t += step) { const x = X(t); s.appendChild(E('line', { x1: x, x2: x, y1: rY, y2: rY + 5, stroke: 'var(--ink-3)' })); s.appendChild(E('text', { x, y: rY + 17, class: 'axl', 'text-anchor': 'middle' }, fmtBp(t, step))); }
+  s.appendChild(E('text', { x: (ML + W - MR) / 2, y: rY + 33, class: 'axt', 'text-anchor': 'middle' }, T.chr + ' position (' + (ST.D.species ? ST.D.assembly : 'GRCh38') + ')'));
+  const wrap = document.createElement('div'); wrap.appendChild(s);
+  const nOff = idxs.length - items.filter(o => headsOf(o.q).some(h => h.p >= lo && h.p <= hi)).length;
+  if (nOff > 0) { const p = document.createElement('p'); p.className = 'grey'; p.textContent = `${nOff} more outside the zoom window`; wrap.appendChild(p); }
+  return wrap;
+}
+function regionView(RG, q, m) {
+  const D = ST.D, W = 760, ML = 16, MR = 16, AX = 168, LMAX = 88, lo = RG.lo, hi = RG.hi, H = 250;
+  const s = svgEl(W, H), X = p => ML + (W - ML - MR) * (Math.max(lo, Math.min(hi, p)) - lo) / (hi - lo);
+  const inM = new Map(m.R.map(r => [r.i, r]));
+  s.appendChild(E('text', { x: ML, y: 18, class: 'axt', style: 'fill:var(--ink)' }, `Between genes: ${RG.chr}:${int(lo)}-${int(hi)}`));
+  s.appendChild(E('text', { x: ML, y: 35, class: 'axl' }, RG.genes.length ? `no gene overlaps the sequence; the ${RG.genes.length} nearest genes in this window are drawn` : 'no gene of GENCODE v46 lies in this window'));
+  s.appendChild(E('line', { x1: ML, x2: W - MR, y1: AX, y2: AX, stroke: 'var(--hairline)' }));
+  RG.genes.forEach((g, k) => { const y = AX + 30 + (k % 3) * 18; s.appendChild(E('line', { x1: X(g.s), x2: X(g.e), y1: y, y2: y, stroke: 'var(--ink-3)', 'stroke-width': 1.2 }));
+    g.exons.forEach(([es, ee]) => { if (ee < lo || es > hi) return; s.appendChild(E('rect', { x: X(es), y: y - 4, width: Math.max(2, X(ee) - X(es)), height: 8, fill: 'var(--seq-400)', stroke: 'var(--seq-600)', 'stroke-width': .6 })); });
+    s.appendChild(E('text', { x: Math.max(ML, X(Math.max(g.s, lo))), y: y - 7, class: 'axl' }, g.sym + ' (' + g.strand + ')')); });
+  const items = [{ i: ST.sel, q, r: inM.get(ST.sel) || { w: .0001, dir: 1 }, sel: true }];
+  drawLolli(s, items, X, AX, LMAX, lo, hi, items[0].r.w || 1);
+  const step = niceStep(hi - lo, 6), start = Math.ceil(lo / step) * step, rY = H - 34;
+  s.appendChild(E('line', { x1: ML, x2: W - MR, y1: rY, y2: rY, stroke: 'var(--hairline)' }));
+  for (let t = start; t <= hi; t += step) { const x = X(t); s.appendChild(E('line', { x1: x, x2: x, y1: rY, y2: rY + 5, stroke: 'var(--ink-3)' })); s.appendChild(E('text', { x, y: rY + 17, class: 'axl', 'text-anchor': 'middle' }, fmtBp(t, step))); }
+  const wrap = document.createElement('div'); wrap.appendChild(s); return wrap;
+}
+
+function geneGroups(m) {
+  const g = new Map();
+  m.R.forEach(r => { const k = r.q.g || (r.q.ch ? '(between genes)' : '(not placed)'); let o = g.get(k); if (!o) { o = { k, w: 0, n: 0, c: new Array(m.n_test).fill(0), vars: 0 }; g.set(k, o); } o.w += r.w; o.n++; r.c.forEach((v, i) => o.c[i] += v); if (VAR.includes(r.q.c)) o.vars++; });
+  const out = [...g.values()].sort((a, b) => b.w - a.w);
+  if (m.n_excl_hp) out.push({ k: '(left out: 6 or more of one base in a row)', w: 0, n: m.n_excl_hp, c: m.hp_c.slice(), vars: 0 });
+  return out;
+}
+function legendTrack(box) {
+  const d = document.createElement('div'); d.className = 'legend';
+  d.innerHTML = `<span>height: model weight</span><span>stem: group it is higher in</span><span>head colour: class of the variant, grey = exact reference</span>
+  <span><span class="sw" style="background:var(--case)"></span>higher in ${esc(ST.D.study.case.short)}</span><span><span class="sw" style="background:var(--ctrl)"></span>higher in ${esc(ST.D.study.control.short)}</span>
+  ${['snp', 'mm2', 'indel', 'splice_a', 'splice_n', 'blast'].map(k => `<span><span class="sw" style="background:${col(CL[k][1])};border-radius:50%"></span>${esc(CL[k][0])}</span>`).join('')}
+  <span><span class="sw" style="background:var(--grey);border-radius:50%"></span>exact reference sequence</span>
+  <span><span class="sw" style="background:var(--seq-400);border:1px solid var(--seq-600)"></span>exon (tall = coding)</span><span><span class="sw" style="background:var(--c-splice_n);transform:rotate(45deg)"></span>diamond on an isoform row: that isoform reads a sequence differently</span>`;
+  box.appendChild(d);
+}
+function classStats(m) {
+  const o = {}; Object.keys(CL).forEach(k => o[k] = { n: 0, w: 0, rows: [] });
+  m.R.forEach(r => { const c = o[r.q.c] || (o[r.q.c] = { n: 0, w: 0, rows: [] }); c.n++; c.w += r.w; c.rows.push(r); });
+  return o;
+}
+
+let MAPPTS = {};
+function renderMap() {
+  const D = ST.D, m = cur(), cl = D.chrlen, CHM = CHR.every(c => cl[c] !== undefined) ? CHR : Object.keys(cl), tot = CHM.reduce((a, c) => a + cl[c], 0);
+  const W = 980, H = 340, L = 54, R0 = 800, T = 14, B = 34, pw = R0 - L, ph = H - T - B;
+  const X = (c, p) => { let o = 0; for (const k of CHM) { if (k === c) break; o += cl[k]; } return L + pw * (o + p) / tot; };
+  const Y = d => T + ph * (1 - (d + 1) / 2);
+  const s = svgEl(W, H); MAPPTS = {};
+  let o = 0;
+  CHM.forEach((c, k) => { const x0 = L + pw * o / tot, wd = pw * cl[c] / tot; o += cl[c];
+    if (k % 2 === 0) s.appendChild(E('rect', { x: x0, y: T, width: wd, height: ph, fill: 'var(--surface-3)' }));
+    if (wd > 14 || c === 'chrX') s.appendChild(E('text', { x: x0 + wd / 2, y: H - 18, class: 'axl', 'text-anchor': 'middle' }, c.replace('chr', ''))); });
+  [-1, -.5, 0, .5, 1].forEach(v => { s.appendChild(E('line', { x1: L, x2: W - 6, y1: Y(v), y2: Y(v), stroke: v === 0 ? 'var(--ink-3)' : 'var(--hairline)' })); s.appendChild(E('text', { x: L - 6, y: Y(v) + 4, class: 'axl', 'text-anchor': 'end' }, (v > 0 ? '+' : '') + v)); });
+  s.appendChild(E('text', { x: 12, y: T + ph / 2, class: 'axt', transform: `rotate(-90 12 ${T + ph / 2})`, 'text-anchor': 'middle' }, `share of cases minus share of controls`));
+  s.appendChild(E('text', { x: L + pw / 2, y: H - 3, class: 'axt', 'text-anchor': 'middle' }, (D.species ? 'sequence of the genome (' + D.assembly + ')' : 'chromosome (GRCh38)')));
+  s.appendChild(E('text', { x: R0 + 30, y: T + 8, class: 'axt' }, 'BLAST only'));
+  s.appendChild(E('text', { x: R0 + 112, y: T + 8, class: 'axt' }, 'no match'));
+  s.appendChild(E('line', { x1: R0 + 10, x2: R0 + 10, y1: T, y2: T + ph, stroke: 'var(--hairline)' }));
+  let nm = 0, nNoCnt = 0;
+  const gw = m.R.map(r => r.w), maxw = Math.max(...gw, 1e-9);
+  const dots = [];
+  m.R.forEach((r, k) => {
+    const q = r.q, c = q.c;
+    let isV = VAR.includes(c) && q.ch && cl[q.ch], isB = c === 'blast', isN = c === 'nohit' || c === 'blastx';
+    if (!isV && !isB && !isN) return;
+    const p = ppl(q); if (p.a == null) { nNoCnt++; return; }
+    const d = p.diff; let x;
+    const jit = ((k * 37) % 61) / 61;
+    if (isV) { const pos = (q.v[0] && (c === 'snp' || c === 'indel')) ? q.v[0].p : q.p; x = X(q.ch, pos); }
+    else if (isB) x = R0 + 22 + jit * 70; else x = R0 + 102 + jit * 70;
+    dots.push({ r, x, y: Y(d), rad: 3 + 9 * Math.sqrt(r.w / maxw), d, c }); nm++;
+  });
+  dots.sort((a, b) => b.rad - a.rad).forEach(o => {
+    const q = o.r.q, cc = (CL[o.c] || CL.nohit)[1];
+    const g = E('g', { style: 'cursor:pointer' });
+    g.appendChild(E('circle', { cx: o.x, cy: o.y, r: o.rad, fill: col(cc), 'fill-opacity': .78, stroke: 'var(--surface)', 'stroke-width': 1 }));
+    g.addEventListener('click', () => select(o.r.i));
+    bindTip(g, `<b>${esc(chgTxt(q))}</b><br>${esc(posTxt(q))} · ${esc(idTxt(q) || CL[o.c][0])}<br>${esc(geneTxt(q))} · ${pct(o.r.w)} of weight<br>${ppl(q).sh}<br><span class="mono">${esc(seqShort(q.q))}</span>`);
+    s.appendChild(g); MAPPTS[o.r.i] = o;
+  });
+  const sg = E('g', { id: 'mapsel' }); s.appendChild(sg);
+  $('map').innerHTML = '';
+  ST._mapnote = flds([['Dots', `${nm} called variants with saved counts`], nNoCnt ? ['Left out', `${nNoCnt} with no saved counts`] : null, ['Height', `${esc(D.study.case.short)} share minus ${esc(D.study.control.short)} share, ${D.samples.length} ${WHO()}`], ['Size', 'share of model weight'], ['Click', 'opens the row in 4'], ['blastx only', 'drawn in the no match bin']]);
+  $('map').appendChild(s);
+  const lg = document.createElement('div'); lg.className = 'legend';
+  lg.innerHTML = ['snp', 'mm2', 'indel', 'splice_a', 'splice_n', 'blast', 'nohit'].map(k => `<span><span class="sw" style="background:${col(CL[k][1])}"></span>${esc(CL[k][0])}</span>`).join('') + '';
+  $('map').appendChild(lg);
+  const mn = document.createElement('details'); mn.innerHTML = '<summary class="grey">show map notes</summary>' + ST._mapnote; $('map').appendChild(mn);
+  drawMapSel();
+}
+
+
+/* ================= restructured page: 0 study card, 1 predict, 2 model use, 3 variants, 4 where and who, 5 genes ================= */
+const TAGC = { analyte: { tissue: '#2f8f83', blood: '#c0392b', cells: '#8e5bb5' }, kind: { cancer: '#8e5bb5', vaccine: '#e0a446', drug: '#3b6fb6', disease: '#6b7c88' }, pred: { 'disease vs control': '#2f8f83', 'drug response': '#3b6fb6', 'toxic response': '#c0392b' } };
+const chip = (t, c, extra) => `<span class="chip" style="color:${c || 'var(--ink-2)'};${extra || ''}">${t}</span>`;
+const dotc = c => `<svg width="10" height="10" style="vertical-align:-1px;margin-right:4px"><circle cx="5" cy="5" r="4.5" fill="${c}"/></svg>`;
+const CS = { snp: 'single-base', mm2: '2+ differences', indel: 'indel', splice_a: 'splice, annotated', splice_n: 'splice, new', blast: 'BLAST only', blastx: 'blastx only', nohit: 'no hit', exact: 'exact reference', exact_o: 'exact, other place', adapter: 'adapter', anchor: 'anchor only' };
+const shareOf = (m, f) => m.R.filter(f).reduce((a, r) => a + r.w, 0);
+const HLAFC = /^(HLA|FCGR1A$|FCGR1B$|FCGR2A$|FCGR2B$|FCGR2C$|FCGR3A$|FCGR3B$|FCER1G$)/;
+const NOTGENOME = ['blast', 'blastx', 'nohit', 'adapter', 'anchor'];
+
+function renderAll() {
+  const D = ST.D, body = $('body');
+  if (D.status !== 'ok' && D.status !== 'stage_only') {
+    body.innerHTML = `<section id="s0"><div class="eyebrow">0 · Study</div><h2>${esc(D.label)}: no result for this study</h2><div class="msg" style="margin-top:12px">${D.fields ? flds(D.fields.map(f => [esc(f[0]), esc(f[1])])) : esc(D.reason)}</div></section>`;
+    $('foot').textContent = ''; return;
+  }
+  if (D.status === 'stage_only') {
+    body.innerHTML = `<section id="s1"><div class="eyebrow">1 · How well does it predict?</div><h2>${esc(D.study.id)}: AUC by stage</h2><div id="stageWrap">${stageBlock(D)}</div></section>`;
+    drawStage(D); $('foot').textContent = ''; return;
+  }
+  body.innerHTML = `
+  <section id="s0"><div class="eyebrow">0 · Study</div><div id="card"></div></section>
+  <section id="s1"><div class="eyebrow">1 · How well does it predict?</div><h2 id="h1t"></h2><div id="score"></div></section>
+  <section id="s2"><div class="eyebrow">2 · What does the model use?</div><h2 id="h2t"></h2><div id="use"></div></section>
+  <section id="s3"><div class="eyebrow">3 · Which variants?</div><h2 id="h3t"></h2><div id="map"></div><div id="vtab"></div></section>
+  <section id="s4"><div class="eyebrow">4 · Where is it and who has it?</div><h2 id="h4t"></h2><div class="gtwrap"><div><div class="grey" style="margin-bottom:4px">Genes of this model, by weight</div><div class="gtl" id="gtl" role="listbox" aria-label="genes of this model, by weight"></div></div><div style="min-width:0"><div id="selcard"></div><div id="track"></div></div></div><div id="counts" style="margin-top:14px"></div></section>
+  <section id="s5"><div class="eyebrow">5 · Which genes matter?</div><h2 id="h5t"></h2><div id="close"></div></section>`;
+  renderModel();
+  document.querySelectorAll('.eyebrow').forEach(e => { if (!e.dataset.st) { e.dataset.st = 1; e.textContent += ' · updated ' + MANIFEST.stamp; } });
+}
+function varsOf(m) { return m.R.filter(r => VAR.includes(r.q.c)); }
+function defaultSel(m) {
+  const v = varsOf(m).filter(r => r.q.ch).sort((a, b) => b.w - a.w);
+  const cand = v.find(r => r.q.c === 'snp' || r.q.c === 'indel') || v[0];
+  return cand ? cand.i : (m.R.length ? m.R.slice().sort((a, b) => b.w - a.w)[0].i : null);
+}
+function trackGenes(m) {
+  const D = ST.D, g = new Map(), reg = [];
+  m.R.forEach(r => { const q = r.q;
+    if (q.gid && D.tracks[q.gid]) { let o = g.get(q.gid); if (!o) { o = { id: q.gid, sym: q.g, w: 0, n: 0, v: 0, top: r }; g.set(q.gid, o); } o.w += r.w; o.n++; if (VAR.includes(q.c)) o.v++; if (r.w > o.top.w) o.top = r; }
+    else if (D.regions[r.i]) reg.push(r); });
+  return { genes: [...g.values()].sort((x, y) => y.w - x.w), reg: reg.sort((x, y) => y.w - x.w) };
+}
+function renderModel() {
+  const m = cur(), TG = trackGenes(m);
+  const valid = ST.sel != null && m.R.some(r => r.i === ST.sel) && ST.keepSel;
+  if (!valid) { const top = TG.genes.find(g => !/^ENS/.test(g.sym)) || TG.genes[0]; if (top) { ST.gene = top.id; ST.sel = top.top.i; } else { ST.sel = defaultSel(m); ST.gene = null; } }
+  ST.keepSel = true; ST.ticks = null; ST.filt = ST.filt || new Set(['single', 'indel', 'splice', 'blast', 'nohit']);
+  renderCard(); renderScore(); renderUse(); renderMap(); renderVarTable(); renderGeneSel(); renderSel(); renderClose();
+  if (typeof SBX !== 'undefined') SBX.render();  /* part 6 Extras (extras.js, 2026-11-20) */
+}
+function renderGeneSel() { /* part 4 ranked gene list (2026-11-20, Spiny vs Aspiny gene close-up style): name, weight bar, % of weight, sequences, variant mark */
+  const m = cur(), TG = trackGenes(m), box = $('gtl'); if (!box) return;
+  const mx = Math.max(1e-9, ...TG.genes.map(g => g.w), ...TG.reg.map(r => r.w));
+  const vm = n => n ? `<span class="gtv" title="${n} sequence${n === 1 ? '' : 's'} with a called variant">&#9670;${n}</span>` : '<span class="gtv"></span>';
+  const row = (k, name, w, n, v, t) => `<div class="gtr" role="option" tabindex="0" data-k="${esc(k)}" title="${esc(t)}"><span class="gn">${esc(name)}</span><span class="gb"><i style="width:${Math.max(2, w / mx * 100).toFixed(1)}%"></i></span><span class="gv">${pct(w)}</span><span class="gv">${n}</span>${vm(v)}</div>`;
+  box.innerHTML = TG.genes.map(g => row(g.id, g.sym, g.w, g.n, g.v, `${g.sym}: ${pct(g.w)} of model weight, ${g.n} sequence${g.n === 1 ? '' : 's'}, ${g.v} with a called variant`)).join('')
+    + (TG.reg.length ? '<div class="gth">Between genes</div>' + TG.reg.map(r => row('r:' + r.i, posTxt(r.q), r.w, 1, VAR.includes(r.q.c) ? 1 : 0, `${posTxt(r.q)}: ${chgTxt(r.q)}, ${pct(r.w)} of model weight`)).join('') : '');
+  box.querySelectorAll('.gtr').forEach(el => { const go = () => { const v = el.dataset.k; ST.gene = v; if (v.startsWith('r:')) ST.sel = +v.slice(2); else { const g = TG.genes.find(x => x.id === v); ST.sel = g ? g.top.i : ST.sel; } renderSel(); };
+    el.addEventListener('click', go); el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } }); });
+}
+function markGene() { /* highlight the selected gene row and scroll it into view inside the list only */
+  const box = $('gtl'); if (!box) return; let on = null;
+  box.querySelectorAll('.gtr').forEach(el => { const s = el.dataset.k === ST.gene; el.classList.toggle('on', s); el.setAttribute('aria-selected', s); if (s) on = el; });
+  if (on) { const t = on.offsetTop, b = t + on.offsetHeight; if (t < box.scrollTop || b > box.scrollTop + box.clientHeight) box.scrollTop = Math.max(0, t - box.clientHeight / 3); }
+}
+function renderSel() { markGene(); renderTrack(); renderCounts(); document.querySelectorAll('tr.pick').forEach(t => t.classList.toggle('sel', +t.dataset.i === ST.sel)); drawMapSel(); }
+function select(i) {
+  const D = ST.D, q = D.seqs[i]; ST.sel = i;
+  if (q.gid && D.tracks[q.gid]) ST.gene = q.gid; else if (D.regions[i]) ST.gene = 'r:' + i;
+  renderSel();
+}
+function renderCard() {
+  const D = ST.D, S = D.study, t = S.times || {}, P = S.published || {};
+  const hr = s => { const h = Math.floor(s / 3600), mn = Math.round((s % 3600) / 60); return h ? `${h} h ${mn} min` : `${mn} min`; };
+  const link = (u, tx) => `<a class="chip" style="color:var(--ctrl);text-decoration:none;font-size:12px;vertical-align:middle" href="${u}" target="_blank" rel="noopener">${tx}</a>`;
+  /* fix 2026-11-20 (drug-bulk blocks): studies with several samples per person (time points, pairs) said "1 per person" */
+  const npers = new Set((D.samples || []).map(x => x.person)).size, one = npers === (D.samples || []).length; const UNW = ['cells', 'nuclei', 'spots'].includes((D.study || {}).unit) ? D.study.unit : 'samples'; /* 2026-11-25 (single cell blocks): the unit of the study, thousands with commas */
+  const tot = S.n_case + S.n_ctrl, W = 520, s = svgEl(W, 76), sc = (W - 230) / Math.max(S.n_case, S.n_ctrl);
+  [[S.case.short, S.n_case, 'var(--case)', 12], [S.control.short, S.n_ctrl, 'var(--ctrl)', 44]].forEach(([nm, n, c, y]) => {
+    s.appendChild(E('text', { x: 0, y: y + 14, class: 'axt' }, nm.length > 18 ? nm.slice(0, 17) + '.' : nm));
+    s.appendChild(E('rect', { x: 130, y, width: n * sc, height: 20, rx: 3, fill: c }));
+    s.appendChild(E('text', { x: 136 + n * sc, y: y + 15, class: 'axt', style: 'fill:var(--ink)' }, n.toLocaleString('en-US') + (one && !SCU() ? ' ' + WHO() : ' ' + UNW)));
+  });
+  s.style.maxWidth = '520px';
+  const cost = t.p2g_sec && t.ml_sec ? (t.p2g_sec + t.ml_sec) / 3600 * 1.8144 : null;
+  const li = (k, v) => `<li><b>${k}:</b> ${v}</li>`;
+  const TG = S.tags || {}, pillv = ['analyte', 'trial', 'kind', 'pred'].map(k => TG[k]).filter(v => v && v !== 'not recorded');
+  const pills = pillv.map(v => `<span class="chip" style="color:var(--ink-3);font-weight:400;font-size:11px;margin-right:5px">${esc(v)}</span>`).join('');
+  $('card').innerHTML = `<h2>${esc(S.title)} ${(/^PRJ/.test(S.id) ? link('https://www.ncbi.nlm.nih.gov/bioproject/' + esc(S.id), esc(S.id) + ' on BioProject') : /^ERP/.test(S.id) ? link('https://www.ebi.ac.uk/ena/browser/view/' + esc(S.id), esc(S.id) + ' on ENA') : link('https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=' + esc(S.id), esc(S.id) + ' on GEO'))} ${P.pmid ? link('https://pubmed.ncbi.nlm.nih.gov/' + esc(P.pmid) + '/', esc(P.paper) + ', PubMed ' + esc(P.pmid)) : '<span class="chip" style="color:var(--ink-3);font-size:12px;vertical-align:middle">no paper linked in GEO</span>'}</h2><div id="hbars"></div><div class="grey" style="margin:2px 0 10px">${one && !SCU() ? tot.toLocaleString('en-US') + ' ' + UNW + ', 1 per ' + ONE() : tot.toLocaleString('en-US') + ' ' + UNW + ' from ' + npers + ' ' + ((ST.D.study || {}).person_word || 'people')}</div>
+   <ul style="margin:0;padding-left:18px;line-height:1.7">${pills ? li('Study type', pills) : ''}${li('Sample', esc(S.sample_type))}${S.sampled ? li('Sampled', esc(S.sampled)) : ''}${li('Reads used', S.reads == null ? esc(S.reads_note || 'not recorded') : 'first ' + (S.reads / 1e6) + ' million per sample')}${t.p2g_sec && t.ml_sec ? li('Run time', 'P2G run: ' + hr(t.p2g_sec) + (t.p2g_from_log ? ' (from the launcher start line of the run log to the completion record)' : ' (whole run, start to finish)') + '; model fitting: ' + hr(t.ml_sec)) : ''}${cost ? li('Cost', 'about ' + cost.toFixed(2) + ' USD, estimate at the on-demand price of ' + esc(t.p2g_instance || 'the machine') + ' (the run record has no price)') : (t.p2g_sec ? li('Cost', 'not recorded: the run record names no machine type, so no price applies') : '')}</ul>`;
+  $('hbars').appendChild(s);
+}
+function stageBlock(D) {
+  const S = D.stage; if (!S) return '';
+  const rows = S.rows.concat([S.all]);
+  const cell = r => r.auc == null ? 'no test case' : `${r.auc.toFixed(3)} (${r.ci[0].toFixed(2)} to ${r.ci[1].toFixed(2)})`;
+  return `<div id="stageBlock" style="margin-top:14px"><div class="cls-head"><b>AUC by stage</b>${chip(esc(S.method), 'var(--ink-2)')}</div><div id="stageChart"></div>
+   <div class="legend"><span>${LG.dot}held-out AUC</span><span>${LG.ci}95% CI</span><span>${LG.half}0.5</span></div>
+   <details><summary class="grey">show table (${rows.length} rows)</summary><div class="scroll"><table><thead><tr><th>Stage</th><th>Cases train</th><th>Cases test</th><th>Controls train</th><th>Controls test</th><th>AUC (95% CI)</th><th>Test samples</th></tr></thead><tbody>${rows.map(r => `<tr><td><b>${esc(r.stage)}</b></td><td class="num">${r.train}</td><td class="num">${r.test}</td><td class="num">${r.ctrl_train}</td><td class="num">${r.ctrl_test}</td><td>${cell(r)}</td><td class="num">${r.n || ''}</td></tr>`).join('')}</tbody></table></div></details></div>`;
+}
+function drawStage(D) {
+  const S = D.stage, box = $('stageChart'); if (!S || !box) return;
+  const rows = S.rows.concat([S.all]), W = 760, H = 24 * rows.length + 40, L = 250, R = 84, s = svgEl(W, H), X = v => L + (W - L - R) * v;
+  [0, .25, .5, .75, 1].forEach(v => { s.appendChild(E('line', { x1: X(v), x2: X(v), y1: 8, y2: H - 24, stroke: 'var(--hairline)' })); s.appendChild(E('text', { x: X(v), y: H - 8, class: 'axl', 'text-anchor': 'middle' }, v)); });
+  s.appendChild(E('line', { x1: X(.5), x2: X(.5), y1: 8, y2: H - 24, stroke: 'var(--ink-3)', 'stroke-dasharray': '4 3' }));
+  rows.forEach((r, k) => { const y = 20 + k * 24;
+    s.appendChild(E('text', { x: 8, y: y + 4, class: 'axt' }, r.stage));
+    s.appendChild(E('text', { x: 100, y: y + 4, class: 'axl' }, `cases ${r.train} train · ${r.test} test`));
+    if (r.auc == null) { s.appendChild(E('text', { x: X(.05), y: y + 4, class: 'axl' }, 'no test case')); return; }
+    s.appendChild(E('line', { x1: X(r.ci[0]), x2: X(r.ci[1]), y1: y, y2: y, stroke: 'var(--ink-3)', 'stroke-width': 2 }));
+    const c = E('circle', { cx: X(r.auc), cy: y, r: 5, fill: k === rows.length - 1 ? 'var(--ink-2)' : 'var(--ctrl)' });
+    bindTip(c, `<b>${esc(r.stage)}</b><br>AUC ${r.auc.toFixed(3)}<br>${r.test} cases and ${r.ctrl_test} controls tested`); s.appendChild(c);
+    s.appendChild(E('text', { x: W - 4, y: y + 4, class: 'axt', 'text-anchor': 'end' }, r.auc.toFixed(3))); });
+  box.appendChild(s);
+}
+function paperLine(D, m) {
+  const P = D.study.published || {}, S = D.study;
+  const ours = new Set(m.R.map(r => r.q.g).filter(Boolean)), dirs = P.gene_dirs || {};
+  const chips = Object.keys(dirs).map(g => `<span style="display:inline-block;margin:2px 6px 2px 0">${chip(esc(g) + ' ' + (dirs[g] === 'up' ? '↑' : '↓') + ' ' + esc(S.case.short), dirs[g] === 'up' ? 'var(--case)' : 'var(--ctrl)')} ${chip(ours.has(g) ? 'in this model' : 'not in this model', ours.has(g) ? 'var(--good)' : 'var(--ink-3)', 'font-size:9.5px')}</span>`).join('');
+  return `<div style="margin-top:10px"><b>Paper AUC:</b> ${P.auc != null ? P.auc.toFixed(3) + (P.design ? ' (' + esc(P.design) + ')' : '') : 'none reported'} ${chips ? ' &nbsp; <b>Paper genes:</b> ' + chips : ''}</div>`;
+}
+function renderScore() {
+  const D = ST.D, m = cur(), small = m.n_test < 20;
+  $('h1t').textContent = `${m.label}: AUC ${m.auc.toFixed(3)}` + (m.auc > 0.9995 ? ` (95% interval ${m.ci[0].toFixed(2)} to ${m.ci[1].toFixed(2)})` : ''); /* fix 2026-11-20: AUC 1.000 shown with its interval (D5) */
+  $('score').innerHTML = `
+   <div class="big"><div><div class="k">Held-out AUC · ${esc(m.label)}</div><div class="bigv">${m.auc.toFixed(3)}</div><div class="s">95% interval ${m.ci[0].toFixed(2)} to ${m.ci[1].toFixed(2)} (Newcombe, this AUC)</div></div>
+    <div><div class="k">Test size</div><div class="v" style="font-size:15px;line-height:1.5">${m.n_pos} · ${esc(D.study.case.short)}<br>${m.n_neg} · ${esc(D.study.control.short)}</div>${small ? '<div style="margin-top:4px">' + chip('small test set', 'var(--warn)') + '</div>' : ''}</div></div>
+   <div id="scoreChart"></div>
+   <div class="legend"><span>${LG.dot}held-out AUC</span><span>${LG.ci}95% CI</span><span>${LG.half}0.5</span><span class="grey">↖ click a row to switch model</span></div>
+   ${D.stage ? `<div id="stageWrap">${stageBlock(D)}</div>` : ''}${paperLine(D, m)}`;
+  const W = 760, H = 24 * D.models.length + 40, L = 250, R = 84, s = svgEl(W, H);
+  const X = a => L + (W - L - R) * a;
+  [0, .25, .5, .75, 1].forEach(v => { s.appendChild(E('line', { x1: X(v), x2: X(v), y1: 8, y2: H - 24, stroke: 'var(--hairline)' })); s.appendChild(E('text', { x: X(v), y: H - 8, class: 'axl', 'text-anchor': 'middle' }, v)); });
+  s.appendChild(E('line', { x1: X(.5), x2: X(.5), y1: 8, y2: H - 24, stroke: 'var(--ink-3)', 'stroke-dasharray': '4 3' }));
+  D.models.forEach((mm, k) => {
+    const y = 20 + k * 24, g = E('g', { style: 'cursor:pointer' });
+    if (mm.key === m.key) g.appendChild(E('rect', { x: 0, y: y - 12, width: W, height: 24, fill: 'var(--surface-2)' }));
+    g.appendChild(E('text', { x: 8, y: y + 4, class: 'axt' }, mm.label.length > 36 ? mm.label.slice(0, 35) + '.' : mm.label));
+    if (mm.key === 'combined') { g.appendChild(E('rect', { x: 122, y: y - 8, width: 112, height: 15, rx: 7, fill: 'none', stroke: 'var(--ink-3)' })); g.appendChild(E('text', { x: 178, y: y + 3, class: 'axl', 'text-anchor': 'middle', style: 'font-size:9.5px' }, 'joins the 4 below')); }
+    g.appendChild(E('line', { x1: X(mm.ci[0]), x2: X(mm.ci[1]), y1: y, y2: y, stroke: 'var(--ink-3)', 'stroke-width': 2 }));
+    g.appendChild(E('circle', { cx: X(mm.auc), cy: y, r: 5, fill: 'var(--ctrl)' }));
+    g.appendChild(E('text', { x: W - 4, y: y + 4, class: 'axt', 'text-anchor': 'end' }, mm.auc.toFixed(3)));
+    g.addEventListener('click', () => { ST.mk = mm.key; ST.filt = null; renderModel(); });
+    bindTip(g, `<b>${esc(mm.label)}</b><br>AUC ${mm.auc.toFixed(4)}, interval ${mm.ci[0]} to ${mm.ci[1]}<br>${mm.n_seq} sequences`);
+    s.appendChild(g);
+  });
+  $('scoreChart').appendChild(s); drawStage(D);
+}
+
+/* 2 what does the model use */
+function renderUse() {
+  const m = cur(), D = ST.D, cs = classStats(m), n = k => (cs[k] ? cs[k].n : 0), w = k => (cs[k] ? cs[k].w : 0);
+  const gw = GROUPS.map(g => ({ g, w: g[2].reduce((x, k) => x + w(k), 0), n: g[2].reduce((x, k) => x + n(k), 0) }));
+  $('h2t').textContent = `${pct(gw[0].w, 1)} of weight is exact reference`;
+  const shares = [
+    ['HLA + Fc-gamma', shareOf(m, r => HLAFC.test(r.q.g || '')), 'weight of sequences in HLA loci and the Fc-gamma receptor genes FCGR1A, FCGR1B, FCGR2A, FCGR2B, FCGR2C, FCGR3A, FCGR3B, FCER1G (Ledger section 10 gene set)'],
+    ['ClinVar', shareOf(m, r => r.q.v.some(c => c.cv)), 'sequences whose differing base has a ClinVar id; pathogenic or likely pathogenic: ' + pct(shareOf(m, r => r.q.v.some(c => /pathogenic/i.test(c.sg || '') && !/benign/i.test(c.sg || ''))), 2)],
+    ['New variants', shareOf(m, r => ['snp', 'mm2', 'indel'].includes(r.q.c) && idTxt(r.q) === 'no id'), 'sequences whose differing base has no known id (none in dbSNP, ClinVar, COSMIC)'],
+    ['Not on the genome', shareOf(m, r => NOTGENOME.includes(r.q.c)), 'BLAST-placed, other organism, adapter, blastx, no hit, waiting and anchor-only sequences']].filter(x => !D.species || !['HLA + Fc-gamma', 'ClinVar'].includes(x[0]));   /* 2026-11-25: HLA, Fc-gamma and ClinVar are human only */
+  const trN = D.samples.filter(s => !s.test && s.g === 1).length, trK = D.samples.filter(s => !s.test && s.g === 0).length;
+  ST.kind = ST.kind || 'any';
+  const KINDS = D.species ? { any: ['any kind', () => true] } : { any: ['any kind', () => true], clinvar: ['ClinVar', r => r.q.v.some(c => c.cv)], hla: ['HLA + Fc-gamma', r => HLAFC.test(r.q.g || '')] };
+  Object.assign(KINDS, { new: ['new variants', r => ['snp', 'mm2', 'indel'].includes(r.q.c) && idTxt(r.q) === 'no id'], off: ['not on the genome', r => NOTGENOME.includes(r.q.c)] });
+  if (!KINDS[ST.kind]) ST.kind = 'any';
+  const top3 = m.R.filter(KINDS[ST.kind][1]).sort((x, y) => y.w - x.w).slice(0, 3);
+  const trBar = q => q.tc == null ? '' : `<span class="pbar"><i style="width:${(q.tc / trN * 100).toFixed(0)}%;background:var(--case)"></i></span><span class="pbar"><i style="width:${(q.tk / trK * 100).toFixed(0)}%;background:var(--ctrl)"></i></span>`;
+  const vr = m.R.filter(r => VAR.includes(r.q.c)).sort((x, y) => y.w - x.w).slice(0, 3);
+  const exW = k => ['exact', 'exact_o'].includes(k);
+  $('use').innerHTML = `<div class="grey" style="margin-bottom:6px">Model: ${esc(m.label)} · held-out AUC ${m.auc.toFixed(3)}${m.auc > 0.9995 ? ` (95% interval ${m.ci[0].toFixed(2)} to ${m.ci[1].toFixed(2)})` : ''}</div>
+   <div id="wsplit"></div><div class="legend" id="wlegend"></div><div id="shares" style="margin-top:8px"></div>
+   <div class="ctl" style="margin:12px 0 4px"><b style="font-size:12px">Top 3 sequences by weight</b>${Object.keys(KINDS).map(k => `<button class="tab" data-kind="${k}" aria-pressed="${ST.kind === k}">${KINDS[k][0]}</button>`).join('')}</div>
+   <table class="vt"><thead><tr><th>Sequence</th><th>Class</th><th>Gene</th><th>Weight</th><th>${SCU() ? 'Cells' : WHO()[0].toUpperCase() + WHO().slice(1)}, training (test below)</th></tr></thead><tbody>${top3.length ? top3.map(r => { const q = r.q; return `<tr class="pick" data-i="${r.i}"><td data-l="Sequence" class="seqc">${seqHtml(q)}</td><td data-l="Class"><span class="chip" style="color:${col((CL[q.c] || CL.nohit)[1])}">${esc(CS[q.c] || q.c)}</span></td><td data-l="Gene">${esc(geneTxt(q).slice(0, 22))}</td><td data-l="Weight" class="num">${pct(r.w)}</td><td data-l="People, training">${q.tc == null ? 'not saved' : `<span class="tag-case">${q.tc}/${trN}</span> vs <span class="tag-ctrl">${q.tk}/${trK}</span><br>${trBar(q)}${(o => o ? `<br><span class="grey" style="font-size:11px">test <span class="tag-case">${o.teC}/${o.nTeC}</span> vs <span class="tag-ctrl">${o.teK}/${o.nTeK}</span></span>` : '')(splitTT(q))}`}</td></tr>`; }).join('') : '<tr><td colspan="5" class="grey">none of this kind in this model</td></tr>'}</tbody></table>
+   <details style="margin-top:8px"><summary class="grey">show class table and notes (${Object.keys(cs).filter(k => cs[k].n).length} classes)</summary>
+    <div class="scroll"><table><thead><tr><th>Class</th><th>Sequences</th><th>Share of weight</th><th>Ids</th></tr></thead><tbody>${Object.keys(CL).filter(k => n(k)).map(k => { const rows = cs[k].rows; const ids = ['snp', 'mm2', 'indel'].includes(k) ? `${rows.filter(r => idTxt(r.q) !== 'no id').length} with a known id, ${rows.filter(r => idTxt(r.q) === 'no id').length} no id` : ''; return `<tr><td>${esc(CL[k][0])}</td><td class="num">${n(k)}</td><td class="num">${pct(w(k))}</td><td>${ids}</td></tr>`; }).join('')}<tr><td>other organism</td><td class="num">0</td><td class="num">0%</td><td>not searched: needs the full NCBI nucleotide database, never run here</td></tr></tbody></table></div>
+    ${flds([['Non-gene findings in ' + esc(D.study.id), `${n('snp') + n('mm2')} base changes, ${n('indel')} insertions or deletions, ${n('splice_n')} new splice junctions, ${n('blast')} placed only by BLAST`], ['Counted over', `all ${m.R.length} kept sequences of ${esc(m.label)}`], ['Left out', `${m.n_excl_hp} with 6 or more of one base in a row`], ['Weight', 'coefficient (times f for hash) over the sum' + (m.key === 'combined' ? '; each combined sequence takes it from the method that chose it' : '')]])}
+    <div class="eyebrow" style="margin-top:8px">Examples, largest variants by weight</div>${vr.length ? vr.map(r => `<div style="margin:6px 0"><b>${esc(chgTxt(r.q))}</b> <span class="chip">${esc(posTxt(r.q))}</span> <span class="chip">${esc(idTxt(r.q) || CL[r.q.c][0])}</span> <span class="chip">${esc(geneTxt(r.q))}</span> <span class="chip">${pct(r.w)} of weight</span><br>${ppl(r.q).txt}<br>${seqHtml(r.q)}</div>`).join('') : '<div class="grey">no variant sequences in this model</div>'}</details>`;
+  const s = svgEl(900, 52); let x = 10; const W = 880;
+  gw.forEach(o => { const wd = W * o.w; if (wd <= 0) return;
+    const r = E('rect', { x, y: 6, width: Math.max(1.5, wd), height: 34, fill: col(o.g[3]) }); s.appendChild(r);
+    if (wd > 52) s.appendChild(E('text', { x: x + wd / 2, y: 28, 'text-anchor': 'middle', style: 'font-size:11px;fill:var(--ink)' }, pct(o.w, 1)));
+    bindTip(r, `<b>${esc(o.g[1])}</b><br>${o.n} sequences, ${pct(o.w)} of the model weight`); x += wd; });
+  $('wsplit').appendChild(s);
+  $('wlegend').innerHTML = gw.map(o => `<span><span class="sw" style="background:${col(o.g[3])}"></span>${esc(o.g[1])} ${pct(o.w, 1)}</span>`).join('');
+  const t = svgEl(900, shares.length * 20 + 4);
+  shares.forEach((r, k) => { const y = 2 + k * 20, g = E('g', {});
+    g.appendChild(E('text', { x: 0, y: y + 11, class: 'axt' }, r[0]));
+    g.appendChild(E('rect', { x: 200, y: y + 4, width: 600, height: 5, rx: 2.5, fill: 'var(--surface-2)' }));
+    g.appendChild(E('rect', { x: 200, y: y + 4, width: Math.max(1.5, 600 * r[1]), height: 5, rx: 2.5, fill: 'var(--c-snp)' }));
+    g.appendChild(E('text', { x: 812, y: y + 11, class: 'axt' }, pct(r[1], 1)));
+    g.appendChild(E('rect', { x: 0, y, width: 900, height: 18, fill: 'transparent' }));
+    bindTip(g, `<b>${esc(r[0])}</b>: ${pct(r[1])}<br>shares are of the model weight; ${esc(r[2])}`); t.appendChild(g); });
+  $('shares').appendChild(t);
+  $('use').querySelectorAll('[data-kind]').forEach(b => b.addEventListener('click', () => { ST.kind = b.dataset.kind; renderUse(); }));
+  $('use').querySelectorAll('tr.pick').forEach(t => t.addEventListener('click', () => select(+t.dataset.i)));
+}
+const FILT = { single: ['single-base', ['snp', 'mm2']], indel: ['indel', ['indel']], splice: ['splice', ['splice_a', 'splice_n']], blast: ['BLAST only', ['blast']], nohit: ['no hit', ['nohit', 'blastx']] };
+function vtRows(m) {
+  const D = ST.D, ok = new Set([].concat(...[...ST.filt].map(k => FILT[k][1])));
+  return m.R.filter(r => ok.has(r.q.c)).map(r => ({ r, d: r.q.nc == null ? null : r.q.nc / D.nC - r.q.nk / D.nK }))
+    .sort(ST.rankBy === 'diff' ? (a, b) => (b.d == null ? -1 : Math.abs(b.d)) - (a.d == null ? -1 : Math.abs(a.d)) || b.r.w - a.r.w : (a, b) => b.r.w - a.r.w);
+}
+function hoverCard(r) {
+  const q = r.q, D = ST.D, I = (D.genes || {})[q.g] || {}, nh = (D.nohit || {})[q.q];
+  const bw = nh && ['genome', 'tx', 'hla'].map(k => nh[k]).filter(Boolean).sort((a, b) => b.bits - a.bits)[0], bx = nh && nh.blastx;
+  return `<b>${esc(chgTxt(q))}</b><br>${esc(CL[q.c][0])}<br>position ${esc(posTxt(q))}<br>id: ${esc(idTxt(q) || 'none')}<br>gene: ${esc(geneTxt(q))}${I.name ? ', ' + esc(I.name) : ''}<br>literature: ${I.lit_n == null ? 'not looked up' : I.lit_n + ' PubMed paper' + (I.lit_n === 1 ? '' : 's') + ' with ' + esc(I.lit_label || 'the condition') + (I.lit_gene_n != null ? ', ' + int(I.lit_gene_n) + ' for the gene alone' : '')}` +
+    (q.bl ? `<br>BLAST: ${esc(q.bl.chr)}:${int(q.bl.pos)}, ${q.bl.ident}% over ${q.bl.len} bases` : '') + (bw ? `<br>weak BLAST: ${bw.pident}% over ${bw.len} bases, e-value ${bw.ev}` : '') + (bx ? `<br>blastx: ${esc(bx.title.replace(/^\S+\s/, '').slice(0, 50))}, e-value ${bx.ev}` : '') + `<br>${ppl(q).sh}`;
+}
+function fullTable(m) {
+  const D = ST.D, all = m.R.filter(r => Object.values(FILT).some(f => f[1].includes(r.q.c))).map(r => ({ r, d: r.q.nc == null ? null : r.q.nc / D.nC - r.q.nk / D.nK })).sort((x, y) => y.r.w - x.r.w);
+  return `<details style="margin-top:8px"><summary class="grey">show full table (${all.length} rows)</summary><div class="scroll"><table><thead><tr><th>Change</th><th>Class</th><th>Position</th><th>Id</th><th>Gene</th><th>What the gene is</th><th>Literature</th><th>People with it</th><th>Case % minus control %</th><th>Higher in</th><th>Weight</th><th>Sequence</th><th>Weak BLAST hit</th><th>blastx</th></tr></thead><tbody>${all.map(o => { const q = o.r.q, I = D.genes[q.g] || {}, nh = D.nohit[q.q] || {}; const bw = ['genome', 'tx', 'hla'].map(k => nh[k]).filter(Boolean).sort((x, y) => y.bits - x.bits)[0], bx = nh.blastx;
+     return `<tr><td>${esc(chgTxt(q))}</td><td>${esc(CL[q.c][0])}</td><td>${esc(posTxt(q))}</td><td>${esc(idTxt(q) || 'none')}</td><td>${esc(geneTxt(q))}</td><td>${esc(I.name || '')}</td><td>${litCell(q.g)}</td><td>${ppl(q).txt}<br><span class="grey">${ttTxt(q)}</span></td><td class="num">${o.d == null ? '' : (o.d * 100).toFixed(0) + ' points'}</td><td>${o.d == null ? '' : esc(higher(o.d))}</td><td class="num">${pct(o.r.w)}</td><td>${seqHtml(q)}</td><td>${q.bl ? esc(q.bl.chr) + ':' + int(q.bl.pos) + ', ' + q.bl.ident + '% over ' + q.bl.len + ' bases' : bw ? bw.pident + '% over ' + bw.len + ' bases, e-value ' + bw.ev : ''}</td><td>${bx ? esc(bx.title.replace(/^\S+\s/, '').slice(0, 60)) + ', e-value ' + bx.ev : ''}</td></tr>`; }).join('')}</tbody></table></div>
+   ${flds([['Variant', 'base change, insertion or deletion, or splice junction'], ['No id', 'none of dbSNP, ClinVar, COSMIC v104'], ['New-variant test', 'not run in this test'], ['Other organism', '0, not searched: needs the full NCBI nucleotide database'], ['Sent to NCBI', 'nothing'], ['Searches', 'run BLAST, weak BLAST of GRCh38, GENCODE v46, HLA, then blastx Swiss-Prot'], ['A hit', '97% over 30 bases at e-value 0.001 or lower, or protein e-value 0.001 or lower']])}</details>`;
+}
+function renderVarTable() {
+  const D = ST.D, m = cur(), rows = vtRows(m), n = ST.open.vt ? rows.length : Math.min(5, rows.length);
+  const bar = q => q.nc == null ? '' : `<span class="pbar"><i style="width:${(q.nc / D.nC * 100).toFixed(0)}%;background:var(--case)"></i></span><span class="pbar"><i style="width:${(q.nk / D.nK * 100).toFixed(0)}%;background:var(--ctrl)"></i></span>`;
+  const cnt = k => m.R.filter(r => FILT[k][1].includes(r.q.c)).length;
+  $('vtab').innerHTML = `<div class="ctl" style="margin-bottom:6px">${Object.keys(FILT).map(k => `<button class="tab" data-f="${k}" aria-pressed="${ST.filt.has(k)}">${FILT[k][0]} ${cnt(k)}</button>`).join('')}<button class="tab" disabled title="needs a search of the full NCBI nucleotide database, never run here">other organism 0</button>
+     <span class="grey">rank by</span><button class="tab" data-rb="diff" aria-pressed="${ST.rankBy === 'diff'}">difference</button><button class="tab" data-rb="w" aria-pressed="${ST.rankBy === 'w'}">weight</button></div>
+   <table class="vt"><thead><tr><th>Change</th><th>Gene</th><th>People</th><th>Weight</th><th>Sequence</th></tr></thead><tbody>${rows.slice(0, n).map(o => { const q = o.r.q, p = ppl(q); return `<tr class="pick" data-i="${o.r.i}"><td data-l="Change"><b>${esc(chgTxt(q).slice(0, 34))}</b><br><span class="chip" style="color:${col(CL[q.c][1])}">${esc(q.c === 'snp' ? 'single-base' : q.c === 'mm2' ? '2+ differences' : q.c === 'indel' ? 'indel' : q.c === 'splice_a' ? 'splice, annotated' : q.c === 'splice_n' ? 'splice, new' : q.c === 'blast' ? 'BLAST only' : 'no hit')}</span></td><td data-l="Gene">${esc(geneTxt(q).slice(0, 22))}</td><td data-l="People">${p.a == null ? 'not saved' : `<span class="tag-case">${p.a}/${D.nC}</span> vs <span class="tag-ctrl">${p.b}/${D.nK}</span><br>${bar(q)}<br><span class="grey" style="font-size:11px">${ttTxt(q)}</span>`}</td><td data-l="Weight" class="num">${pct(o.r.w)}</td><td data-l="Sequence" class="seqc">${seqHtml(q)}</td></tr>`; }).join('')}</tbody></table>
+   ${rows.length > 5 ? `<button class="tab" id="vtmore" style="margin:6px 0">${ST.open.vt ? 'show 5' : 'show all ' + rows.length}</button>` : ''}
+   ${fullTable(m)}`;
+  $('vtab').querySelectorAll('[data-f]').forEach(b => b.addEventListener('click', () => { const k = b.dataset.f; ST.filt.has(k) ? ST.filt.delete(k) : ST.filt.add(k); if (!ST.filt.size) ST.filt.add(k); renderVarTable(); renderSel(); }));
+  $('vtab').querySelectorAll('[data-rb]').forEach(b => b.addEventListener('click', () => { ST.rankBy = b.dataset.rb; renderVarTable(); renderSel(); }));
+  const mo = $('vtmore'); if (mo) mo.addEventListener('click', () => { ST.open.vt = !ST.open.vt; renderVarTable(); renderSel(); });
+  $('vtab').querySelectorAll('tr.pick').forEach(t => { const r = m.R.find(x => x.i === +t.dataset.i); t.addEventListener('click', () => select(+t.dataset.i)); bindTip(t, hoverCard(r)); });
+  const cn = (...k) => k.reduce((a, c) => a + m.R.filter(r => r.q.c === c).length, 0);
+  { const pl = (k, w) => k + ' ' + w + (+k === 1 ? '' : 's'); /* 2026-11-24 (drug bulk): '1 variant', '1 junction' (prepublish B13) */
+  $('h3t').textContent = `${pl(cn('snp', 'mm2', 'indel'), 'variant')}, ${pl(cn('splice_a', 'splice_n'), 'junction')}, ${cn('blast')} BLAST only, ${cn('nohit', 'blastx')} no hit`; }
+}
+function renderMapNote() { }
+
+/* 4 where and who */
+function renderTrack() {
+  const D = ST.D, m = cur(), box = $('track'), q = D.seqs[ST.sel], sc = $('selcard');
+  box.innerHTML = ''; sc.innerHTML = '';
+  if (!q) { box.innerHTML = '<div class="msg">No sequence selected.</div>'; return; }
+  const r = m.R.find(x => x.i === ST.sel);
+  sc.innerHTML = `<div class="card" style="margin-bottom:10px"><b>Selected</b> ${esc(chgTxt(q))} ${chip(esc(CS[q.c] || q.c), col(CL[q.c][1]))} ${chip(esc(posTxt(q)))} ${chip(esc(idTxt(q) || 'no id'))} ${chip(esc(geneTxt(q)))} ${r ? chip(pct(r.w) + ' of model weight') + ' ' + chip('higher in ' + esc(higher(r.dir))) : ''}<br>${ppl(q).txt}<br>${seqHtml(q)}</div>`;
+  const gk = ST.gene;
+  if (gk && gk.startsWith('r:')) { const i = +gk.slice(2), RG = D.regions[i]; if (RG) { $('h4t').textContent = `Between genes: ${posTxt(D.seqs[i])}`; box.appendChild(regionView(RG, D.seqs[i], m)); legendTrack(box); return; } }
+  const T = gk && D.tracks[gk];
+  if (T) { const n = m.R.filter(x => D.seqs[x.i].gid === gk).length, w = m.R.filter(x => D.seqs[x.i].gid === gk).reduce((a, x) => a + x.w, 0);
+    $('h4t').textContent = `${T.sym}: ${n} sequence${n === 1 ? '' : 's'}, ${pct(w, 1)} of weight`; box.appendChild(geneView(T, q, m)); legendTrack(box); return; }
+  $('h4t').textContent = `${chgTxt(q).slice(0, 40)} in ${geneTxt(q)}`;
+  if (!q.ch) { box.innerHTML = '<div class="msg">No genome position, no track to draw.</div>'; return; }
+  box.innerHTML = `<div class="msg">${flds([['Placed in', esc(q.g || 'no gene') + ' at ' + esc(posTxt(q))], ['Track', 'not built in this data file']])}</div>`;
+}
+function renderCounts() {
+  const D = ST.D, q = D.seqs[ST.sel], box = $('counts');
+  if (!q) { box.innerHTML = ''; return; }
+  if (!q.n) { box.innerHTML = '<div class="msg">No saved count row for this sequence.</div>'; return; }
+  const W = 380, H = 300, L = 40, T = 14, B = 46, ph = H - T - B, mx = Math.max(...q.n, 1), Y = v => T + ph * (1 - Math.sqrt(v / mx));
+  const s = svgEl(W, H); s.style.maxWidth = '560px';
+  [0, mx / 4, mx].forEach(v => { s.appendChild(E('line', { x1: L, x2: W - 6, y1: Y(v), y2: Y(v), stroke: 'var(--hairline)' })); s.appendChild(E('text', { x: L - 5, y: Y(v) + 4, class: 'axl', 'text-anchor': 'end' }, Math.round(v))); });
+  const cx = [L + (W - L) * .27, L + (W - L) * .73];
+  [[1, 'var(--case)'], [0, 'var(--ctrl)']].forEach(([g, c], gi) => {
+    const grp = D.samples.map((sm, i) => ({ sm, i, v: q.n[i] })).filter(o => o.sm.g === g);
+    grp.forEach((o, k) => { const x = cx[gi] + (((k * 53) % 97) / 97 - .5) * 120, y = Y(o.v);
+      const d = E('circle', { cx: x, cy: y, r: 4, fill: o.sm.test ? 'none' : c, stroke: c, 'stroke-width': 1.5, 'fill-opacity': o.v > 0 ? .85 : .25, opacity: o.v > 0 ? 1 : .55 });
+      bindTip(d, `<b>${o.v} reads</b><br>${esc(o.sm.person)}<br>${g ? esc(D.study.case.short) : esc(D.study.control.short)} · ${o.sm.test ? 'held out' : 'training'}`); s.appendChild(d); });
+    const n = grp.filter(o => o.v > 0).length;
+    s.appendChild(E('text', { x: cx[gi], y: H - 24, class: 'axt', 'text-anchor': 'middle', style: `fill:${c}` }, `${n} of ${grp.length} ${g ? D.study.case.short : D.study.control.short}`.slice(0, 28)));
+  });
+  s.appendChild(E('text', { x: 10, y: T + ph / 2, class: 'axl', transform: `rotate(-90 10 ${T + ph / 2})`, 'text-anchor': 'middle' }, 'reads (square root)'));
+  box.innerHTML = `<div style="margin-bottom:6px"><b>Reads per ${ONE()}</b> · ${ppl(q).txt}</div>`; box.appendChild(s);
+  const lg = document.createElement('div'); lg.className = 'legend';
+  lg.innerHTML = `<span><span class="sw" style="background:var(--case);border-radius:50%"></span>${esc(D.study.case.short)}</span><span><span class="sw" style="background:var(--ctrl);border-radius:50%"></span>${esc(D.study.control.short)}</span><span><span class="sw" style="border:1.6px solid var(--ink-3);border-radius:50%"></span>held out</span>`;
+  box.appendChild(lg);
+  box.insertAdjacentHTML('beforeend', flds([['Counts', `per-${SCU() ? ONE() : 'sample'} reads, smallest saved ${D.counts_meta.min_count}; no saved row means not having it`], ['Training', `${q.tc} of ${D.samples.filter(s => !s.test && s.g === 1).length} ${esc(D.study.case.short)} and ${q.tk} of ${D.samples.filter(s => !s.test && s.g === 0).length} ${esc(D.study.control.short)} ${WHO()} in training`], ['Test', (o => o ? `${o.teC} of ${o.nTeC} ${esc(D.study.case.short)} and ${o.teK} of ${o.nTeK} ${esc(D.study.control.short)} held out with it (from the saved per-${SCU() ? ONE() : 'sample'} counts)` : 'counts not saved')(splitTT(q))]]));
+}
+
+/* 5 genes */
+function varLine(m) {
+  const cs = classStats(m), n = k => (cs[k] ? cs[k].n : 0);
+  const vr = m.R.filter(r => VAR.includes(r.q.c)).sort((x, y) => y.w - x.w).slice(0, 3);
+  return `<div class="card" style="margin:8px 0">${n('snp') + n('mm2')} base changes (${(cs.snp ? cs.snp.rows : []).filter(r => idTxt(r.q) !== 'no id').length} of the single base ones with an id, the rest no id), ${n('indel')} insertions or deletions, ${n('splice_a')} annotated and ${n('splice_n')} new splice junctions, ${n('blast')} placed only by BLAST, ${n('blastx')} by blastx only, ${n('nohit')} with no match.${vr.map(r => `<div style="margin-top:4px"><b>${esc(chgTxt(r.q))}</b> at ${esc(posTxt(r.q))} in ${esc(geneTxt(r.q))}${rcTxt(r.q) ? '<br><span class="grey">' + esc(rcTxt(r.q)) + '</span>' : ''}<br>${seqHtml(r.q)}</div>`).join('')}</div>`;
+}
+function renderClose() {
+  const D = ST.D, m = cur(), G = geneGroups(m), P = D.study.published || {};
+  if (!ST.ticks) ST.ticks = new Set(G.map(g => g.k));
+  const aucOf = set => { const sc = new Array(m.n_test).fill(m.icpt); G.forEach(g => { if (set.has(g.k)) g.c.forEach((v, i) => sc[i] += v); }); return auc(m.y_test, sc); };
+  const full = aucOf(new Set(G.map(g => g.k)));
+  const cum = []; const set = new Set(); G.slice(0, 40).forEach(g => { set.add(g.k); cum.push(aucOf(set)); });
+  const byG = {}; m.R.forEach(r => { if (r.q.g) (byG[r.q.g] = byG[r.q.g] || []).push(r); });
+  const named = G.filter(g => !g.k.startsWith('('));
+  const t10 = new Set(); named.slice(0, 10).forEach(g => t10.add(g.k));
+  $('h5t').textContent = `All genes give AUC ${full.toFixed(3)}${full > 0.9995 && Math.abs(full - m.auc) < 1e-6 ? ` (95% interval ${m.ci[0].toFixed(2)} to ${m.ci[1].toFixed(2)})` : ''}; top 10 give ${aucOf(t10).toFixed(3)}`;
+  $('close').innerHTML = `<details><summary class="grey">show variants called, before the genes</summary>${varLine(m)}</details><div class="strip" id="cstrip"></div><div id="cchart"></div>${flds([['Source', 'saved test-set values and coefficients'], ['All genes ticked', full.toFixed(4) + ' (run: ' + m.auc.toFixed(4) + ')'], ['Grouped', '(between genes), (not placed), (left out: 6 or more of one base)']])}
+   ${flds([['Order', 'variants in each gene first'], ['Literature', 'PubMed, gene with ' + esc(ST.D.study.literature || 'the condition of this study') + ' in title or abstract'], ['Pathways', 'Reactome names; an interpretation of the sequences the model picked, not something P2G finds by itself'], ['Pathway linked to this disease', 'not assessed']])}<details id="gtab"><summary class="grey">show genes table and ticks (${G.length} rows)</summary>
+   <div class="ctl" style="margin-top:8px"><button class="tab" id="cAll">all</button><button class="tab" id="cNone">none</button><button class="tab" id="cTop10">top 10</button><button class="tab" id="cTop25">top 25</button></div>
+   <div class="scroll"><table class="vt"><thead><tr><th>Tick</th><th>Gene</th><th>Variants in it</th><th>What it is</th><th>Literature</th><th>Pathways</th><th>Weight</th></tr></thead><tbody>${G.slice(0, ST.open.g ? G.length : 25).map(g => { const I = D.genes[g.k] || {};
+     return `<tr><td data-l="Tick"><input type="checkbox" data-k="${esc(g.k)}" ${ST.ticks.has(g.k) ? 'checked' : ''}></td><td data-l="Gene"><b>${esc(g.k)}</b>${P.genes && P.genes.includes(g.k) ? '<br><span class="grey">in the paper</span>' : ''}</td><td data-l="Variants in it">${(byG[g.k] || []).filter(r => VAR.includes(r.q.c)).map(r => `<span class="chip" style="color:${col(CL[r.q.c][1])}">${esc(chgTxt(r.q).slice(0, 30))}</span>`).join(' ') || '<span class="grey">none</span>'}</td><td data-l="What it is">${esc(I.name || (g.k.startsWith('ENSG') ? 'Ensembl gene with no symbol' : g.k.startsWith('(') ? '' : 'not looked up'))}</td><td data-l="Literature">${g.k.startsWith('(') ? '' : litCell(g.k)}</td><td data-l="Pathways">${I.pathways && I.pathways.length ? esc(I.pathways.join('; ')) : (g.k.startsWith('(') ? '' : 'none listed')}</td><td data-l="Weight" class="num">${pct(g.w)}</td></tr>`; }).join('')}</tbody></table></div>
+   ${G.length > 25 ? `<button class="tab" id="gmore" style="margin:6px 0">${ST.open.g ? 'show 25' : 'show all ' + G.length}</button>` : ''}</details>`;
+  const redraw = () => {
+    const a = aucOf(ST.ticks), nT = ST.ticks.size;
+    $('cstrip').innerHTML = `<div><div class="k">AUC, ticked genes</div><div class="v">${isNaN(a) ? 'none' : a.toFixed(3)}</div><div class="s">${nT}/${G.length} ticked</div></div><div><div class="k">Weight ticked</div><div class="v">${pct(G.filter(g => ST.ticks.has(g.k)).reduce((s, g) => s + g.w, 0), 1)}</div></div>`;
+    const W = 760, H = 220, L = 44, Tt = 14, B = 34, s = svgEl(W, H), n = cum.length;
+    const X = i => L + (W - L - 12) * (n <= 1 ? 0 : i / (n - 1)), Yv = v => Tt + (H - Tt - B) * (1 - v);
+    [0, .5, 1].forEach(v => { s.appendChild(E('line', { x1: L, x2: W - 10, y1: Yv(v), y2: Yv(v), stroke: v === .5 ? 'var(--ink-3)' : 'var(--hairline)', 'stroke-dasharray': v === .5 ? '4 3' : '' })); s.appendChild(E('text', { x: L - 6, y: Yv(v) + 4, class: 'axl', 'text-anchor': 'end' }, v)); });
+    s.appendChild(E('polyline', { points: cum.map((v, i) => `${X(i)},${Yv(v)}`).join(' '), fill: 'none', stroke: 'var(--ctrl)', 'stroke-width': 2 }));
+    cum.forEach((v, i) => { const c = E('circle', { cx: X(i), cy: Yv(v), r: 3, fill: 'var(--ctrl)' }); bindTip(c, `top ${i + 1} gene groups: AUC ${v.toFixed(3)}<br>last added: ${esc(G[i].k)}`); s.appendChild(c); });
+    if (!isNaN(a)) s.appendChild(E('line', { x1: L, x2: W - 10, y1: Yv(a), y2: Yv(a), stroke: 'var(--case)', 'stroke-width': 1.4 }));
+    s.appendChild(E('text', { x: L + (W - L) / 2, y: H - 8, class: 'axt', 'text-anchor': 'middle' }, 'gene groups added by weight'));
+    $('cchart').innerHTML = ''; $('cchart').appendChild(s);
+    const lg = document.createElement('div'); lg.className = 'legend'; lg.innerHTML = `<span>${LG.dot}AUC with top k genes</span><span><svg width="26" height="12" style="display:inline;vertical-align:-2px;margin-right:5px"><line x1="1" x2="25" y1="6" y2="6" stroke="var(--case)" stroke-width="2"/></svg>AUC of ticked genes</span><span>${LG.half}0.5</span>`; $('cchart').appendChild(lg);
+  };
+  const bind = () => $('close').querySelectorAll('input[data-k]').forEach(i => i.addEventListener('change', () => { i.checked ? ST.ticks.add(i.dataset.k) : ST.ticks.delete(i.dataset.k); redraw(); }));
+  const setT = f => { ST.ticks = new Set(G.filter(f).map(g => g.k)); $('close').querySelectorAll('input[data-k]').forEach(i => i.checked = ST.ticks.has(i.dataset.k)); redraw(); };
+  $('cAll').onclick = () => setT(() => true); $('cNone').onclick = () => setT(() => false);
+  $('cTop10').onclick = () => { const k = new Set(named.slice(0, 10).map(g => g.k)); setT(g => k.has(g.k)); };
+  $('cTop25').onclick = () => { const k = new Set(named.slice(0, 25).map(g => g.k)); setT(g => k.has(g.k)); };
+  const gm = $('gmore'); if (gm) gm.addEventListener('click', () => { ST.open.g = !ST.open.g; const o = $('gtab').open; renderClose(); $('gtab').open = o; });
+  bind(); redraw();
+}
+
+/* ---------- start ---------- */
+(function start() {
+  const sl = $('selList'); MANIFEST.lists.forEach(l => { const o = document.createElement('option'); o.value = l.key; o.textContent = l.label; sl.appendChild(o); });
+  sl.addEventListener('change', () => { ST.filt = null; ST.mk = 'combined'; ST.keepSel = false; loadList(sl.value); });
+  $('foot').textContent = '';
+  loadList(MANIFEST.lists[0].key);
+})();
+
+/* drugann.js: drug binding, study drug, people per class, base-change position (2026-11-24) */
+/* drugann.js: drug binding, study drug, people per class and base-change position (stage3_drug_annotated.tsv.gz) on a study block.
+   One add-on script for every block: inlined by render.py in a new block, injected by wholepage.py into a saved block page.
+   It needs app.js (ST, esc, chip, pct, E, bindTip, select, drawLolli, legendTrack, renderTrack, renderModel, geneView, chgTxt, posTxt, geneTxt, cur).
+   Data: data/<study>_drug.js (window.SBD_DRUG[study] = {seqs: {39-base sequence: record}}, sbd_drug.py). A block with no such file shows nothing new.
+   A mark appears only when the pipeline recorded its value; nothing says "not recorded" (said once in Definitions). Check variants first, then genes. */
+const DA = (function () {
+  const COL = { dt: '#3b6fb6', pk: '#1f8f7e', pkc: '#c0392b', sl: '#8a6d1d', sd: '#8e5bb5', ne: '#c9731a', hi: 'var(--ink-2)' };
+  const NEAR = 2;
+  let S = null;
+  const rec = q => (S && q && S.seqs[q.q]) || null;
+  const used = d => { const us = d.us || d.cl; return d.cl.map((c, i) => us.includes(c) ? i : -1).filter(i => i >= 0); };
+  const frac = (d, k) => d.cc[k][0] / Math.max(1, d.cc[k][1]);
+  function classText(d) {
+    if (!d.cl || !d.cc) return '';
+    const o = used(d).sort((a, b) => frac(d, b) - frac(d, a));
+    if (o.length < 2) return '';
+    if (o.length === 2) return (frac(d, o[0]) === frac(d, o[1]) ? 'tied: ' : 'highest in ' + d.cl[o[0]] + ': ') + o.map(k => d.cc[k][0] + ' of ' + d.cc[k][1]).join(' vs ');
+    return 'highest in ' + d.cl[o[0]] + ': ' + o.map(k => d.cl[k] + ' ' + d.cc[k][0] + ' of ' + d.cc[k][1]).join(', ');
+  }
+  const molTxt = (d, n) => { n = n || 3; const m = d.m || []; return m.slice(0, n).join(', ') + (m.length > n ? ' +' + (m.length - n) : ''); };
+  function chips(d) { /* [text, kind, tooltip]; a chip only when its value is present */
+    const c = [];
+    if (d.dt) { const g = d.dg || []; c.push(['drug target gene' + (g.length ? ' (' + g[0] + (g.length > 1 ? ' +' + (g.length - 1) : '') + ')' : ''), 'dt', g.join('; ')]); }
+    if (d.m) c.push(['in binding pocket (' + molTxt(d) + ')', 'pk', d.mt || '']);
+    if (d.pk) c.push(['base change in pocket' + (d.aa ? ' ' + d.aa : ''), 'pkc', 'a base change of this sequence lies inside the binding site' + (d.co ? ', codon ' + d.co : '')]);
+    if (d.jp) c.push(['junction in binding site', 'pkc', 'a splice junction of this sequence lies inside the binding site']);
+    if (d.sl) c.push(['pocket lost in other transcripts', 'sl', d.tc ? 'transcripts coding at this site: ' + d.tc : '']);
+    if (d.sd || d.dm) c.push(['study drug matches' + (d.sd ? ' (' + d.sd + ')' : ''), 'sd', [d.dm && 'match: ' + d.dm, d.ss && 'similarity ' + d.ss, d.cs && 'closest study drug ' + d.cs, d.st && 'same stereochemistry: ' + d.st].filter(Boolean).join('; ')]);
+    if (d.ne) c.push(['near read end (base ' + d.re + ' from the end)', 'ne', 'a base change 1 or 2 bases from the read end can be a read-end error']);
+    const ct = classText(d); if (ct) c.push([ct, 'hi', 'people with the sequence per class, training and test together']);
+    return c;
+  }
+  const chipHtml = d => chips(d).map(([t, k, ti]) => `<span class="chip" title="${esc(ti)}" style="color:${COL[k]};border-color:${COL[k] === 'var(--ink-2)' ? 'var(--hairline)' : COL[k]}">${esc(t)}</span>`).join(' ');
+  function clsColor(name) {
+    const s = ST.D.study, nm = String(name).toLowerCase();
+    if ([s.case.label, s.case.name, s.case.short].some(x => String(x).toLowerCase() === nm)) return 'var(--case)';
+    if ([s.control.label, s.control.name, s.control.short].some(x => String(x).toLowerCase() === nm)) return 'var(--ctrl)';
+    return 'var(--grey)';
+  }
+  function bars(d, w) { /* people with it per class: one small bar per class the model used */
+    if (!d.cl || !d.cc) return '';
+    const o = used(d); if (o.length < 2) return '';
+    return `<div class="dabars" style="${w ? 'max-width:' + w + 'px' : ''}">` + o.map(k => `<div class="dab"><span class="dal">${esc(d.cl[k])}</span><span class="dat"><i style="width:${Math.round(frac(d, k) * 100)}%;background:${clsColor(d.cl[k])}"></i></span><span class="dan">${d.cc[k][0]} of ${d.cc[k][1]}</span></div>`).join('') + '</div>';
+  }
+  function posLine(d) {
+    if (!d.of) return '';
+    const p = [`base ${d.of.join(' and ')} of 39`, `${d.re} from the read end`];
+    if (d.ee) p.push('exon edge distance ' + d.ee.replace(/;?\.(?=;|$)/g, '').replace(/^;|;$/g, '').replace(/;/g, ', '));
+    if (d.co) p.push('codon ' + d.co);
+    if (d.aa) p.push(d.aa);
+    return 'Base change position: ' + p.map(esc).join(', ');
+  }
+  /* ---- gene track: marks under the axis ---- */
+  const origLolli = drawLolli;
+  drawLolli = function (s, items, X, AX, LMAX, lo, hi, maxW, selQ) {
+    origLolli(s, items, X, AX, LMAX, lo, hi, maxW, selQ);
+    if (!S) return;
+    items.forEach(it => {
+      const d = rec(it.q); if (!d || !(d.m || d.ne || d.pk || d.jp)) return;
+      headsOf(it.q).forEach(h => {
+        if (h.p < lo || h.p > hi) return;
+        const x = X(h.p);
+        if (d.m) {
+          const y = AX + 24, lab = (d.pk || d.jp ? 'base change in pocket ' : 'pocket ') + molTxt(d, 2);
+          s.appendChild(E('line', { x1: x, x2: x, y1: AX + 12, y2: y - 6, stroke: COL.pk, 'stroke-width': 1, 'stroke-dasharray': '2 2' }));
+          const c = E('circle', { cx: x, cy: y, r: 6, fill: (d.pk || d.jp) ? COL.pkc : 'none', stroke: (d.pk || d.jp) ? COL.pkc : COL.pk, 'stroke-width': 2.2 }); s.appendChild(c);
+          bindTip(c, `<b>in a binding pocket</b><br>${esc(d.mt || molTxt(d, 12))}${d.pk ? '<br><b>a base change is inside the site</b>' + (d.aa ? ' ' + esc(d.aa) : '') : ''}${d.jp ? '<br><b>a junction is inside the site</b>' : ''}`);
+          c.addEventListener('click', () => select(it.i));
+          if (it.sel) s.appendChild(E('text', { x: Math.min(Math.max(x, 70), 690), y: y + 20, class: 'axl', 'text-anchor': 'middle', style: 'fill:' + COL.pk }, lab));
+        }
+        if (d.ne) {
+          const y = AX + (d.m ? 66 : 24);
+          s.appendChild(E('line', { x1: x, x2: x, y1: AX + 12, y2: y - 6, stroke: COL.ne, 'stroke-width': 1, 'stroke-dasharray': '2 2', opacity: d.m ? .0 : 1 }));
+          const t = E('path', { d: `M ${x} ${y - 6} L ${x + 6} ${y + 5} L ${x - 6} ${y + 5} Z`, fill: COL.ne, stroke: 'var(--surface)', 'stroke-width': 1 }); s.appendChild(t);
+          bindTip(t, `<b>near read end</b><br>the base change is ${d.re} base${d.re === 1 ? '' : 's'} from the read end: a possible read-end error`);
+          t.addEventListener('click', () => select(it.i));
+          if (it.sel) s.appendChild(E('text', { x: Math.min(Math.max(x, 70), 690), y: y + 19, class: 'axl', 'text-anchor': 'middle', style: 'fill:' + COL.ne }, 'near read end'));
+        }
+      });
+    });
+  };
+  const origLegend = legendTrack;
+  legendTrack = function (box) {
+    origLegend(box);
+    if (!S || !cur().R.some(r => { const d = rec(r.q); return d && (d.m || d.ne); })) return;
+    const d = document.createElement('div'); d.className = 'legend dalegend';
+    d.innerHTML = `<span><span class="sw" style="border:2px solid ${COL.pk};border-radius:50%"></span>inside a drug binding pocket (molecule)</span><span><span class="sw" style="background:${COL.pkc};border-radius:50%"></span>base change or junction inside the pocket</span><span><span class="sw" style="background:${COL.ne};clip-path:polygon(50% 0,100% 100%,0 100%)"></span>near read end: change 1 or 2 bases from the read end</span>`;
+    box.appendChild(d);
+  };
+  /* ---- selected sequence card ---- */
+  const origTrack = renderTrack;
+  renderTrack = function () {
+    origTrack();
+    const q = ST.D.seqs[ST.sel], d = S && rec(q), card = document.querySelector('#selcard .card');
+    if (!card || !d) return;
+    const h = chipHtml(d), ps = posLine(d), b = bars(d, 420);
+    if (!h && !ps) return;
+    card.insertAdjacentHTML('beforeend', `<div class="dacard">${h ? '<div class="dachips">' + h + '</div>' : ''}${b}${ps ? '<div class="grey" style="font-size:12.5px;margin-top:4px">' + ps + '</div>' : ''}</div>`);
+  };
+  /* ---- block page section ---- */
+  function listItems(m, f) { return m.R.map(r => ({ r, d: rec(r.q) })).filter(o => o.d && f(o.d)).sort((a, b) => b.r.w - a.r.w); }
+  const lbl = o => `${o.r.q.g || 'no gene'} ${chgTxt(o.r.q)}`;
+  const link = (o, extra) => `<a href="#s4" class="dalink" data-i="${o.r.i}">${esc(lbl(o))}${extra ? ' (' + esc(extra) + ')' : ''}</a>`;
+  const more = (n, k) => n > k ? ` and ${n - k} more` : '';
+  function section() {
+    const D = ST.D, m = cur(); let s = document.getElementById('sdrug');
+    if (!S) { if (s) s.remove(); return; }
+    const tg = listItems(m, d => d.dt), pk = listItems(m, d => d.m), pc = listItems(m, d => d.pk), jp = listItems(m, d => d.jp), sd = listItems(m, d => d.sd || d.dm), ne = listItems(m, d => d.ne);
+    const withCls = listItems(m, d => d.cc && used(d).length > 1).slice(0, 8), hiN = listItems(m, d => d.cc && classText(d)).length;
+    if (!tg.length && !pk.length && !pc.length && !jp.length && !sd.length && !ne.length && !withCls.length) { if (s) s.remove(); return; }
+    const genes = [...new Set(tg.map(o => o.r.q.g).filter(Boolean))];
+    const li = [];
+    if (tg.length) li.push(`<li><b>Drug target genes (${genes.length}):</b> ${tg.slice(0, 8).map(o => link(o, (o.d.dg || []).slice(0, 2).join(', '))).join(', ')}${more(tg.length, 8)}</li>`);
+    if (pk.length) li.push(`<li><b>Sequences in a binding pocket (${pk.length}):</b> ${pk.slice(0, 8).map(o => link(o, molTxt(o.d, 2))).join(', ')}${more(pk.length, 8)}</li>`);
+    if (pc.length) li.push(`<li><b>Base changes in a pocket (${pc.length}):</b> ${pc.slice(0, 6).map(o => link(o, [molTxt(o.d, 2), o.d.aa].filter(Boolean).join(', '))).join(', ')}${more(pc.length, 6)}</li>`);
+    if (jp.length) li.push(`<li><b>Splice junctions inside a binding site (${jp.length}):</b> ${jp.slice(0, 6).map(o => link(o, molTxt(o.d, 2))).join(', ')}${more(jp.length, 6)}</li>`);
+    if (sd.length) li.push(`<li><b>Study drug match (${sd.length}):</b> ${sd.slice(0, 6).map(o => link(o, o.d.sd || o.d.dm)).join(', ')}${more(sd.length, 6)}</li>`);
+    if (ne.length) li.push(`<li><b style="color:${COL.ne}">Near read end (${ne.length}):</b> base change 1 or 2 bases from the read end, a possible read-end error: ${ne.slice(0, 6).map(o => link(o, o.d.re + ' from the end')).join(', ')}${more(ne.length, 6)}</li>`);
+    const title = [tg.length && `${genes.length} drug target gene${genes.length === 1 ? '' : 's'}`, pk.length && `${pk.length} sequence${pk.length === 1 ? '' : 's'} in a binding pocket`, pc.length && `${pc.length} base change${pc.length === 1 ? '' : 's'} in a pocket`, ne.length && `${ne.length} change${ne.length === 1 ? '' : 's'} near the read end`].filter(Boolean).join(', ') || 'People with the top sequences, per class';
+    const html = `<div class="eyebrow">7 · Drug binding and targets</div><h2>${esc(title)}</h2>
+    <ul class="flds dalist">${li.join('')}</ul>
+    ${withCls.length ? `<div style="margin-top:10px"><b>People with it, per class</b> <span class="grey">(top ${withCls.length} sequences by weight; training and test together)</span></div>${withCls.map(o => `<div class="darow"><a href="#s4" class="dalink" data-i="${o.r.i}">${esc(lbl(o))}</a>${bars(o.d)}</div>`).join('')}` : ''}`;
+    if (!s) { s = document.createElement('section'); s.id = 'sdrug'; document.getElementById('body').appendChild(s); }
+    s.innerHTML = html;
+    const e0 = document.querySelector('#s0 .eyebrow'); if (e0 && e0.dataset.st) { const ey = s.querySelector('.eyebrow'); ey.dataset.st = 1; ey.textContent += ' · updated ' + MANIFEST.stamp; }   /* app.js adds the stamp to the eyebrows once, after the first render */
+    s.querySelectorAll('a.dalink').forEach(a => a.addEventListener('click', e => { e.preventDefault(); select(+a.dataset.i); const t = document.getElementById('s4'); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }));
+    const toc = document.querySelector('.struct-toc');
+    if (toc && !toc.querySelector('a[href="#sdrug"]')) { const g = document.createElement('div'); g.className = 'g'; g.innerHTML = '<a class="top" href="#sdrug">7 Drug binding</a>'; toc.appendChild(g); }
+  }
+  const origModel = renderModel;
+  renderModel = function () { origModel(); try { section(); } catch (e) { console.error('drugann', e); } };
+  /* ---- Definitions line, once ---- */
+  function defs() {
+    const dl = document.querySelector('#s11 dl'); if (!dl || dl.querySelector('#dadef')) return;
+    dl.insertAdjacentHTML('beforeend', '<dt id="dadef"><b>Drug marks</b></dt><dd>shown only where the pipeline recorded a value (binding pocket, drug, study drug, people per class); a sequence with no mark has none recorded</dd><dt><b>Near read end</b></dt><dd>a base change 1 or 2 bases from the end of the read, a possible read-end error</dd>');
+  }
+  /* ---- style and data ---- */
+  const css = document.createElement('style');
+  css.textContent = '.dachips{margin-top:6px;display:flex;flex-wrap:wrap;gap:5px}.dachips .chip{font-size:12px}.dabars{display:grid;gap:2px;margin:6px 0}.dab{display:grid;grid-template-columns:96px 1fr 70px;gap:6px;align-items:center;font-size:12px;color:var(--ink-2)}.dal{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dat{height:8px;background:var(--surface-2);border-radius:4px;overflow:hidden}.dat i{display:block;height:100%}.dan{font-family:var(--mono)}.darow{display:grid;grid-template-columns:minmax(120px,240px) minmax(0,420px);gap:12px;align-items:center;margin-top:6px;font-size:13px}.dalist a{color:var(--ink)}@media(max-width:600px){.darow{grid-template-columns:minmax(0,1fr)}}';
+  document.head.appendChild(css);
+  defs();
+  const sid = typeof MANIFEST !== 'undefined' ? MANIFEST.study : null;
+  if (sid) {
+    const sc = document.createElement('script');
+    sc.src = 'data/' + sid + '_drug.js';
+    sc.onload = () => { S = (window.SBD_DRUG || {})[sid] || null; if (S && ST.D && ST.D.status === 'ok') { try { renderModel(); } catch (e) { console.error('drugann', e); } } };
+    sc.onerror = () => { S = null; };
+    document.head.appendChild(sc);
+  }
+  return { chips, chipHtml, bars, classText, rec: q => rec(q), loaded: () => !!S };
+})();
+
+</script>
+</body></html>
